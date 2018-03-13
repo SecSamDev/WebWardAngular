@@ -8,36 +8,43 @@ import {
     HttpErrorResponse
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import {AlertService} from '../alert/alert.service';
+import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
-
+import { AppSettings } from '../appSettings';
+const apiURL = new URL(AppSettings.API_ENDPOINT);
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-    constructor(public auth: AuthService,private alerts:AlertService) { }
+    constructor(public auth: AuthService, private alerts: AlertService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let targetURL = new URL(request.url);
+        if (apiURL.origin === targetURL.origin) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${this.auth.getToken()}`
+                }
+            });
+        }
 
         return next.handle(request).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
-                if(event.body && event.body.token){
-                    this.auth.createToken(event.body.token);
-                }
             }
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {
-                switch(err.status){
+                switch (err.status) {
                     case 0:
-                      this.alerts.error("Server not responding",false);
-                      break;
+                        this.alerts.error("Server not responding", false);
+                        break;
                     case 404:
-                      this.alerts.error("Not Found",false);
-                      break;
+                        this.alerts.error("Not Found", false);
+                        break;
                     case 401:
-                      this.alerts.error("Unauthorized",false);
-                      break;
-                  }
+                        this.alerts.error("Unauthorized", false);
+                        this.auth.signOut();
+                        break;
+                }
             }
         });
     }

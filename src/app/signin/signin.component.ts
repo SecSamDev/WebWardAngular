@@ -20,7 +20,7 @@ export class SigninComponent implements OnInit {
   signIn(){
     if(this.username.length > 5){
       this.auth.signIn(this.username, this.password).subscribe(data =>{
-        console.log(data);
+        this.router.navigate(['']);
       },err =>{
         
       });
