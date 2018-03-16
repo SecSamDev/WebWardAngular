@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule,NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,18 +15,19 @@ import { AlertService } from './alert/alert.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EnvironmentComponent } from './environment/environment.component';
 import { EnvironmentService } from './environment/environment.service';
-import { WebProjectComponent } from './web-project/web-project.component';
-import {WebProjectService} from './web-project/web-project.service';
+//----------WebProjects-------------
+import { WebProjectComponent,WebProjectService,WebProjectNewComponent,WebProjectListComponent } from './web-project/index';
+
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
 import { ScanReportComponent } from './scan-report/scan-report.component';
-import { DashboardWebProjectsComponent } from './dashboard/web-projects/web-projects.component'
 
 //-----------AUTH---------------
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
 import { AuthNoLoginService } from './auth/auth-nologin.service';
 import { TokenInterceptor } from './auth/auth.interceptor';
-
+import { ContainerComponent } from './container/container.component';
+import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
 
 
 
@@ -45,9 +46,12 @@ export function tokenGetter() {
     AlertComponent,
     EnvironmentComponent,
     WebProjectComponent,
+    WebProjectNewComponent,
+    WebProjectListComponent,
     ScanProfileComponent,
     ScanReportComponent,
-    DashboardWebProjectsComponent
+    ContainerComponent,
+    DashboardWebProjectComponent
   ],
   imports: [
     BrowserModule,
@@ -63,6 +67,8 @@ export function tokenGetter() {
     AuthService,
     AuthNoLoginService,
     AlertService,
+    NgbModal,
+    NgbActiveModal,
     EnvironmentService,
     {
       provide: HTTP_INTERCEPTORS,

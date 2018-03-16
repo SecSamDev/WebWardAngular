@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from '../auth/auth.service';
-import {AlertService} from '../alert/alert.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   selector: 'app-signin',
@@ -9,23 +9,26 @@ import {AlertService} from '../alert/alert.service';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-  private username : string = "";
-  private password : string = "";
-  constructor(private auth : AuthService,private router: Router,private alerts : AlertService) { }
+  private username: string = "";
+  private password: string = "";
+  private remember: boolean = false;
+  constructor(private auth: AuthService, private router: Router, private alerts: AlertService) { }
 
   ngOnInit() {
   }
-  
 
-  signIn(){
-    if(this.username.length > 5){
-      this.auth.signIn(this.username, this.password).subscribe(data =>{
+
+  signIn() {
+    if (this.username.length >= 3) {
+      this.auth.signIn(this.username, this.password,this.remember).subscribe(data => {
         this.router.navigate(['']);
-      },err =>{
-        
+      }, err => {
+
+        this.alerts.clear();
+        this.alerts.error(err.error.error, false);
       });
-    }else{
-      this.alerts.error("No user provided",false);
+    } else {
+      this.alerts.error("No user provided", false);
     }
   }
 

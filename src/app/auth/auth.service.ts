@@ -25,10 +25,10 @@ export class AuthService {
     /**
      * Send auth
      */
-    public signIn(username: string, password: string) {
+    public signIn(username: string, password: string,remember:boolean = false) {
         return this.http.post<any>(
             AppSettings.API_ENDPOINT + 'authenticate', 
-            { 'username': username, 'password': password },{responseType : 'json'}
+            { 'username': username, 'password': password,'remember' : remember },{responseType : 'json'}
         )
             .map(data => {
                 // login successful if there's a jwt token in the response
