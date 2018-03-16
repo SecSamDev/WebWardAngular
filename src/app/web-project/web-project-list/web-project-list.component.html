@@ -3,7 +3,7 @@
         <div class="col-12">
             <h4>Web Projects</h4>
         </div>
-        <div class="col-6">
+        <div class="col-sm-12 col-md-6">
             <div class="list-group">
                 <a *ngFor="let project of projects" [class.active]="project === selectedProject" (click)="onSelect(project)" class="list-group-item">
                     <span>{{project.name}} </span>
@@ -11,7 +11,7 @@
             </div>
             <hr/>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-12 col-md-6">
             <web-project [project]="selectedProject"></web-project>
         </div>
     </div>

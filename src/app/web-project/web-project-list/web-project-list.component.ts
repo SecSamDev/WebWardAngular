@@ -8,6 +8,9 @@ import {WebProjectService} from '../../web-project/web-project.service';
     styleUrls: ['./web-project-list.component.css']
 })
 
+/**
+ * List of all of the WebProjects that the user have access to
+ */
 export class WebProjectListComponent implements OnInit {
     projects: WebProject[];
     selectedProject : WebProject;
