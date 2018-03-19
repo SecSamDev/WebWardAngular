@@ -21,4 +21,6 @@ export class WebProject {
      * This project is active to perform scans
      */
     status : number = 0;
+    project_manager : string;
+    project_manager_name : string = "";
   }

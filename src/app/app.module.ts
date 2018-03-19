@@ -28,7 +28,10 @@ import { AuthNoLoginService } from './auth/auth-nologin.service';
 import { TokenInterceptor } from './auth/auth.interceptor';
 import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
-
+import { UserManagementComponent } from './user-management/user-management.component';
+import { UserEditComponent } from './user-management/user-edit/user-edit.component';
+import {UserService} from './user-management/user.service';
+import { UserNewComponent } from './user-management/user-new/user-new.component';
 
 
 
@@ -51,7 +54,10 @@ export function tokenGetter() {
     ScanProfileComponent,
     ScanReportComponent,
     ContainerComponent,
-    DashboardWebProjectComponent
+    DashboardWebProjectComponent,
+    UserManagementComponent,
+    UserEditComponent,
+    UserNewComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,7 @@ export function tokenGetter() {
     AlertService,
     NgbModal,
     NgbActiveModal,
+    UserService,
     EnvironmentService,
     {
       provide: HTTP_INTERCEPTORS,

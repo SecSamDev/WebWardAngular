@@ -1,0 +1,35 @@
+<div *ngIf="user">
+  <form>
+    <div class="card">
+      <div class="card-header">
+        <!--HEADER -->
+        <div class="form-group">
+          <label for="userName">User Name</label>
+          <input type="text" class="form-control" name="name" id="userName" placeholder="User Name" [(ngModel)]="user.name">
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="userEmail">User Email</label>
+          <input type="email" class="form-control" name="email" id="userEmail" placeholder="user@email.com" [(ngModel)]="user.email">
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="selectRole">Role</label>
+          </div>
+          <select class="custom-select" name="role" id="selectRole" [(ngModel)]="user.role" type="number">
+            <option value=0 [selected]="user.role===0">Dev</option>
+            <option value=2 [selected]="user.role===2">Project Manager</option>
+            <option value=1 [selected]="user.role===1">Responsable</option>
+            <option value=3 [selected]="user.role===3">Admin</option>
+          </select>
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" (click)="create()">Create</button>
+          <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

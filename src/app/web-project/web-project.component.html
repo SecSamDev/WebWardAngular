@@ -33,6 +33,12 @@
           <label for="projectDescription">Project Description</label>
           <textarea class="form-control" id="projectDescription" rows="10" name="description" [(ngModel)]="project.description"></textarea>
         </div>
+        <dl class="row" *ngIf="project.project_manager_name !== ''">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The Name of the manager of the Project">Manager: </dt>
+          <dd class="col-sm-7">
+            <a routerLink="/user/{{project.project_manager}}">{{project.project_manager_name}}</a>
+          </dd>
+        </dl>
         <div class="form-check row">
           <input type="checkbox" name="as" class="form-check-input" id="activeProject" [checked]="project.active" (change)="project.active = !project.active">
           <label class="form-check-label" for="activeProject">Active</label>
