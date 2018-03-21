@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {AuthService} from '../../auth/auth.service';
 @Component({
   selector: 'dashboard-web-project',
   templateUrl: './dashboard-web-project.component.html',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardWebProjectComponent implements OnInit {
 
-  constructor() { }
+  constructor(public auth : AuthService) { }
 
   ngOnInit() {
   }

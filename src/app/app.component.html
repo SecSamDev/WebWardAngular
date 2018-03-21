@@ -11,7 +11,7 @@
         <button class="btn btn-outline-primary navbar-toggler" type="button" id="dropdownBasic1" ngbDropdownToggle>
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <div *ngIf="auth.isAuth()" ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button class="dropdown-item" [routerLink]="['/']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
@@ -29,7 +29,20 @@
                 </svg>
                 Reports
             </button>
-            <button class="dropdown-item" [routerLink]="['/integrations']">
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/check']">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                    viewBox="0 0 416 416" style="enable-background:new 0 0 416 416;" xml:space="preserve" width="24" height="24">
+                    <polygon points="72.103,175.999 72.103,207.999 243.816,207.999 264.103,187.714 264.103,175.999   " fill="#006DF0" />
+                    <polygon points="72.103,239.999 72.103,271.999 179.814,271.999 211.816,239.999   " fill="#006DF0" />
+                    <rect x="72.104" y="303.998" width="96" height="32" fill="#006DF0" />
+                    <path d="M403.212,139.108l-22.628-22.627c-6.245-6.245-16.381-6.245-22.626,0c-6.03,6.03-11.568,11.568-16.877,16.877    l45.255,45.255c5.35-5.35,10.902-10.902,16.876-16.877C409.459,155.49,409.459,145.354,403.212,139.108z"
+                        fill="#006DF0" />
+                    <path d="M329.797,144.7c-57.43,57.431-74.356,74.298-145.694,145.638c0,27.687,0,21.687,0,45.662    c38.518-0.001,28.774,0.017,44.917-0.07c3.55-3.55,6.928-6.928,10.239-10.239l56.844-56.819V384h-256V96h32.002v32h191.998V96h32    v59.717l32-31.999V96c0-17.674-14.326-32-32-32h-44.424c-5.926-6.583-13.538-11.62-22.284-14.136    c-7.368-2.118-13.038-7.788-15.156-15.156C208.474,14.664,190.001,0,168.103,0c-21.898,0-40.37,14.664-46.136,34.707    c-2.121,7.376-7.805,13.039-15.181,15.164C98.048,52.389,90.444,57.421,84.524,64H40.103c-17.673,0-32,14.326-32,32v288    c0,17.673,14.327,32,32,32h256c17.674,0,32-14.327,32-32V236.885l46.95-46.93L329.797,144.7z M222.354,319.967    c-5.962,0.034-6.66,0.034-21.938,0.032L200.103,320v-8.958v-14.078l5.214-5.215l22.627,22.628L222.354,319.967z M168.308,31.999    c8.837,0,16,7.163,16,16c0,8.836-7.163,16-16,16s-16-7.164-16-16C152.308,39.162,159.472,31.999,168.308,31.999z"
+                        fill="#006DF0" />
+                </svg>
+                Scan checks
+            </button>
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/integrations']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
                     <polygon points="12 2 2 7 12 12 22 7 12 2" style="fill: none;stroke: rgb(70, 120, 255);"></polygon>
@@ -38,21 +51,21 @@
                 </svg>
                 Integrations
             </button>
-            <button class="dropdown-item" [routerLink]="['/containers']">
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/containers']">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="24" height="24">
                     <path d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"
                         style="fill: rgb(70, 120, 255);" />
                 </svg>
                 Containers
             </button>
-            <button class="dropdown-item" [routerLink]="['/databases']">
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/databases']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"
                         style="fill: rgb(70, 120, 255);" />
                 </svg>
                 DD.BB
             </button>
-            <button class="dropdown-item" [routerLink]="['/users']">
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/users']">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
                     <g>
                         <g>
@@ -99,7 +112,7 @@
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-lg-block bg-light sidebar">
-            <div class="sidebar-sticky">
+            <div *ngIf="auth.isAuth()" class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" [routerLink]="['/']">
@@ -123,7 +136,23 @@
                             Reports
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li *ngIf="!auth.isDev()" class="nav-item">
+                        <a class="nav-link" [routerLink]="['/check']">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                viewBox="0 0 416 416" style="enable-background:new 0 0 416 416;" xml:space="preserve" width="24"
+                                height="24">
+                                <polygon points="72.103,175.999 72.103,207.999 243.816,207.999 264.103,187.714 264.103,175.999   " fill="#006DF0" />
+                                <polygon points="72.103,239.999 72.103,271.999 179.814,271.999 211.816,239.999   " fill="#006DF0" />
+                                <rect x="72.104" y="303.998" width="96" height="32" fill="#006DF0" />
+                                <path d="M403.212,139.108l-22.628-22.627c-6.245-6.245-16.381-6.245-22.626,0c-6.03,6.03-11.568,11.568-16.877,16.877    l45.255,45.255c5.35-5.35,10.902-10.902,16.876-16.877C409.459,155.49,409.459,145.354,403.212,139.108z"
+                                    fill="#006DF0" />
+                                <path d="M329.797,144.7c-57.43,57.431-74.356,74.298-145.694,145.638c0,27.687,0,21.687,0,45.662    c38.518-0.001,28.774,0.017,44.917-0.07c3.55-3.55,6.928-6.928,10.239-10.239l56.844-56.819V384h-256V96h32.002v32h191.998V96h32    v59.717l32-31.999V96c0-17.674-14.326-32-32-32h-44.424c-5.926-6.583-13.538-11.62-22.284-14.136    c-7.368-2.118-13.038-7.788-15.156-15.156C208.474,14.664,190.001,0,168.103,0c-21.898,0-40.37,14.664-46.136,34.707    c-2.121,7.376-7.805,13.039-15.181,15.164C98.048,52.389,90.444,57.421,84.524,64H40.103c-17.673,0-32,14.326-32,32v288    c0,17.673,14.327,32,32,32h256c17.674,0,32-14.327,32-32V236.885l46.95-46.93L329.797,144.7z M222.354,319.967    c-5.962,0.034-6.66,0.034-21.938,0.032L200.103,320v-8.958v-14.078l5.214-5.215l22.627,22.628L222.354,319.967z M168.308,31.999    c8.837,0,16,7.163,16,16c0,8.836-7.163,16-16,16s-16-7.164-16-16C152.308,39.162,159.472,31.999,168.308,31.999z"
+                                    fill="#006DF0" />
+                            </svg>
+                            Scan checks
+                        </a>
+                    </li>
+                    <li *ngIf="!auth.isDev()" class="nav-item">
                         <a class="nav-link" [routerLink]="['/integrations']">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
@@ -134,7 +163,7 @@
                             Integrations
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li *ngIf="!auth.isDev()" class="nav-item">
                         <a class="nav-link" [routerLink]="['/containers']">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="24" height="24">
                                 <path d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"
@@ -143,7 +172,7 @@
                             Containers
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li *ngIf="!auth.isDev()" class="nav-item">
                         <a class="nav-link" [routerLink]="['/databases']">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"
@@ -152,7 +181,7 @@
                             DD.BB
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li *ngIf="!auth.isDev()" class="nav-item">
                         <a class="nav-link" [routerLink]="['/users']">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
                                 <g>
@@ -174,7 +203,7 @@
                             Users
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li *ngIf="auth.isAuth()" class="nav-item active">
                         <a class="nav-link" href="#" (click)="signout()">Sign out</a>
                     </li>
                 </ul>

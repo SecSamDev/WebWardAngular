@@ -3,7 +3,7 @@
     <h4>List of Users</h4>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <div *ngIf="tempUser===null">
+        <div>
           <button type="button" class="btn btn-primary" (click)="newUser()">Create new User</button>
         </div>
       </div>
@@ -18,14 +18,17 @@
   <div class="row">
     <div class="col-sm-12 col-md-6">
       <div class="list-group">
-        <a *ngFor="let user of users" [class.active]="user === selectedUser" (click)="onSelect(user)" class="list-group-item">
-          <span>{{user.name}} </span>
-        </a>
+        <div *ngFor="let user of users" (click)="onSelect(user)">
+            <a  [class.active]="user === selectedUser"  class="list-group-item">
+                <span routerLink="/users/{{user.id}}">{{user.name}} </span>
+              </a>
+        </div>
+        
       </div>
       <hr/>
     </div>
     <div class="col-sm-12 col-md-6">
-      <user-edit [user]="selectedUser"></user-edit>
+      <user-view [user]="selectedUser"></user-view>
     </div>
   </div>
 </div>

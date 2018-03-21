@@ -1,27 +1,34 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { User} from '../user';
-import { UserService} from '../user.service';
-import { AlertService} from '../../alert/alert.service';
-import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Component, OnInit } from '@angular/core';
+import { User } from '../user';
+import { UserService } from '../user.service';
+import { AlertService } from '../../alert/alert.service';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
+import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'user-edit',
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
-  @Input()
-  user : User;
-
-  private userBackup: User;
+  private user: User = new User();
   ngOnInit() {
+    this.route.params
+      .switchMap((params: Params) => this.userService.getUser(params['id']))
+      .subscribe(user => this.user = user);
   }
 
-  
-  constructor(private userService :UserService,private alert: AlertService, private modalService: NgbModal,public activeModal: NgbActiveModal) { }
+
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private location: Location,
+    private alert: AlertService,
+    private modalService: NgbModal,
+    public activeModal: NgbActiveModal) { }
 
   edit() {
-    this.userBackup = Object.assign({}, this.user);
     this.userService.updateUser(this.user).subscribe(data => {
       this.alert.success("Updated")
     }, err => {
@@ -29,30 +36,26 @@ export class UserEditComponent implements OnInit {
     });
   }
   cancel() {
-    this.user = Object.assign(this.user, this.userBackup);
     this.user = null;
+    this.location.back();
   }
   sureDelete() {
     this.activeModal.close('Close click');
     this.userService.deleteUser(this.user).subscribe(data => {
       this.alert.success("Deleted");
       this.user = null;
-      this.userBackup = null;
     }, err => {
       this.alert.error("Cannot delete User")
     });
   }
-  deleteModal(content){
+  deleteModal(content) {
     this.modalService.open(content).result.then((result) => {
       console.log(result)
     }, (reason) => {
       console.error(reason)
-    }).catch(err=>{
+    }).catch(err => {
       console.error(err)
     });
-  }
-  ngOnChanges() {
-    this.userBackup = Object.assign({}, this.user);
   }
 
 }

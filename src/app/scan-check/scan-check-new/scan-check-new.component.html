@@ -1,0 +1,28 @@
+<div *ngIf="check">
+  <form>
+    <div class="card">
+      <div class="card-header">
+        <!--HEADER -->
+        <div class="form-group">
+          <label for="checkName">Check Name</label>
+          <input type="text" class="form-control" name="name" id="checkName" placeholder="Check Name" [(ngModel)]="check.name">
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="pluginName">For plugin:</label>
+          <input type="text" class="form-control" name="plugin" id="pluginName" placeholder="Plugin Name" [(ngModel)]="check.plugin">
+        </div>
+        <div class="form-group">
+          <label for="checkValue">Check value</label>
+          <input type="text" class="form-control" name="value" id="checkValue" placeholder="Check Value" [(ngModel)]="check.value">
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+          <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

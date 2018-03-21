@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule,NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { ActivatedRoute, Params } from '@angular/router';
 import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AlertComponent } from './alert/alert.component';
@@ -16,7 +17,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EnvironmentComponent } from './environment/environment.component';
 import { EnvironmentService } from './environment/environment.service';
 //----------WebProjects-------------
-import { WebProjectComponent,WebProjectService,WebProjectNewComponent,WebProjectListComponent } from './web-project/index';
+import { WebProjectComponent, WebProjectService, WebProjectNewComponent, WebProjectListComponent } from './web-project/index';
+//---------- User Management --------------
+import { UserService,UserManagementComponent,UserEditComponent,UserNewComponent,UserViewComponent } from './user-management/index';
 
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
 import { ScanReportComponent } from './scan-report/scan-report.component';
@@ -28,11 +31,13 @@ import { AuthNoLoginService } from './auth/auth-nologin.service';
 import { TokenInterceptor } from './auth/auth.interceptor';
 import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
-import { UserManagementComponent } from './user-management/user-management.component';
-import { UserEditComponent } from './user-management/user-edit/user-edit.component';
-import {UserService} from './user-management/user.service';
-import { UserNewComponent } from './user-management/user-new/user-new.component';
 
+
+
+import { ScanCheckComponent } from './scan-check/scan-check.component';
+import { ScanCheckService } from './scan-check/scan-check.service';
+import { ScanCheckEditComponent } from './scan-check/scan-check-edit/scan-check-edit.component';
+import { ScanCheckNewComponent } from './scan-check/scan-check-new/scan-check-new.component';
 
 
 export function tokenGetter() {
@@ -57,7 +62,11 @@ export function tokenGetter() {
     DashboardWebProjectComponent,
     UserManagementComponent,
     UserEditComponent,
-    UserNewComponent
+    UserNewComponent,
+    ScanCheckComponent,
+    ScanCheckEditComponent,
+    ScanCheckNewComponent,
+    UserViewComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +86,7 @@ export function tokenGetter() {
     NgbActiveModal,
     UserService,
     EnvironmentService,
+    ScanCheckService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

@@ -44,7 +44,7 @@ export class WebProjectService {
   }
   getWebProject(id: string, fill: boolean = false): Observable<WebProject> {
     if (fill) {
-      return this.http.get(AppSettings.API_ENDPOINT + 'webproject')
+      return this.http.get(AppSettings.API_ENDPOINT + 'webproject/' + id )
         .map(data => data as WebProject)
         .flatMap((project: WebProject) => {
           return Observable.forkJoin(project.environments.map(

@@ -1,0 +1,31 @@
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>List of Security Checks</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div *ngIf="auth.isAdmin()" class="btn-group mr-2">
+        <div>
+          <button type="button" class="btn btn-primary" (click)="newCheck()">Create new Check</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="tempCheck" class="row">
+      <div class="col-sm-12 col-xl-12">
+          <scan-check-new [check]="tempCheck"></scan-check-new>
+      </div>
+      
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="list-group">
+        <a *ngFor="let check of checkList" [class.active]="check === selectedCheck" (click)="onSelect(check)" class="list-group-item">
+          <span>{{check.plugin}}::{{check.name}} </span>
+        </a>
+      </div>
+      <hr/>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <scan-check-edit [check]="selectedCheck"></scan-check-edit>
+    </div>
+  </div>
+</div>
