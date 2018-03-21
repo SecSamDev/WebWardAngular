@@ -9,8 +9,6 @@ import { User} from '../user';
 export class UserViewComponent implements OnInit {
   @Input()
   user : User;
-
-  private userBackup: User;
   ngOnInit() {
   }
   constructor() { }

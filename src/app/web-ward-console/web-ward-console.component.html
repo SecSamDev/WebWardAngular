@@ -1,0 +1,7 @@
+<div class="row">
+  <textarea #consoleHistory [scrollTop]="consoleHistory.scrollHeight" class="form-control" rows="20" name="console" [(ngModel)]="commandHistory" disabled="true"></textarea>
+</div>
+<div class="row">
+  <input type="text" class="col-10 form-control" name="name" id="projectName" placeholder="command" [(ngModel)]="actualCommand">
+  <button type="submit" class="col-2 btn btn-principal" (click)="send()">Send</button>
+</div>

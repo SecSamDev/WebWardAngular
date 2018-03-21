@@ -90,13 +90,17 @@ export class AuthService {
             return true;
         }
     }
-    isAdmin() {
-        let user = this.getUser();
-        if (user && 'role' in user && user.role === 3) {
-            return true;
-        } else {
+    isAdmin() :boolean {
+        try {
+            if(parseInt(localStorage.getItem('userRole')) === 3){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(err){
             return false;
         }
+        
     }
 
 }

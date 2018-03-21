@@ -20,29 +20,22 @@ import { EnvironmentService } from './environment/environment.service';
 import { WebProjectComponent, WebProjectService, WebProjectNewComponent, WebProjectListComponent } from './web-project/index';
 //---------- User Management --------------
 import { UserService,UserManagementComponent,UserEditComponent,UserNewComponent,UserViewComponent } from './user-management/index';
+//----------- CHECKS --------------------
+import { ScanCheckComponent,ScanCheckEditComponent,ScanCheckNewComponent,ScanCheckService,ScanCheckViewComponent } from './scan-check/index';
 
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
 import { ScanReportComponent } from './scan-report/scan-report.component';
 
 //-----------AUTH---------------
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
+import { AuthAdminService as AuthAdmin } from './auth/auth-admin.service';
 import { AuthService } from './auth/auth.service';
 import { AuthNoLoginService } from './auth/auth-nologin.service';
 import { TokenInterceptor } from './auth/auth.interceptor';
 import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
+import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component';
 
-
-
-import { ScanCheckComponent } from './scan-check/scan-check.component';
-import { ScanCheckService } from './scan-check/scan-check.service';
-import { ScanCheckEditComponent } from './scan-check/scan-check-edit/scan-check-edit.component';
-import { ScanCheckNewComponent } from './scan-check/scan-check-new/scan-check-new.component';
-
-
-export function tokenGetter() {
-  return localStorage.getItem('token');
-}
 
 
 @NgModule({
@@ -66,7 +59,9 @@ export function tokenGetter() {
     ScanCheckComponent,
     ScanCheckEditComponent,
     ScanCheckNewComponent,
-    UserViewComponent
+    UserViewComponent,
+    ScanCheckViewComponent,
+    WebWardConsoleComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +74,7 @@ export function tokenGetter() {
   providers: [
     WebProjectService,
     AuthGuard,
+    AuthAdmin,
     AuthService,
     AuthNoLoginService,
     AlertService,

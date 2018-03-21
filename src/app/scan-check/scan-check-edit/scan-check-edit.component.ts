@@ -3,7 +3,10 @@ import { ScanCheck } from '../scan-check';
 import { ScanCheckService } from '../scan-check.service';
 import { AlertService } from '../../alert/alert.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../../auth/auth.service';
+
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
+import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'scan-check-edit',
   templateUrl: './scan-check-edit.component.html',
@@ -11,17 +14,23 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class ScanCheckEditComponent implements OnInit {
 
-  @Input() check: ScanCheck;
+  private check: ScanCheck = new ScanCheck();
   private checkBackup: ScanCheck;
   constructor(
-    public auth: AuthService, private checkService: ScanCheckService,
-    private alert: AlertService, private modalService: NgbModal,
-    public activeModal: NgbActiveModal
+    private route: ActivatedRoute,
+    private location: Location,
+    private alert: AlertService,
+    private modalService: NgbModal,
+    public activeModal: NgbActiveModal,
+    private checkService: ScanCheckService,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params
+      .switchMap((params: Params) => this.checkService.getScanCheck(params['id']))
+      .subscribe(check => this.check = check);
+  }
   edit() {
-    this.checkBackup = Object.assign({}, this.check);
     this.checkService.updateScanCheck(this.check).subscribe(data => {
       this.alert.success("Updated")
     }, err => {
@@ -29,15 +38,14 @@ export class ScanCheckEditComponent implements OnInit {
     });
   }
   cancel() {
-    this.check = Object.assign(this.check, this.checkBackup);
     this.check = null;
+    this.location.back();
   }
   sureDelete() {
     this.activeModal.close('Close click');
     this.checkService.deleteScanCheck(this.check).subscribe(data => {
       this.alert.success("Deleted");
       this.check = null;
-      this.checkBackup = null;
     }, err => {
       this.alert.error("Cannot delete sECURITY cHECK")
     });

@@ -29,7 +29,6 @@ export class WebProjectListComponent implements OnInit {
     fetchData(){
         this.projService.getWebProjects().subscribe(projArray =>{
             this.projects = projArray;
-            console.log(projArray)
         });
     }
 }
