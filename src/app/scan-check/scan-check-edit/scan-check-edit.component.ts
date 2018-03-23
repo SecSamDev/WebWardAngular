@@ -34,7 +34,7 @@ export class ScanCheckEditComponent implements OnInit {
     this.checkService.updateScanCheck(this.check).subscribe(data => {
       this.alert.success("Updated")
     }, err => {
-      this.alert.error("Cannot save SecurityCheck")
+      this.alert.error('message' in err.error ? err.error.message : "Cannot save SecurityCheck")
     });
   }
   cancel() {
@@ -47,7 +47,7 @@ export class ScanCheckEditComponent implements OnInit {
       this.alert.success("Deleted");
       this.check = null;
     }, err => {
-      this.alert.error("Cannot delete sECURITY cHECK")
+      this.alert.error('message' in err.error ? err.error.message : "Cannot delete SecurityCheck")
     });
   }
   deleteModal(content) {

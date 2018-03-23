@@ -25,7 +25,7 @@ export class SigninComponent implements OnInit {
       }, err => {
 
         this.alerts.clear();
-        this.alerts.error(err.error.error, false);
+        this.alerts.error('message' in err.error ? err.error.message : "Cant login", false);
       });
     } else {
       this.alerts.error("No user provided", false);

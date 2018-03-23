@@ -19,7 +19,7 @@ export class UserNewComponent implements OnInit {
     this.userService.postUser(this.user).subscribe(data => {
       this.alert.success("Updated")
     }, err => {
-      this.alert.error("Cannot save User")
+      this.alert.error('message' in err.error ? err.error.message : "Cannot save User")
     });
   }
   cancel() {

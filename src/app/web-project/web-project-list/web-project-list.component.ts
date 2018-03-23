@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebProject, } from '../../web-project/web-project';
 import {WebProjectService} from '../../web-project/web-project.service';
+import {AlertService} from '../../alert/alert.service';
 
 @Component({
     selector: 'web-project-list',
@@ -14,7 +15,7 @@ import {WebProjectService} from '../../web-project/web-project.service';
 export class WebProjectListComponent implements OnInit {
     projects: WebProject[];
     selectedProject : WebProject;
-    constructor(private projService : WebProjectService) { }
+    constructor(private projService : WebProjectService,private alert : AlertService) { }
     ngOnInit() {
         this.fetchData();
         this.projService.subscribeToWebProjects().subscribe((data)=>{
@@ -29,6 +30,8 @@ export class WebProjectListComponent implements OnInit {
     fetchData(){
         this.projService.getWebProjects().subscribe(projArray =>{
             this.projects = projArray;
+        },err=>{
+            this.alert.warn('message' in err.error ? err.error.message : 'Data not found')
         });
     }
 }

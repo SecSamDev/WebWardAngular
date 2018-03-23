@@ -32,7 +32,7 @@ export class UserEditComponent implements OnInit {
     this.userService.updateUser(this.user).subscribe(data => {
       this.alert.success("Updated")
     }, err => {
-      this.alert.error("Cannot save User")
+      this.alert.error('message' in err.error ? err.error.message : "Cannot save User")
     });
   }
   cancel() {
@@ -45,7 +45,7 @@ export class UserEditComponent implements OnInit {
       this.alert.success("Deleted");
       this.user = null;
     }, err => {
-      this.alert.error("Cannot delete User")
+      this.alert.error('message' in err.error ? err.error.message : "Cannot delete User")
     });
   }
   deleteModal(content) {

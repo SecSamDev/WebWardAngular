@@ -23,7 +23,7 @@ export class ScanCheckNewComponent implements OnInit {
       this.alert.success("Updated")
       this.check = null;
     }, err => {
-      this.alert.error("Cannot save Security Check")
+      this.alert.error('message' in err.error ? err.error.message : "Cannot save Security Check")
     });
   }
   cancel() {
