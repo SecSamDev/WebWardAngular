@@ -8,4 +8,5 @@ export class User{
     create_date : Date;
     last_update : Date;
     status : number;
+    password: string ="";
 }

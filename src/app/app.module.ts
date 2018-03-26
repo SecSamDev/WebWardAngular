@@ -17,7 +17,15 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EnvironmentComponent } from './environment/environment.component';
 import { EnvironmentService } from './environment/environment.service';
 //----------WebProjects-------------
-import { WebProjectComponent, WebProjectService, WebProjectNewComponent, WebProjectListComponent } from './web-project/index';
+import { 
+  WebProjectComponent,
+  WebProjectViewComponent, 
+  WebProjectService, 
+  WebProjectNewComponent,
+  WebProjectPageComponent,
+  WebProjectEditComponent,
+  WebProjectUserComponent
+} from './web-project/index';
 //---------- User Management --------------
 import { UserService,UserManagementComponent,UserEditComponent,UserNewComponent,UserViewComponent } from './user-management/index';
 //----------- CHECKS --------------------
@@ -35,8 +43,10 @@ import { TokenInterceptor } from './auth/auth.interceptor';
 import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
 import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component';
-
-
+import { MyProfileComponent } from './user-management/my-profile/my-profile.component';
+import { UserProfileComponent } from './user-management/user-profile/user-profile.component';
+import { PipelineComponent } from './pipeline/pipeline.component';
+import { PipelineNodeComponent } from './pipeline/pipeline-node/pipeline-node.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +58,6 @@ import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.com
     EnvironmentComponent,
     WebProjectComponent,
     WebProjectNewComponent,
-    WebProjectListComponent,
     ScanProfileComponent,
     ScanReportComponent,
     ContainerComponent,
@@ -61,7 +70,15 @@ import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.com
     ScanCheckNewComponent,
     UserViewComponent,
     ScanCheckViewComponent,
-    WebWardConsoleComponent
+    WebWardConsoleComponent,
+    MyProfileComponent,
+    UserProfileComponent,
+    WebProjectUserComponent,
+    WebProjectViewComponent,
+    WebProjectEditComponent,
+    WebProjectPageComponent,
+    PipelineComponent,
+    PipelineNodeComponent
   ],
   imports: [
     BrowserModule,

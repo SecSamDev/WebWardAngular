@@ -1,0 +1,17 @@
+<div *ngIf="user">
+  <dl class="row">
+    <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="User Name">Name:</dt>
+    <dd class="col-sm-7">
+      <a>
+        <span routerLink="/users/{{user.id}}">{{user.name}} </span>
+      </a>
+    </dd>
+  </dl>
+  <dl class="row">
+    <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Role">role:</dt>
+    <dd *ngIf="user.role == 0" class="col-sm-7">Developer</dd>
+    <dd *ngIf="user.role == 1" class="col-sm-7">Responsible</dd>
+    <dd *ngIf="user.role == 2" class="col-sm-7">Project Manager</dd>
+    <dd *ngIf="user.role == 3" class="col-sm-7">Administrator</dd>
+  </dl>
+</div>

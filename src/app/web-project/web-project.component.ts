@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { WebProject } from './web-project';
 import { WebProjectService } from './web-project.service';
 import { AlertService } from '../alert/alert.service';
-import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -11,45 +11,26 @@ import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./web-project.component.css']
 })
 export class WebProjectComponent implements OnInit {
-  @Input() project: WebProject;
-  private projectBackup: WebProject;
-  constructor(private webProjServ: WebProjectService, private alert: AlertService, private modalService: NgbModal,public activeModal: NgbActiveModal) { }
-
+  projects: WebProject[];
+  selectedProject: WebProject;
+  constructor(private projService: WebProjectService, private alert: AlertService) { }
   ngOnInit() {
-  }
-  edit() {
-    this.projectBackup = Object.assign({}, this.project);
-    this.webProjServ.updateWebProject(this.project).subscribe(data => {
-      this.alert.success("Updated")
+    this.fetchData();
+    this.projService.subscribeToWebProjects().subscribe((data) => {
+      this.fetchData();
     }, err => {
-      this.alert.error("Cannot save WebProject")
+
     });
   }
-  cancel() {
-    this.project = Object.assign(this.project, this.projectBackup);
-    this.project = null;
+  onSelect(project: WebProject): void {
+    this.selectedProject = project;
   }
-  sureDelete() {
-    this.activeModal.close('Close click');
-    this.webProjServ.deleteWebProject(this.project).subscribe(data => {
-      this.alert.success("Deleted");
-      this.project = null;
-      this.projectBackup = null;
+  fetchData() {
+    this.projService.getWebProjects().subscribe(projArray => {
+      this.projects = projArray;
     }, err => {
-      this.alert.error("Cannot delete WebProject")
+      this.alert.warn('message' in err.error ? err.error.message : 'Data not found')
     });
-  }
-  deleteModal(content){
-    this.modalService.open(content).result.then((result) => {
-      console.log(result)
-    }, (reason) => {
-      console.error(reason)
-    }).catch(err=>{
-      console.error(err)
-    });
-  }
-  ngOnChanges() {
-    this.projectBackup = Object.assign({}, this.project);
   }
 
 }

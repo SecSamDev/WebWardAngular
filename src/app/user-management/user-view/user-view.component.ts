@@ -1,5 +1,6 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { User} from '../user';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../user';
+import {AuthService} from '../../auth/auth.service'
 
 @Component({
   selector: 'user-view',
@@ -8,10 +9,10 @@ import { User} from '../user';
 })
 export class UserViewComponent implements OnInit {
   @Input()
-  user : User;
+  user: User;
   ngOnInit() {
   }
-  constructor() { }
+  constructor(public auth : AuthService) { }
 
 
 }

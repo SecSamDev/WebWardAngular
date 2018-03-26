@@ -4,8 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
-import 'rxjs/add/operator/map'
-import { JwtHelperService } from '@auth0/angular-jwt';
+import 'rxjs/add/operator/map';
 import { AppSettings } from '../appSettings';
 import { User } from './user';
 
@@ -13,6 +12,7 @@ import { User } from './user';
 export class UserService {
     private subscriber: Subscriber<boolean>;
     private pullerObserver: Observable<boolean>;
+
     constructor(private http: HttpClient) {
         this.pullerObserver = new Observable(observer => {
             this.subscriber = observer;
@@ -75,6 +75,9 @@ export class UserService {
      * Use internally
      */
     private notify() {
-        this.subscriber.next(true);
+        try{
+            this.subscriber.next(true);
+        }catch(err){}
+        
     }
 }

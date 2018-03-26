@@ -108,6 +108,9 @@ export class WebProjectService {
    * Use internally
    */
   private notify(){
-    this.subscriber.next(true);
+    try{
+      this.subscriber.next(true);
+    }catch(err){}
+    
   }
 }

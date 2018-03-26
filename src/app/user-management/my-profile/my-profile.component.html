@@ -1,4 +1,4 @@
-<div *ngIf="user">
+<div >
   <form>
     <div class="card">
       <div class="card-header">
@@ -44,8 +44,16 @@
           <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the user">ID</dt>
           <dd class="col-sm-9">{{user.id}}</dd>
         </dl>
-        <div *ngIf="!auth.isDev()" class="btn-group">
-          <button type="submit" class="btn btn-primary" routerLink="/users/edit/{{user.id}}">Edit</button>
+        <div class="form-group">
+          <label for="userName">Password</label>
+          <input type="password" class="form-control" name="password1" id="password1" placeholder="password" [(ngModel)]="password1">
+        </div>
+        <div class="form-group">
+          <label for="userName">Repeat Password</label>
+          <input type="password" class="form-control" name="password2" id="password2" placeholder="password" [(ngModel)]="password2">
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" (click)="changePassword()">Save</button>
         </div>
       </div>
     </div>

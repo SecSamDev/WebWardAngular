@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-container',
+  selector: 'container-list',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css']
 })
@@ -9,18 +9,6 @@ import { Component, OnInit } from '@angular/core';
  * Show a docker container
  */
 export class ContainerComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
-
-/**
- * Show a docker editor container
- */
-export class ContainerEditorComponent implements OnInit {
 
   constructor() { }
 

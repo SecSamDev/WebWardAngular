@@ -18,6 +18,7 @@ export class UserNewComponent implements OnInit {
     this.user.role = parseInt(this.user.role.toString(), 10); 
     this.userService.postUser(this.user).subscribe(data => {
       this.alert.success("Updated")
+      this.user = null;
     }, err => {
       this.alert.error('message' in err.error ? err.error.message : "Cannot save User")
     });

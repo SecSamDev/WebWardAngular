@@ -44,6 +44,7 @@ export class UserEditComponent implements OnInit {
     this.userService.deleteUser(this.user).subscribe(data => {
       this.alert.success("Deleted");
       this.user = null;
+      this.location.back();
     }, err => {
       this.alert.error('message' in err.error ? err.error.message : "Cannot delete User")
     });

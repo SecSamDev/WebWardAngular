@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 col-sm-12">
+      <canvas #pipeDrawer height="{{height}}" width="{{width}}" style="overflow: scroll;width: 100%;height: auto;">
+
+      </canvas>
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <div *ngIf="activeNode" class="row">
+        <h4>Active Node</h4>
+        <pipeline-node [node]="activeNode"></pipeline-node>
+      </div>
+      <div *ngIf="selectedNode" class="row">
+        <h4>Current Selected Node</h4>
+        <pipeline-node [node]="selectedNode"></pipeline-node>
+      </div>
+    </div>
+  </div>
+</div>
