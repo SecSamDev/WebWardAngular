@@ -15,13 +15,18 @@ export class PipelineNode{
      */
     id: string;
     /**
+     * For what pipe?
+     */
+    pipe : string;
+    /**
      * Internal properties for the node
      */
     properties : PipelineNodeAtribute[] = [];
     /**
-     * Recive data from a node
+     * Recive data from a list of nodes.
+     * Dont needed
      */
-    inputNode : PipelineNode;
+    //inputNodes : PipelineNode[];
     /**
      * Parameters that needs this node
      */
@@ -42,19 +47,32 @@ export class PipelineNode{
      * Parameters to pass to the error nodes.
      */
     errorParams : PipelineNodeAtribute[] = [];
+    /**
+     * X position in SVG
+     */
     x : number = 1;
+    dx : number = 1;
+    /**
+     * Y position in SVG
+     */
     y : number = 1;
+    dy : number = 1;
+    selected : boolean = false;
 }
 /**
  * Atributes for a pipeline node
  */
 export class PipelineNodeAtribute{
     /**
-     * Atribute name
+     * Atribute name to be used by other parameters
      */
     name : string;
     /**
-     * Type of the atribute: 'string', 'number', 'URL', 'boolean'
+     * Friendly name for users
+     */
+    nickname : string;
+    /**
+     * Type of the atribute: 'string', 'number', 'URL', 'boolean','select','time'
      */
     type : string;
     /**
@@ -69,4 +87,12 @@ export class PipelineNodeAtribute{
      * Description for the atribute. Help users
      */
     description : string;
+    /**
+     * Depends on a parameter for showing
+     */
+    depends : string;
+    /**
+     * The parameter value must be this
+     */
+    depends_value : string;
 }

@@ -47,6 +47,9 @@ import { MyProfileComponent } from './user-management/my-profile/my-profile.comp
 import { UserProfileComponent } from './user-management/user-profile/user-profile.component';
 import { PipelineComponent } from './pipeline/pipeline.component';
 import { PipelineNodeComponent } from './pipeline/pipeline-node/pipeline-node.component';
+import { PipelineNodeEditComponent } from './pipeline/pipeline-node-edit/pipeline-node-edit.component';
+import { PipelineNodeNewComponent } from './pipeline/pipeline-node-new/pipeline-node-new.component';
+import { PipelineDirective } from './pipeline/pipeline.directive';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,10 @@ import { PipelineNodeComponent } from './pipeline/pipeline-node/pipeline-node.co
     WebProjectEditComponent,
     WebProjectPageComponent,
     PipelineComponent,
-    PipelineNodeComponent
+    PipelineNodeComponent,
+    PipelineNodeEditComponent,
+    PipelineNodeNewComponent,
+    PipelineDirective
   ],
   imports: [
     BrowserModule,

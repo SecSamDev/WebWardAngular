@@ -1,18 +1,23 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8 col-sm-12">
-      <canvas #pipeDrawer height="{{height}}" width="{{width}}" style="overflow: scroll;width: 100%;height: auto;">
-
-      </canvas>
+    <div class="col-md-8 col-sm-12" (window:resize)="onResize($event)">
+      <svg #pipeCanvas  version="1.1"
+        viewBox="0 0 1024 1024" 
+        width="100%" height="100%">
+        <!-- SVG is not HTML is XML so use attribute instead of element-->
+        <svg:g draggable="false" pipeline-node 
+        [pipeline-directive]="node" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" 
+        *ngFor="let node of _nodes" [node]="node" (nodeClicked)="handleNodeClick($event)"/>
+      </svg>
     </div>
     <div class="col-md-4 col-sm-12">
       <div *ngIf="activeNode" class="row">
         <h4>Active Node</h4>
-        <pipeline-node [node]="activeNode"></pipeline-node>
+        <pipeline-node-edit [node]="activeNode"></pipeline-node-edit>
       </div>
       <div *ngIf="selectedNode" class="row">
         <h4>Current Selected Node</h4>
-        <pipeline-node [node]="selectedNode"></pipeline-node>
+        <pipeline-node-edit [node]="selectedNode"></pipeline-node-edit>
       </div>
     </div>
   </div>
