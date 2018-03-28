@@ -1,46 +1,48 @@
 import { Directive, HostListener, ElementRef, Input, HostBinding } from '@angular/core';
-import { PipelineNode } from './node';
+import { PipelineNode } from '../node';
 @Directive({
-  selector: 'svg:rect[pipeline-node-directive]'
+  selector: 'svg:rect[node-resize-directive]'
 })
-export class PipelineNodeDirective {
-  currentMatrix = [];
+export class NodeResizeDirective {
   //Se necesita saber las propiedades del nodo
-  @Input('pipeline-node-directive') node: PipelineNode;
+  @Input('node-resize-directive') node: PipelineNode;
   // Tambien la proporcion en el eje X (Global Position vs Local Position)
   @Input('propX') propX: number;
   @Input('propY') propY: number;
-  //Y la posicion con respecto al borde
-  @Input('dx') dx: number;
-  @Input('dy') dy: number;
+  lastX = 0;
+  lastY = 0;
   constructor(private el: ElementRef) {
   }
 
-  @HostListener('mouseleave', ['$event']) onMouseLeave(event) {
-    if (event.target == this.el.nativeElement &&this.node.selected) {
-      this.node.selected = false;
-    }
-  }
   @HostListener('mousedown', ['$event']) onMouseDown(event) {
     if (event.target == this.el.nativeElement && !this.node.selected) {
       this.node.selected = true;
+      this.lastX = event.clientX;
+      this.lastY = event.clientY;
     }
   }
-
+  @HostListener('mouseleave', ['$event']) onMouseLeave(event) {
+    if (this.node.selected && event.target == this.el.nativeElement) {
+      this.node.selected = false;
+    }
+  }
   @HostListener('mouseup', ['$event']) onMouseUp(event) {
-    if (this.node.selected) {
+    if (this.node.selected && event.target == this.el.nativeElement) {
       this.node.selected = false;
     }
   }
   @HostListener('mousemove', ['$event']) onMouseMove(event) {
-    if (event.target == this.el.nativeElement && this.node.selected) {
+    if (this.node.selected && event.target == this.el.nativeElement) {
       this.moveElement(event.clientX, event.clientY)
+      this.lastX = event.clientX;
+      this.lastY = event.clientY;
     }
 
   }
   private moveElement(x: number, y: number) {
+    
     const rect = this.el.nativeElement.getBoundingClientRect();
-    this.node.x += (x  - rect.width / 2 - rect.left) * this.propX;
-    this.node.y += (y  - rect.height / 2 - rect.top) * this.propY;
+    this.node.width += (x - this.lastX) * this.propX;
+    this.node.height += (y - this.lastY) * this.propY;
   }
 }

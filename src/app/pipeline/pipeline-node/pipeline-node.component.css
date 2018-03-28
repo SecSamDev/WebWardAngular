@@ -1,4 +1,26 @@
 .pipe-card {
-  fill-opacity:0.1;
+  fill-opacity:0.3;
+}
+.pipe-card-head {
+  fill-opacity:0.8;
+}
+.pipe-card-vert {
+  fill-opacity:0;
+  cursor: n-resize;
+}
+.pipe-card-diag-left {
+  fill-opacity:0;
+  cursor: nw-resize;
+}
+.pipe-card-diag-right {
+  fill-opacity:0;
+  cursor: ne-resize;
+}
+.pipe-card-horiz {
+  fill-opacity:0;
+  cursor: e-resize;
+}
+.pipe-card-move {
+  fill-opacity:0;
   cursor: move;
 }

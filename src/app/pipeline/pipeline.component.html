@@ -1,13 +1,49 @@
-<div class="container-fluid fill">
-  <div class="row fill">
-    <div class="com-lg-10 col-md-9 col-sm-12 pre-scrollable fill" (window:resize)="onResize($event)">
-      <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" [attr.width]="width" [attr.height]="height" pipeline-directive
-        (zoom)="handleZoom($event)">
-        <!-- SVG is not HTML is XML so use attribute instead of element-->
-        <svg:g draggable="false" pipeline-node x="0" y="0" [attr.width]="width" [attr.height]="height" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" *ngFor="let node of _nodes" [node]="node"
-          (nodeClicked)="handleNodeClick($event)"
-        />
-      </svg> 
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Pipeline Visual Editor</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-sm btn-outline-secondary" (click)="handleZoom(-0.2)">+</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="handleZoom(0.2)">-</button>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-lg-10 col-md-9 col-sm-12 " (window:resize)="onResize($event)">
+      <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" height="100%" width="100%">
+        <defs>
+          <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" />
+          </pattern>
+          <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+            <rect width="100" height="100" fill="url(#smallGrid)" />
+            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" stroke-width="1" />
+          </pattern>
+        </defs>
+        <svg:g x="0" y="0" *ngFor="let node of _nodes">
+          <svg:g x="0" y="0" *ngFor="let stdOut of node.outputNodes">
+            <svg:path stroke="red" stroke-width="3" fill="none" 
+            [attr.d]="'M ' + (node.x + dx + node.width + 20) + ',' + (node.y + dy + node.height/2 +20)
+            + ' C '+ (stdOut.x + dx + 20) + ',' +(node.y + dy + node.height/2 +20)
+            + ' ' + (node.x + dx + node.width + 20) + ',' +(stdOut.y + dy + stdOut.height/2 +20)  + ' '+ (stdOut.x + dx + 20) + ',' + (stdOut.y + dy + stdOut.height/2 +20)"
+            /><!-- [attr.cx]="node.width/2 +20" [attr.cy]="node.height +20" -->
+          </svg:g>
+          <svg:g x="0" y="0" *ngFor="let stdErr of node.errorNodes">
+            <svg:path stroke="red" stroke-width="3" fill="none" 
+            [attr.d]="'M ' + (node.x + dx + node.width/2 +20) + ',' + (node.y + dy + node.height +20)
+            + ' C '+ (node.x + dx + node.width/2 +20) + ',' +(node.y + dy + node.height +20)
+            + ' ' + (node.x + dx + node.width/2 +20) + ',' +(stdErr.y + dy + stdErr.height/2 +20)  + ' '+ (stdErr.x + dx + 20) + ',' + (stdErr.y + dy + stdErr.height/2 +20)"
+            />
+          </svg:g>
+        </svg:g>
+
+        <svg:rect width="100%" height="100%" fill="url(#grid)" pipeline-directive (movEmit)="handleMove($event)" />
+        <!-- SVG is not HTML is XML so use attribute instead of element [attr.height]="height" [attr.width]="width"-->
+        <svg:g draggable="false" pipeline-node x="0" y="0" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" *ngFor="let node of _nodes"
+          [node]="node" (nodeClicked)="handleNodeClick($event)" />
+
+      </svg>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-12">
       <div *ngIf="activeNode" class="row">
@@ -20,4 +56,6 @@
       </div>
     </div>
   </div>
+
+
 </div>

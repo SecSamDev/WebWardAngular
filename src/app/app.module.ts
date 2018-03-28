@@ -17,19 +17,19 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EnvironmentComponent } from './environment/environment.component';
 import { EnvironmentService } from './environment/environment.service';
 //----------WebProjects-------------
-import { 
+import {
   WebProjectComponent,
-  WebProjectViewComponent, 
-  WebProjectService, 
+  WebProjectViewComponent,
+  WebProjectService,
   WebProjectNewComponent,
   WebProjectPageComponent,
   WebProjectEditComponent,
   WebProjectUserComponent
 } from './web-project/index';
 //---------- User Management --------------
-import { UserService,UserManagementComponent,UserEditComponent,UserNewComponent,UserViewComponent } from './user-management/index';
+import { UserService, UserManagementComponent, UserEditComponent, UserNewComponent, UserViewComponent } from './user-management/index';
 //----------- CHECKS --------------------
-import { ScanCheckComponent,ScanCheckEditComponent,ScanCheckNewComponent,ScanCheckService,ScanCheckViewComponent } from './scan-check/index';
+import { ScanCheckComponent, ScanCheckEditComponent, ScanCheckNewComponent, ScanCheckService, ScanCheckViewComponent } from './scan-check/index';
 
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
 import { ScanReportComponent } from './scan-report/scan-report.component';
@@ -42,7 +42,18 @@ import { AuthNoLoginService } from './auth/auth-nologin.service';
 import { TokenInterceptor } from './auth/auth.interceptor';
 
 //-------------PIPELINE-------------
-import {PipelineComponent,PipelineDirective,PipelineNodeAtribute,PipelineNodeComponent,PipelineNodeDirective,PipelineNodeEditComponent,PipelineNodeNewComponent,PipelineService} from './pipeline/index'
+import {
+  PipelineComponent, 
+  PipelineDirective, 
+  PipelineNodeAtribute, 
+  PipelineNodeComponent, 
+  PipelineNodeDirective, 
+  PipelineNodeEditComponent, 
+  PipelineNodeNewComponent, 
+  PipelineService,
+  NodeResizeDirective,
+  NodePipeMeDirective
+} from './pipeline/index'
 
 import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
@@ -84,7 +95,9 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     PipelineNodeEditComponent,
     PipelineNodeNewComponent,
     PipelineDirective,
-    PipelineNodeDirective
+    PipelineNodeDirective,
+    NodeResizeDirective,
+    NodePipeMeDirective
   ],
   imports: [
     BrowserModule,

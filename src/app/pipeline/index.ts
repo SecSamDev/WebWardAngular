@@ -3,6 +3,8 @@ import {PipelineNodeComponent} from './pipeline-node/pipeline-node.component'
 import {PipelineNodeEditComponent} from './pipeline-node-edit/pipeline-node-edit.component'
 import {PipelineNodeNewComponent} from './pipeline-node-new/pipeline-node-new.component'
 import {PipelineNodeDirective} from './pipeline-node.directive'
+import {NodeResizeDirective} from './pipeline-node/node-resize.directive'
+import {NodePipeMeDirective} from './pipeline-node/node-pipeme.directive'
 import {PipelineComponent} from './pipeline.component'
 import {PipelineDirective} from './pipeline.directive'
 import {PipelineService} from './pipeline.service'
@@ -18,5 +20,7 @@ export {
     PipelineNodeDirective,
     PipelineComponent,
     PipelineDirective,
-    PipelineService
+    PipelineService,
+    NodeResizeDirective,
+    NodePipeMeDirective
 }

@@ -34,7 +34,7 @@ export class PipelineNode{
     /**
      * If the pipeline node is passed then send the result to the next node or nodes.
      */
-    outputNodes : PipelineNode[] = [];
+    outputNodes : any = [];
     /**
      * Parameters that this node sends to the next
      */
@@ -42,7 +42,7 @@ export class PipelineNode{
     /**
      * If this pipeline node fails then send the result to the nexxt error node
      */
-    errorNodes : PipelineNode[] = [];
+    errorNodes : any= [];
     /**
      * Parameters to pass to the error nodes.
      */

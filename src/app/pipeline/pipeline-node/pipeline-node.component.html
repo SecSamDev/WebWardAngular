@@ -1,9 +1,37 @@
 <!-- class="btn" para clicks class="draggable" para mover-->
-<svg:svg [attr.x]="node.x" [attr.y]="node.y" [attr.height]="node.height+20" [attr.width]="node.width+20">
-    <svg:rect [pipeline-node-directive]="node" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" #content class="pipe-card"
-        *ngIf="node" x="10" y="10" [attr.height]="node.height" [attr.width]="node.width" rx="20" ry="20" (click)="selectElement()"
-        [attr.stroke]="node.selected ? 'green' :'black'" stroke-width="1.5"
+<svg:svg [attr.x]="node.x + dx" [attr.y]="node.y + dy" [attr.height]="node.height+60" [attr.width]="node.width+60">
+
+    <svg:rect #content class="pipe-card" x="20" y="20" [attr.height]="node.height" [attr.width]="node.width" rx="20" ry="20" [attr.stroke]="node.selected ? 'green' :'black'"
+        stroke-width="1.5" />
+        <!---->
+    <svg:path [attr.d]="'M21 60 V41 Q21 21 41 21 H' + node.width + ' Q' + (node.width + 20) + ' 21 ' + (node.width +20) + ' 41' + ' V60z'"
+        class="pipe-card-head"/>
+    <svg:text [attr.x]="50" [attr.y]="50" fill="red" font-family="Arial" font-size="30">{{node.name}}</svg:text>
+    <svg:rect [pipeline-node-directive]="node" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" #content class="pipe-card-move"
+        *ngIf="node" x="10" y="10" [attr.height]="node.height - 20" [attr.width]="node.width - 20" rx="20" ry="20" (click)="selectElement()"
     />
-    <svg:text [attr.x]="30" [attr.y]="35" fill="red"font-family="Arial" font-size="30">{{node.name}}</svg:text>
-    <svg:circle [attr.cx]="node.width/2 + 10" [attr.cy]="node.height + 10" r="10" fill="red" stroke="black" stroke-width="1">{{node.name}}</svg:circle>
-</svg:svg> 
+    <svg:circle [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="0" [attr.cx]="20" [attr.cy]="node.height/2 +20" r="10" fill="green" stroke="black" stroke-width="1"/>
+    <svg:circle [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="1" [attr.cx]="node.width+20" [attr.cy]="node.height/2 +20" r="10" fill="blue" stroke="black" stroke-width="1"/>
+    <svg:circle [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="2"   [attr.cx]="node.width/2 +20" [attr.cy]="node.height +20" r="10" fill="red" stroke="black" stroke-width="1"/>
+    <!-- Scale Diag BOT-RIGHT-->
+    <svg:rect [node-resize-directive]="node" [propX]="propX" [propY]="propY" class="pipe-card-diag-left" [attr.x]="node.width-15"
+        [attr.y]="node.height-15" height="70" width="70" />
+
+
+
+
+    <!-- Scale  <svg:rect class="pipe-card-vert" x="20" y="0" height="20" [attr.width]="node.width" />vert Superior-->
+
+    <!-- Scale <svg:rect class="pipe-card-diag-left" x="0" y="0" height="20" width="20" /> Diag TOP-LEFT-->
+
+    <!-- Scale <svg:rect class="pipe-card-horiz" x="0" y="20" [attr.height]="node.height" width="20" /> Horiz Left-->
+
+    <!-- Scale <svg:rect class="pipe-card-diag-right" [attr.x]="node.width + 20" y="0" height="20" width="20" /> Diag TOP-RIGHT-->
+
+    <!-- Scale  <svg:rect class="pipe-card-horiz" [attr.x]="node.width +20" y="20" [attr.height]="node.height" width="20" /> Horiz Right-->
+
+    <!-- Scale  <svg:rect class="pipe-card-vert" x="20" [attr.y]="node.height + 20" height="20" [attr.width]="node.width" />  vert Inferior -->
+
+
+    <!-- Scale  <svg:rect class="pipe-card-diag-right" x="0" [attr.y]="node.height + 20" height="20" width="20" /> Diag BOT-LEFT-->
+</svg:svg>
