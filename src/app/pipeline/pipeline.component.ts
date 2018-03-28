@@ -39,6 +39,10 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this._nodes.push(aux2);
   }
   ngAfterViewInit() {
+    try{
+      this.reCalculate()
+    }catch(err){}
+    
   }
   ngOnInit() {
     this.reCalculate()
@@ -52,8 +56,14 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this._nodes = nodes;
   }
   handleNodeClick(event: PipelineNode) {
-    console.log("Handle node click: " + event.name)
+    console.log("Handle node click: " + event.name + " " + event.x + " " + event.y)
   }
+  handleZoom(delta : number) {
+    this.height *= (1+delta);
+    this.width *= (1+delta);
+    this.reCalculate(); 
+  }
+
   private reCalculate(){
     try {
       const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();

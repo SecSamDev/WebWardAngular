@@ -51,12 +51,12 @@ export class PipelineNode{
      * X position in SVG
      */
     x : number = 1;
-    dx : number = 1;
+    width : number = 200;
     /**
      * Y position in SVG
      */
     y : number = 1;
-    dy : number = 1;
+    height : number = 300;
     selected : boolean = false;
 }
 /**

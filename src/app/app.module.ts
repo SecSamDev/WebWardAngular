@@ -40,16 +40,15 @@ import { AuthAdminService as AuthAdmin } from './auth/auth-admin.service';
 import { AuthService } from './auth/auth.service';
 import { AuthNoLoginService } from './auth/auth-nologin.service';
 import { TokenInterceptor } from './auth/auth.interceptor';
+
+//-------------PIPELINE-------------
+import {PipelineComponent,PipelineDirective,PipelineNodeAtribute,PipelineNodeComponent,PipelineNodeDirective,PipelineNodeEditComponent,PipelineNodeNewComponent,PipelineService} from './pipeline/index'
+
 import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
 import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component';
 import { MyProfileComponent } from './user-management/my-profile/my-profile.component';
 import { UserProfileComponent } from './user-management/user-profile/user-profile.component';
-import { PipelineComponent } from './pipeline/pipeline.component';
-import { PipelineNodeComponent } from './pipeline/pipeline-node/pipeline-node.component';
-import { PipelineNodeEditComponent } from './pipeline/pipeline-node-edit/pipeline-node-edit.component';
-import { PipelineNodeNewComponent } from './pipeline/pipeline-node-new/pipeline-node-new.component';
-import { PipelineDirective } from './pipeline/pipeline.directive';
 
 @NgModule({
   declarations: [
@@ -84,7 +83,8 @@ import { PipelineDirective } from './pipeline/pipeline.directive';
     PipelineNodeComponent,
     PipelineNodeEditComponent,
     PipelineNodeNewComponent,
-    PipelineDirective
+    PipelineDirective,
+    PipelineNodeDirective
   ],
   imports: [
     BrowserModule,

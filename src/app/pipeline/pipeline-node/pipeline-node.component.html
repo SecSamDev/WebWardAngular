@@ -1,3 +1,9 @@
 <!-- class="btn" para clicks class="draggable" para mover-->
-<svg:rect #content class="draggable" *ngIf="node" [attr.x]="node.x" [attr.y]="node.y"  width="512" height="200"  (click)="selectElement()" />
-<svg:text [attr.x]="node.x + 10" [attr.y]="node.y + 10" fill="red">{{node.name}}</svg:text>
+<svg:svg [attr.x]="node.x" [attr.y]="node.y" [attr.height]="node.height+20" [attr.width]="node.width+20">
+    <svg:rect [pipeline-node-directive]="node" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" #content class="pipe-card"
+        *ngIf="node" x="10" y="10" [attr.height]="node.height" [attr.width]="node.width" rx="20" ry="20" (click)="selectElement()"
+        [attr.stroke]="node.selected ? 'green' :'black'" stroke-width="1.5"
+    />
+    <svg:text [attr.x]="30" [attr.y]="35" fill="red"font-family="Arial" font-size="30">{{node.name}}</svg:text>
+    <svg:circle [attr.cx]="node.width/2 + 10" [attr.cy]="node.height + 10" r="10" fill="red" stroke="black" stroke-width="1">{{node.name}}</svg:circle>
+</svg:svg> 
