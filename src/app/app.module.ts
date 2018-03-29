@@ -52,7 +52,10 @@ import {
   PipelineNodeNewComponent, 
   PipelineService,
   NodeResizeDirective,
-  NodePipeMeDirective
+  NodePipeMeDirective,
+  PipelineEditComponent,
+  PipelineNewComponent,
+  HosePipeService
 } from './pipeline/index'
 
 import { ContainerComponent } from './container/container.component';
@@ -97,7 +100,9 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     PipelineDirective,
     PipelineNodeDirective,
     NodeResizeDirective,
-    NodePipeMeDirective
+    NodePipeMeDirective,
+    PipelineEditComponent,
+    PipelineNewComponent
   ],
   imports: [
     BrowserModule,
@@ -119,6 +124,7 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     UserService,
     EnvironmentService,
     ScanCheckService,
+    HosePipeService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

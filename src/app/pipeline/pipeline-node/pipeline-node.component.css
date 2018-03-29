@@ -1,8 +1,10 @@
 .pipe-card {
-  fill-opacity:0.3;
+  fill-opacity:0.6;
+  fill:#909090;
 }
 .pipe-card-head {
-  fill-opacity:0.8;
+  fill-opacity:0.6;
+  fill:#848077;
 }
 .pipe-card-vert {
   fill-opacity:0;

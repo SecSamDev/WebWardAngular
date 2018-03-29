@@ -1,5 +1,8 @@
 import { Directive, HostListener, ElementRef, Input, HostBinding } from '@angular/core';
-import { PipelineNode } from '../node';
+import { PipelineNode,minHeight,minWidth } from '../node';
+
+
+
 @Directive({
   selector: 'svg:rect[node-resize-directive]'
 })
@@ -33,16 +36,22 @@ export class NodeResizeDirective {
   }
   @HostListener('mousemove', ['$event']) onMouseMove(event) {
     if (this.node.selected && event.target == this.el.nativeElement) {
-      this.moveElement(event.clientX, event.clientY)
+      this.resizeElement(event.clientX, event.clientY)
       this.lastX = event.clientX;
       this.lastY = event.clientY;
     }
 
   }
-  private moveElement(x: number, y: number) {
+  private resizeElement(x: number, y: number) {
     
     const rect = this.el.nativeElement.getBoundingClientRect();
     this.node.width += (x - this.lastX) * this.propX;
     this.node.height += (y - this.lastY) * this.propY;
+    if(this.node.width < minWidth){
+      this.node.width = minWidth;
+    }
+    if(this.node.height < minHeight){
+      this.node.height = minHeight;
+    }
   }
 }

@@ -1,3 +1,8 @@
+import {PIPE_TAGS} from './pipe-tags'
+
+export const minHeight = 200;
+export const minWidth = 150;
+
 /**
  * This class allows us to create a graphical system to create dynamical pipelines
  */
@@ -10,6 +15,10 @@ export class PipelineNode{
      * Tag for this node, private name for the system. Must be unique
      */
     tag : string;
+    /**
+     * Pipe Type of this node like START or NOTIFY_ERR
+     */
+    type : string = PIPE_TAGS.ANY;
     /**
      * Database identificator
      */
@@ -96,3 +105,18 @@ export class PipelineNodeAtribute{
      */
     depends_value : string;
 }
+
+export const NODE_ATTR = {
+    string : 'STRING',
+    number : 'NUMBER',
+    url : 'URL',
+    boolean : 'BOOLEAN',
+    select : 'SELECT',
+    time : 'TIME',
+    folder : 'FOLDER',
+    file : 'FILE',
+    error : 'ERROR',
+    SCAN_REPORT : 'SCAN_REPORT',
+    ip : 'IP',
+    port : 'PORT'
+ }

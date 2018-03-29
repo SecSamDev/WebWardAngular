@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { PipelineNode } from './node';
-
+import {HosePipe,HosePipeService} from './hose-pipe.service';
+import { share } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-pipeline',
   templateUrl: './pipeline.component.html',
@@ -12,22 +14,26 @@ export class PipelineComponent implements OnInit, AfterViewInit {
    * The node that is selected. Only for do changes in active node
    */
   private selectedNode: PipelineNode = null;
-
+  private letItBe: boolean = true;
+  private hosePipe : HosePipe;
   /**
    * The node active, changes goes to this node
    */
   private activeNode: PipelineNode = null;
-  height = 2048;
+  height = 1280;
   width = 2048;
   radius = 40;
   propX = 1;
   propY = 1;
   dx = 0;
   dy = 0;
+  lastX : number = 0;
+  lastY : number = 0;
   @ViewChild('pipeCanvas') public pipeCanvas: ElementRef;
-  constructor() {
+  constructor(private hosePipeService : HosePipeService) {
     let aux = new PipelineNode();
     aux.name = "pipe1";
+    aux.type = "START";
     aux.x = 0;
     aux.y = 0;
     let aux2 = new PipelineNode();
@@ -43,12 +49,13 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this._nodes.push(aux);
     this._nodes.push(aux2);
     this._nodes.push(aux3);
+    this.hosePipe = this.hosePipeService.getHosePipe();
   }
   ngAfterViewInit() {
-    try{
+    try {
       this.reCalculate()
-    }catch(err){}
-    
+    } catch (err) { }
+
   }
   ngOnInit() {
     this.reCalculate()
@@ -62,25 +69,69 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this._nodes = nodes;
   }
   handleNodeClick(event: PipelineNode) {
-    console.log("Handle node click: " + event.name + " " + event.x + " " + event.y)
+    //If double click in less than 1 sec then set as active node
+    setTimeout(() => {
+      this.letItBe = false;
+    }, 1000);
+    if (this.selectedNode === event && this.letItBe) {
+      this.activeNode = event;
+      this.selectedNode = null;
+    } else {
+      if (this.activeNode === event) {
+        this.activeNode = null
+      }
+      this.selectedNode = event;
+      this.letItBe = true;
+
+    }
+
   }
-  handleZoom(delta : number) {
-    this.height *= (1+delta);
-    this.width *= (1+delta);
-    this.reCalculate(); 
+  /**
+   * Zoom in and out from the canvas
+   * @param delta 
+   */
+  handleZoom(delta: number) {
+    this.height *= (1 + delta);
+    this.width *= (1 + delta);
+    this.reCalculate();
   }
-  handleMove(xY : number[]){
+  /**
+   * Moves the canvas
+   * @param xY 
+   */
+  handleMove(xY: number[]) {
     this.dx += xY[0];
     this.dy += xY[1];
   }
-  handleMoveX(delta : number) {
-    this.dx += delta;
+  /**
+   * Give us the position of the mouse
+   */
+  handleMousePos(event) {
+    if(event.evnt === 'mousemove'){
+      if(this.lastX === 0 && this.lastY === 0){
+
+      }else{
+        this.hosePipeService.setPos((event.x -this.lastX)*this.propX, (event.y -this.lastY)*this.propY)
+      }
+      this.lastX = event.x;
+      this.lastY = event.y;
+    }
+    
   }
-  handleMoveY(delta : number) {
-    this.dy += delta;
+  /**
+   * Moves the canvas to allow the node to be in the center
+   * @param node 
+   */
+  focusNode(node : PipelineNode){
+    try {
+      const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
+      this.dx += rect.width*this.propX/2 - this.dx - node.x -node.width/2;
+      this.dy += rect.height*this.propY/2 - this.dy - node.y -node.height/2;
+      this.selectedNode = node;
+    } catch (err) { }
   }
 
-  private reCalculate(){
+  private reCalculate() {
     try {
       const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
       this.propX = this.height / rect.height;
