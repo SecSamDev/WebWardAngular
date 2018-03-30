@@ -1,5 +1,4 @@
 import { Directive, HostListener, ElementRef, Input, HostBinding } from '@angular/core';
-import { Subscriber } from 'rxjs/Subscriber';
 import { Subscription } from 'rxjs/Subscription';
 import { PipelineNode } from './node';
 import {PipelineMouseService} from './pipeline-mouse.service'
