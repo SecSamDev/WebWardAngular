@@ -7,8 +7,7 @@ import 'rxjs/add/operator/map'
 import { AppSettings } from '../appSettings';
 import { AlertService } from '../alert/alert.service';
 
-import { PipelineNode, PipelineNodeAtribute } from './node';
-import { PIPE_TAGS } from './pipe-tags';
+import { PipelineNode, PipelineNodeAtribute,PIPE_TAGS } from './node';
 
 @Injectable()
 export class PipelineMouseService {

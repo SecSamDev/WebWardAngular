@@ -13,18 +13,20 @@ import {PipelineNewComponent} from './pipeline-new/pipeline-new.component'
 import {PipelineNodeComponent} from './pipeline-node/pipeline-node.component'
 import {PipelineNodeEditComponent} from './pipeline-node-edit/pipeline-node-edit.component'
 import {PipelineNodeNewComponent} from './pipeline-node-new/pipeline-node-new.component'
-import {PipelineNodeDirective} from './pipeline-node.directive'
+import {NodeMoveDirective} from './pipeline-node/node-move.directive'
 import {NodeResizeDirective} from './pipeline-node/node-resize.directive'
 import {NodePipeMeDirective} from './pipeline-node/node-pipeme.directive'
 import{HosePipeService} from './hose-pipe.service'
 import {PipelineMouseService} from './pipeline-mouse.service'
+import {NodeConectorComponent} from './pipeline-node/node-conector.component'
+
 export {
     PipelineNode,
     PipelineNodeAtribute,
     PipelineNodeComponent,
     PipelineNodeEditComponent,
     PipelineNodeNewComponent,
-    PipelineNodeDirective,
+    NodeMoveDirective,
     PipelineComponent,
     PipelineDirective,
     PipelineService,
@@ -33,5 +35,6 @@ export {
     PipelineNewComponent,
     PipelineEditComponent,
     HosePipeService,
-    PipelineMouseService
+    PipelineMouseService,
+    NodeConectorComponent
 }

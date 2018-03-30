@@ -2,8 +2,8 @@
   <h1 class="h2">Pipeline Visual Editor</h1>
   <div class="btn-toolbar mb-2 mb-md-0">
     <div ngbDropdown class="dropdown">
-      <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
+      <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
         Focus On Node
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -19,7 +19,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-9 col-md-8 col-sm-12" (window:resize)="onResize($event)">
-      <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" width="100%" height="100%" (mousedown)="onMouseDown($event)" (mouseleave)="onMouseLeave($event)" (mouseup)="onMouseUp($event)" (mousemove)="onMouseMove($event)"> 
+      <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" width="100%" height="100%" (mousedown)="onMouseDown($event)"
+        (mouseleave)="onMouseLeave($event)" (mouseup)="onMouseUp($event)" (mousemove)="onMouseMove($event)">
         <defs>
           <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" />
@@ -30,32 +31,45 @@
           </pattern>
         </defs>
         <svg:g x="0" y="0">
-            <svg:path stroke="green" stroke-width="3" fill="none" [attr.d]="'M ' + (dx + hosePipe.ox) + ',' + (hosePipe.oy + dy)
-            + ' L '+(dx + hosePipe.x) + ',' +(dy + hosePipe.y)"/>
-            <!-- [attr.cx]="node.width/2 +20" [attr.cy]="node.height +20" -->
-          </svg:g>
+          <svg:path stroke="green" stroke-width="3" fill="none" [attr.d]="'M ' + (dx + hosePipe.origin.x ) + ',' + (hosePipe.origin.y )
+            + ' L '+(dx + hosePipe.x ) + ',' +(dy + hosePipe.y )" />
+        </svg:g>
+
         <svg:g x="0" y="0" *ngFor="let node of _nodes">
-          <svg:g x="0" y="0" *ngFor="let stdOut of node.outputNodes">
-            <svg:path stroke="green" stroke-width="3" fill="none" [attr.d]="'M ' + (node.x + dx + node.width + 20) + ',' + (node.y + dy + node.height/4 +20)
-            + ' C '+ ((node.x + dx + node.width + 20)-(node.x  + node.width -stdOut.x )/2) + ',' +(node.y + dy + node.height/4 +20)
-            + ' ' + ((node.x + dx + node.width + 20)-(node.x + node.width-stdOut.x)/2)  + ',' +(stdOut.y + dy + stdOut.height/2 +20)  
-            + ' '+ (stdOut.x + dx + 20) + ',' + (stdOut.y + dy + stdOut.height/2 +20)" />
-            <!-- [attr.cx]="node.width/2 +20" [attr.cy]="node.height +20" -->
+          <svg:g x="0" y="0" *ngFor="let outCon of node.outputConectors">
+            <svg:g x="0" y="0" *ngFor="let conex of outCon.conectedNodes">
+              <svg:path stroke="green" stroke-width="3" fill="none" [attr.d]="'M ' + (node.x + dx + outCon.x) + ',' + (node.y + dy + outCon.y)
+                + ' C '+ ((node.x + dx + outCon.x)-(node.x  + outCon.x - conex.x -conex.originNode.x)/2) + ',' +(node.y + dy + outCon.y)
+                + ' ' + ((node.x + dx + outCon.x)-(node.x  + outCon.x - conex.x -conex.originNode.x)/2)  + ',' +(conex.y + dy + conex.originNode.y)  
+                + ' '+ (conex.x + dx + conex.originNode.x) + ',' + (conex.y + dy + conex.originNode.y) " />
+            </svg:g>
+
           </svg:g>
+          <svg:g x="0" y="0" *ngFor="let outCon of node.errorConectors">
+            <svg:g x="0" y="0" *ngFor="let conex of outCon.conectedNodes">
+              <svg:path stroke="green" stroke-width="3" fill="none" [attr.d]="'M ' + (node.x + dx + outCon.x) + ',' + (node.y + dy + outCon.y)
+                + ' C '+ ((node.x + dx + outCon.x)-(node.x  + outCon.x - conex.x -conex.originNode.x)/2) + ',' +(node.y + dy + outCon.y)
+                + ' ' + ((node.x + dx + outCon.x)-(node.x  + outCon.x - conex.x -conex.originNode.x)/2)  + ',' +(conex.y + dy + conex.originNode.y)  
+                + ' '+ (conex.x + dx + conex.originNode.x) + ',' + (conex.y + dy + conex.originNode.y) " />
+            </svg:g>
+
+          </svg:g>
+          <!--
           <svg:g x="0" y="0" *ngFor="let stdErr of node.errorNodes">
             <svg:path stroke="red" stroke-width="3" fill="none" [attr.d]="'M ' + (node.x + dx + node.width +20) + ',' + (node.y + dy + node.height*3/4 +20)
             + ' C '+ ((node.x + dx + node.width + 20)-(node.x + node.width -stdErr.x )/2) + ',' +(node.y + dy + node.height*3/4 +20)
             + ' ' + ((node.x + dx + node.width + 20)-(node.x + node.width -stdErr.x )/2) + ',' +(stdErr.y + dy + stdErr.height/2 +20)  + ' '+ (stdErr.x + dx + 20) + ',' + (stdErr.y + dy + stdErr.height/2 +20)"
             />
           </svg:g>
+          -->
         </svg:g>
+
         <!-- (mouseEvnt)="handleMousePos($event)" -->
-        <svg:rect width="100%" height="100%" fill="url(#grid)" pipeline-directive (movEmit)="handleMove($event)" (zoom)="handleZoom($event)" 
+        <svg:rect width="100%" height="100%" fill="url(#grid)" pipeline-directive (movEmit)="handleMove($event)" (zoom)="handleZoom($event)"
         />
         <!-- SVG is not HTML is XML so use attribute instead of element [attr.height]="height" [attr.width]="width"-->
-        <svg:g draggable="false" pipeline-node x="0" y="0" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" *ngFor="let node of _nodes"
-          [node]="node" (nodeClicked)="handleNodeClick($event)" />
-
+        <svg:svg pipeline-node *ngFor="let node of _nodes" [node]="node" (nodeClicked)="handleNodeClick($event)" [attr.x]="node.x + dx"
+          [attr.y]="node.y + dy" [attr.height]="node.height" [attr.width]="node.width"></svg:svg>
       </svg>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">

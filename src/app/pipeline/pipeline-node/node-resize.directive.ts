@@ -31,11 +31,13 @@ export class NodeResizeDirective {
             this.node.height = minHeight;
           }
         }
+        this.node.recalculate();
         lastX = event.x;
         lastY = event.y;
       } else if (event.name === "mouseup") {
         this.node.width += (event.x - lastX);
         this.node.height += (event.y - lastY);
+        this.node.recalculate();
         subscription.unsubscribe();
       } else if (event.name === "mouseleave") {
         subscription.unsubscribe();

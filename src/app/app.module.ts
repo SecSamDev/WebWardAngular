@@ -47,7 +47,7 @@ import {
   PipelineDirective, 
   PipelineNodeAtribute, 
   PipelineNodeComponent, 
-  PipelineNodeDirective, 
+  NodeMoveDirective, 
   PipelineNodeEditComponent, 
   PipelineNodeNewComponent, 
   PipelineService,
@@ -56,7 +56,8 @@ import {
   PipelineEditComponent,
   PipelineNewComponent,
   HosePipeService,
-  PipelineMouseService
+  PipelineMouseService,
+  NodeConectorComponent
 } from './pipeline/index'
 
 import { ContainerComponent } from './container/container.component';
@@ -99,11 +100,12 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     PipelineNodeEditComponent,
     PipelineNodeNewComponent,
     PipelineDirective,
-    PipelineNodeDirective,
+    NodeMoveDirective,
     NodeResizeDirective,
     NodePipeMeDirective,
     PipelineEditComponent,
-    PipelineNewComponent
+    PipelineNewComponent,
+    NodeConectorComponent
   ],
   imports: [
     BrowserModule,

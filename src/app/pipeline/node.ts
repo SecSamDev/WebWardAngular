@@ -1,12 +1,29 @@
-import {PIPE_TAGS} from './pipe-tags'
-
 export const minHeight = 200;
 export const minWidth = 150;
-
+export const PIPE_TAGS  = {
+    START : "START",
+    INTEGRATION : "INTEGRATION",
+    BUILDER : "BUILDER",
+    DEPLOYER : "DEPLOYER",
+    CHECKER : "CHECKER",
+    ERROR_NOTIFIER : "ERROR_NOTIFIER",
+    REPORT_NOTIFIER : "REPORT_NOTIFIER",
+    ANY : "ANY"
+}
+export const IO_TYPES = {
+  INPUT: 0,
+  OUTPUT: 1,
+  ERR: 2
+}
 /**
  * This class allows us to create a graphical system to create dynamical pipelines
  */
 export class PipelineNode{
+    constructor(name : string,tag: string,type : string = PIPE_TAGS.ANY){
+        this.name = name;
+        this.tag = tag;
+        this.type = type;
+    }
     /**
      * Name of the node, like a nickname
      */
@@ -22,11 +39,11 @@ export class PipelineNode{
     /**
      * Database identificator
      */
-    id: string;
+    id: string = "";
     /**
      * For what pipe?
      */
-    pipe : string;
+    pipe : string = "";
     /**
      * Internal properties for the node
      */
@@ -36,22 +53,17 @@ export class PipelineNode{
      * Dont needed
      */
     //inputNodes : PipelineNode[];
+    inputConectors : NodeConector[] = [];
+    outputConectors : NodeConector[] = [];
+    errorConectors : NodeConector[] = [];
     /**
      * Parameters that needs this node
      */
     inputParams : PipelineNodeAtribute[] = [];
     /**
-     * If the pipeline node is passed then send the result to the next node or nodes.
-     */
-    outputNodes : any = [];
-    /**
      * Parameters that this node sends to the next
      */
     outputParams : PipelineNodeAtribute[] = [];
-    /**
-     * If this pipeline node fails then send the result to the nexxt error node
-     */
-    errorNodes : any= [];
     /**
      * Parameters to pass to the error nodes.
      */
@@ -67,6 +79,53 @@ export class PipelineNode{
     y : number = 1;
     height : number = 300;
     selected : boolean = false;
+    public createInputConector() : NodeConector{
+        let con = new NodeConector();
+        con.originNode = this;
+        con.type = IO_TYPES.INPUT;
+        this.inputConectors.push(con)
+        this.calculatePosInputConectors();
+        return con;
+    }
+    public createOutputConector() : NodeConector{
+        let con = new NodeConector();
+        con.originNode = this;
+        con.type = IO_TYPES.OUTPUT;
+        this.outputConectors.push(con)
+        this.calculatePosOutputConectors();
+        return con;
+    }
+    public createErrorConector() : NodeConector{
+        let con = new NodeConector();
+        con.originNode = this;
+        con.type = IO_TYPES.ERR;
+        this.errorConectors.push(con)
+        this.calculatePosErrorConectors();
+        return con;
+    }
+    private calculatePosInputConectors(){
+        for(let i = 0; i < this.inputConectors.length; i++){
+            this.inputConectors[i].x = 11;
+            this.inputConectors[i].y = (i+1)*this.height/(this.inputConectors.length + 1);
+        }
+    }
+    private calculatePosOutputConectors(){
+        for(let i = 0; i < this.outputConectors.length; i++){
+            this.outputConectors[i].x = this.width-11;
+            this.outputConectors[i].y = (i+1)*(this.height/2)/(this.outputConectors.length + 1);
+        }
+    }
+    private calculatePosErrorConectors(){
+        for(let i = 0; i < this.errorConectors.length; i++){
+            this.errorConectors[i].x = this.width-11;
+            this.errorConectors[i].y = ((i+1)*(this.height/2)/(this.errorConectors.length + 1)) + this.height/2;
+        } 
+    }
+    recalculate(){
+        this.calculatePosInputConectors();
+        this.calculatePosOutputConectors();
+        this.calculatePosErrorConectors();
+    }
 }
 /**
  * Atributes for a pipeline node
@@ -120,3 +179,10 @@ export const NODE_ATTR = {
     ip : 'IP',
     port : 'PORT'
  }
+export class NodeConector{
+    x : number = 11;
+    y : number = 11;
+    type : number = 0;
+    originNode : PipelineNode = null;
+    conectedNodes : NodeConector[] = [];
+}

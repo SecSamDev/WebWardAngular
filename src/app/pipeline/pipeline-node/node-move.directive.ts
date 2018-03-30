@@ -1,13 +1,13 @@
 import { Directive, HostListener, ElementRef, Input, HostBinding } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { PipelineNode } from './node';
-import {PipelineMouseService} from './pipeline-mouse.service'
+import { PipelineNode } from '../node';
+import {PipelineMouseService} from '../pipeline-mouse.service'
 @Directive({
-  selector: 'svg:rect[pipeline-node-directive]'
+  selector: 'svg:rect[node-move-directive]'
 })
-export class PipelineNodeDirective {
+export class NodeMoveDirective {
   //Se necesita saber las propiedades del nodo
-  @Input('pipeline-node-directive') node: PipelineNode;
+  @Input('node-move-directive') node: PipelineNode;
   // Tambien la proporcion en el eje X (Global Position vs Local Position)
   constructor(private el: ElementRef,private pipMouseService : PipelineMouseService) {
   }
@@ -20,18 +20,27 @@ export class PipelineNodeDirective {
         if(lastX === 0 && lastY === 0){
 
         }else{
-          this.node.x += (event.x - lastX);
-          this.node.y += (event.y - lastY);
+          this.moveNode((event.x - lastX),(event.y - lastY));
         }
         lastX = event.x;
         lastY = event.y;
       }else if(event.name === "mouseup"){
-        this.node.x += (event.x - lastX);
-          this.node.y += (event.y - lastY);
+        this.moveNode((event.x - lastX),(event.y - lastY));
         subscription.unsubscribe();
       }else if(event.name === "mouseleave"){
         subscription.unsubscribe();
       }
     })
+  }
+  /**
+   * Moves the node. Protects the movement from draganddrop errors
+   * @param difX 
+   * @param difY 
+   */
+  moveNode(difX : number,difY : number){
+    if(difX < 200 && difX < 200){
+      this.node.x += difX;
+          this.node.y += difY;
+    }
   }
 }

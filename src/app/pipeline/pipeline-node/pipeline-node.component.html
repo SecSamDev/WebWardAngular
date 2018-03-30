@@ -1,48 +1,46 @@
-<!-- class="btn" para clicks class="draggable" para mover-->
-<svg:svg [attr.x]="node.x + dx" [attr.y]="node.y + dy" [attr.height]="node.height+60" [attr.width]="node.width+60">
-
-    <svg:rect #content class="pipe-card" x="20" y="20" [attr.height]="node.height" [attr.width]="node.width" rx="20" ry="20"
-        [attr.stroke]="node.selected ? 'green' :'black'" stroke-width="1.5" />
-    <!---->
-    <svg:svg x="20" y="20" height="60" [attr.width]="node.width">
-        <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H' + (node.width-20) + ' Q' + (node.width) + ' 1 ' + (node.width) + ' 21' + ' V40z'"
-            class="pipe-card-head" />
-        <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H41 V40z'" fill="green" stroke="black" sroke-width="1.5" />
-        <svg:text [attr.x]="50" [attr.y]="30" fill="black" font-family="Arial" font-size="30">{{node.name}}</svg:text>
-    </svg:svg>
-    <svg:svg x="20" y="60" [attr.height]="node.height - 40" [attr.width]="node.width">
-        <!-- Aqui ira el contenido. Solo los parametros que acepta de entrada del nodo que recibe -->
-    </svg:svg>
-    <svg:rect [pipeline-node-directive]="node" #content class="pipe-card-move"
-        *ngIf="node" x="10" y="10" [attr.height]="node.height - 20" [attr.width]="node.width - 20" rx="20" ry="20" (click)="selectElement()"
-    />
-    <svg:circle *ngIf="node.type !== 'START'" [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="0" [attr.cx]="20"
-        [attr.cy]="node.height/2 +20" r="10" fill="green" stroke="black" stroke-width="1" style="cursor:crosshair;" />
-    <svg:circle [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="1" [attr.cx]="node.width +20" [attr.cy]="node.height/4 +20"
-        r="10" fill="blue" stroke="black" stroke-width="1" style="cursor:crosshair;" />
-    <svg:circle [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="2" [attr.cx]="node.width +20" [attr.cy]="node.height*3/4 +20"
-        r="10" fill="red" stroke="black" stroke-width="1" style="cursor:crosshair;" />
-    <!-- Scale Diag BOT-RIGHT-->
-    <svg:path [attr.d]="'M' + (node.width+10) + ' ' + (node.height-10) + ' V' + (node.height+10) + ' H' + (node.width-10) +'z'"
-        fill="black" stroke="black" sroke-width="1" />
-    <svg:rect [node-resize-directive]="node" class="pipe-card-diag-left" [attr.x]="node.width-15"
-        [attr.y]="node.height-15" height="70" width="70" />
-
-
-
-
-    <!-- Scale  <svg:rect class="pipe-card-vert" x="20" y="0" height="20" [attr.width]="node.width" />vert Superior-->
-
-    <!-- Scale <svg:rect class="pipe-card-diag-left" x="0" y="0" height="20" width="20" /> Diag TOP-LEFT-->
-
-    <!-- Scale <svg:rect class="pipe-card-horiz" x="0" y="20" [attr.height]="node.height" width="20" /> Horiz Left-->
-
-    <!-- Scale <svg:rect class="pipe-card-diag-right" [attr.x]="node.width + 20" y="0" height="20" width="20" /> Diag TOP-RIGHT-->
-
-    <!-- Scale  <svg:rect class="pipe-card-horiz" [attr.x]="node.width +20" y="20" [attr.height]="node.height" width="20" /> Horiz Right-->
-
-    <!-- Scale  <svg:rect class="pipe-card-vert" x="20" [attr.y]="node.height + 20" height="20" [attr.width]="node.width" />  vert Inferior -->
-
-
-    <!-- Scale  <svg:rect class="pipe-card-diag-right" x="0" [attr.y]="node.height + 20" height="20" width="20" /> Diag BOT-LEFT-->
+<svg:rect #content class="pipe-card" x="10" y="10" [attr.height]="node.height-20" [attr.width]="node.width-20" rx="20" ry="20"
+    [attr.stroke]="node.selected ? 'green' :'black'" stroke-width="1.5" />
+<!---->
+<svg:svg x="10" y="10" height="40" [attr.width]="node.width-20">
+    <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H' + (node.width-40) + ' Q' + (node.width-20) + ' 1 ' + (node.width) + ' 21' + ' V40z'"
+        class="pipe-card-head" />
+    <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H41 V40z'" fill="green" stroke="black" sroke-width="1.5" />
+    <svg:text [attr.x]="50" [attr.y]="30" fill="black" font-family="Arial" font-size="30">{{node.name}}</svg:text>
 </svg:svg>
+<svg:svg x="10" y="40" [attr.height]="node.height - 50" [attr.width]="node.width-20">
+    <!-- Aqui ira el contenido. Solo los parametros que acepta de entrada del nodo que recibe -->
+</svg:svg>
+<svg:rect [node-move-directive]="node" #content class="pipe-card-move" *ngIf="node" x="10" y="10" [attr.height]="node.height - 20"
+    [attr.width]="node.width - 20" rx="20" ry="20" (click)="selectElement()" />
+<svg:g node-conector *ngFor="let conector of node.inputConectors" [conector]="conector">
+
+</svg:g>
+<svg:g node-conector *ngFor="let conector of node.outputConectors" [conector]="conector">
+
+</svg:g>
+<svg:g node-conector *ngFor="let conector of node.errorConectors" [conector]="conector">
+
+</svg:g>
+<!-- Scale Diag BOT-RIGHT-->
+<svg:path [attr.d]="'M' + (node.width-20) + ' ' + (node.height-30) + ' V' + (node.height-20) + ' H' + (node.width-30) +'z'"
+    fill="black" stroke="black" sroke-width="1" />
+<svg:rect [node-resize-directive]="node" class="pipe-card-diag-left" [attr.x]="node.width-40" [attr.y]="node.height-40" height="40"
+    width="40" />
+
+
+
+
+<!-- Scale  <svg:rect class="pipe-card-vert" x="20" y="0" height="20" [attr.width]="node.width" />vert Superior-->
+
+<!-- Scale <svg:rect class="pipe-card-diag-left" x="0" y="0" height="20" width="20" /> Diag TOP-LEFT-->
+
+<!-- Scale <svg:rect class="pipe-card-horiz" x="0" y="20" [attr.height]="node.height" width="20" /> Horiz Left-->
+
+<!-- Scale <svg:rect class="pipe-card-diag-right" [attr.x]="node.width + 20" y="0" height="20" width="20" /> Diag TOP-RIGHT-->
+
+<!-- Scale  <svg:rect class="pipe-card-horiz" [attr.x]="node.width +20" y="20" [attr.height]="node.height" width="20" /> Horiz Right-->
+
+<!-- Scale  <svg:rect class="pipe-card-vert" x="20" [attr.y]="node.height + 20" height="20" [attr.width]="node.width" />  vert Inferior -->
+
+
+<!-- Scale  <svg:rect class="pipe-card-diag-right" x="0" [attr.y]="node.height + 20" height="20" width="20" /> Diag BOT-LEFT-->

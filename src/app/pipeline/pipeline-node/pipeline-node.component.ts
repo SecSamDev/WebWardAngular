@@ -12,10 +12,6 @@ import {PipelineNode,PipelineNodeAtribute} from '../node';
  */
 export class PipelineNodeComponent implements OnInit {
   @Input() node : PipelineNode;
-  @Input() propX: number;
-  @Input() propY: number;
-  @Input() dx: number;
-  @Input() dy: number;
   @Output() nodeClicked = new EventEmitter<PipelineNode>();
   constructor(private el: ElementRef) {
     
@@ -28,6 +24,7 @@ export class PipelineNodeComponent implements OnInit {
   selectElement(){
     console.log("Clicked " + this.node.name)
     this.nodeClicked.emit(this.node);
+    console.log(this.node.outputConectors)
   }
 
 }
