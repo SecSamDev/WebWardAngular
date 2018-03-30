@@ -71,8 +71,10 @@ export class HosePipeService {
     this.hosepipe.y = this.hosepipe.origin.y;
   }
   clean() {
-    this.hosepipe.origin = new NodeConector();
     this.hosepipe.x = 0;
     this.hosepipe.y = 0;
+    this.hosepipe.origin.x = 0;
+    this.hosepipe.origin.y = 0;
+    this.hosepipe.realOrigin = null;
   }
 }

@@ -39,6 +39,7 @@ export class NodePipeMeDirective {
           subscription.unsubscribe();
         } else if (event.name === "mouseleave") {
           subscription.unsubscribe();
+          this.hosePipeService.clean();
         }
       })
     }
