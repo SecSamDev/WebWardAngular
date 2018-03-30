@@ -108,6 +108,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
    */
   handleMousePos(event) {
     if(event.evnt === 'mousemove'){
+      console.log("Mouse move")
       if(this.lastX === 0 && this.lastY === 0){
 
       }else{
@@ -116,6 +117,19 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       this.lastX = event.x;
       this.lastY = event.y;
     }
+    
+  }
+  /**
+   * Give us the position of the mouse
+   */
+  onMouseMove(event) {
+    if(this.lastX === 0 && this.lastY === 0){
+
+      }else{
+        this.hosePipeService.setPos((event.clientX -this.lastX)*this.propX, (event.clientY -this.lastY)*this.propY)
+      }
+      this.lastX = event.clientX;
+      this.lastY = event.clientY;
     
   }
   /**
