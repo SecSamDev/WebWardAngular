@@ -13,7 +13,7 @@
     <svg:svg x="20" y="60" [attr.height]="node.height - 40" [attr.width]="node.width">
         <!-- Aqui ira el contenido. Solo los parametros que acepta de entrada del nodo que recibe -->
     </svg:svg>
-    <svg:rect [pipeline-node-directive]="node" [dy]="dy" [dx]="dx" [propX]="propX" [propY]="propY" #content class="pipe-card-move"
+    <svg:rect [pipeline-node-directive]="node" #content class="pipe-card-move"
         *ngIf="node" x="10" y="10" [attr.height]="node.height - 20" [attr.width]="node.width - 20" rx="20" ry="20" (click)="selectElement()"
     />
     <svg:circle *ngIf="node.type !== 'START'" [node-pipe-me-directive]="node" [propX]="propX" [propY]="propY" [stdType]="0" [attr.cx]="20"

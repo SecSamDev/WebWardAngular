@@ -3,6 +3,7 @@ import { PipelineNode } from './node';
 import {HosePipe,HosePipeService} from './hose-pipe.service';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
+import {PipelineMouseService} from './pipeline-mouse.service'
 @Component({
   selector: 'app-pipeline',
   templateUrl: './pipeline.component.html',
@@ -30,7 +31,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   lastX : number = 0;
   lastY : number = 0;
   @ViewChild('pipeCanvas') public pipeCanvas: ElementRef;
-  constructor(private hosePipeService : HosePipeService) {
+  constructor(private hosePipeService : HosePipeService,private pipMouseService : PipelineMouseService) {
     let aux = new PipelineNode();
     aux.name = "pipe1";
     aux.type = "START";
@@ -114,8 +115,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       }else{
         this.hosePipeService.setPos((event.x -this.lastX)*this.propX, (event.y -this.lastY)*this.propY)
       }
-      this.lastX = event.x;
-      this.lastY = event.y;
+      this.registerMousePos(event.clientX ,event.clientY)
     }
     
   }
@@ -123,14 +123,43 @@ export class PipelineComponent implements OnInit, AfterViewInit {
    * Give us the position of the mouse
    */
   onMouseMove(event) {
+    this.pipMouseService.sendMouseEvent({
+      'name' : 'mousemove',
+      'x' : event.clientX*this.propX,
+      'y' : event.clientY*this.propY
+    });
     if(this.lastX === 0 && this.lastY === 0){
 
       }else{
         this.hosePipeService.setPos((event.clientX -this.lastX)*this.propX, (event.clientY -this.lastY)*this.propY)
       }
-      this.lastX = event.clientX;
-      this.lastY = event.clientY;
-    
+      this.registerMousePos(event.clientX ,event.clientY)
+
+  }
+  private registerMousePos(x : number, y : number){
+    this.lastX = x;
+    this.lastY = y;
+  }
+  onMouseDown(event) {
+    this.pipMouseService.sendMouseEvent({
+      'name' : 'mousedown',
+      'x' : event.clientX*this.propX,
+      'y' : event.clientY*this.propY
+    });
+  }
+  onMouseUp(event) {
+    this.pipMouseService.sendMouseEvent({
+      'name' : 'mouseup',
+      'x' : event.clientX*this.propX,
+      'y' : event.clientY*this.propY
+    });
+  }
+  onMouseLeave(event) {
+    this.pipMouseService.sendMouseEvent({
+      'name' : 'mouseleave',
+      'x' : event.clientX*this.propX,
+      'y' : event.clientY*this.propY
+    });
   }
   /**
    * Moves the canvas to allow the node to be in the center
@@ -144,7 +173,9 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       this.selectedNode = node;
     } catch (err) { }
   }
-
+  print(event){
+    console.log("print")
+  }
   private reCalculate() {
     try {
       const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();

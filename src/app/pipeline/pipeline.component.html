@@ -19,7 +19,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-9 col-md-8 col-sm-12" (window:resize)="onResize($event)">
-      <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" width="100%" height="100%" (mousemove)="onMouseMove($event)"> 
+      <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" width="100%" height="100%" (mousedown)="onMouseDown($event)" (mouseleave)="onMouseLeave($event)" (mouseup)="onMouseUp($event)" (mousemove)="onMouseMove($event)"> 
         <defs>
           <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" />

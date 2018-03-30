@@ -55,7 +55,8 @@ import {
   NodePipeMeDirective,
   PipelineEditComponent,
   PipelineNewComponent,
-  HosePipeService
+  HosePipeService,
+  PipelineMouseService
 } from './pipeline/index'
 
 import { ContainerComponent } from './container/container.component';
@@ -125,6 +126,7 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     EnvironmentService,
     ScanCheckService,
     HosePipeService,
+    PipelineMouseService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
