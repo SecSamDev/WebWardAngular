@@ -18,7 +18,7 @@ import {NodeResizeDirective} from './pipeline-node/node-resize.directive'
 import {NodePipeMeDirective} from './pipeline-node/node-pipeme.directive'
 import{HosePipeService} from './hose-pipe.service'
 import {PipelineMouseService} from './pipeline-mouse.service'
-import {NodeConectorComponent} from './pipeline-node/node-conector.component'
+import {NodeConnectorComponent} from './pipeline-node/node-connector.component'
 
 export {
     PipelineNode,
@@ -36,5 +36,5 @@ export {
     PipelineEditComponent,
     HosePipeService,
     PipelineMouseService,
-    NodeConectorComponent
+    NodeConnectorComponent
 }

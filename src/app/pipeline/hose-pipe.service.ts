@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PipelineNode, NodeConector } from './node';
+import { PipelineNode, NodeConnector } from './node';
 import { AlertService } from '../alert/alert.service'
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -10,14 +10,14 @@ import 'rxjs/add/operator/map'
 
 export class HosePipe {
   /**
-   * El conector de origen. Solo copia valores del origen real, luego es un conector distinto al real.
+   * El connector de origen. Solo copia valores del origen real, luego es un connector distinto al real.
    * Esto es asi para poder renderizar en tiempo real la recta
    */
-  origin: NodeConector;
+  origin: NodeConnector;
   /**
-   * El conector de origen real. Es la referencia al objeto.
+   * El connector de origen real. Es la referencia al objeto.
    */
-  realOrigin: NodeConector;
+  realOrigin: NodeConnector;
   /**
    * Posicion final en el eje x del hosepipe
    */
@@ -41,7 +41,7 @@ export class HosePipeService {
       this.subscriber = observer;
     });
     this.hosepipe = new HosePipe();
-    this.hosepipe.origin = new NodeConector();
+    this.hosepipe.origin = new NodeConnector();
     this.hosepipe.origin.x = 0;
     this.hosepipe.origin.y = 0;
   }
@@ -59,14 +59,14 @@ export class HosePipeService {
 
   }
   //TODO : Desacoplar el sistema por completo
-  setOrigin(conector: NodeConector) {
+  setOrigin(connector: NodeConnector) {
     //FALSIFY the connector
-    this.hosepipe.realOrigin = conector;
-    this.hosepipe.origin.x = conector.x + conector.originNode.x;
-    this.hosepipe.origin.y = conector.y + conector.originNode.y;
-    this.hosepipe.origin.originNode = conector.originNode;
-    this.hosepipe.origin.type = conector.type;
-    //At the moment the x and y target position of the hose pipe are in the same position as the origin conector
+    this.hosepipe.realOrigin = connector;
+    this.hosepipe.origin.x = connector.x + connector.originNode.x;
+    this.hosepipe.origin.y = connector.y + connector.originNode.y;
+    this.hosepipe.origin.originNode = connector.originNode;
+    this.hosepipe.origin.type = connector.type;
+    //At the moment the x and y target position of the hose pipe are in the same position as the origin connector
     this.hosepipe.x = this.hosepipe.origin.x;
     this.hosepipe.y = this.hosepipe.origin.y;
   }

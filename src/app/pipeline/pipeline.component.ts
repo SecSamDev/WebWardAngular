@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
-import { PipelineNode,NodeConector,IO_TYPES,PIPE_TAGS } from './node';
+import { PipelineNode,NodeConnector,IO_TYPES,PIPE_TAGS } from './node';
 import {HosePipe,HosePipeService} from './hose-pipe.service';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import {PipelineMouseService} from './pipeline-mouse.service'
+import { PipelineService} from './pipeline.service'
 @Component({
   selector: 'app-pipeline',
   templateUrl: './pipeline.component.html',
@@ -31,25 +32,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   lastX : number = 0;
   lastY : number = 0;
   @ViewChild('pipeCanvas') public pipeCanvas: ElementRef;
-  constructor(private hosePipeService : HosePipeService,private pipMouseService : PipelineMouseService) {
-    let aux = new PipelineNode("pipe1","my2TAG",PIPE_TAGS.START);
-    let aux2 = new PipelineNode("pipe2","myTAG",PIPE_TAGS.ANY);
-    let aux3 = new PipelineNode("pipe3","myTAG3",PIPE_TAGS.ANY);
-    let out1 = aux.createOutputConector();
-    let in2 = aux2.createInputConector();
-    out1.conectedNodes.push(in2);
-    aux2.createOutputConector();
-    aux2.createErrorConector();
-    aux2.createInputConector();
-    aux3.createInputConector();
-    aux3.createErrorConector();
-    aux2.x = 512;
-    aux2.y = 50;
-    aux3.x = 200;
-    aux3.y = 200;
-    this._nodes.push(aux);
-    this._nodes.push(aux2);
-    this._nodes.push(aux3);
+  constructor(private hosePipeService : HosePipeService,private pipMouseService : PipelineMouseService,private pipService : PipelineService) {
     this.hosePipe = this.hosePipeService.getHosePipe();
   }
   ngAfterViewInit() {
@@ -60,6 +43,10 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.reCalculate()
+    this.pipService.subscribeToNodes().subscribe(data=>{
+      this._nodes = data;
+    })
+    this._nodes = this.pipService.getNodesForPipeline("ha");
 
   }
   get nodes(): PipelineNode[] {
@@ -171,8 +158,13 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       this.selectedNode = node;
     } catch (err) { }
   }
-  print(event){
-    console.log("print")
+  newNode(){
+    let node = new PipelineNode("New Node","tag..","ANY");
+    const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
+    node.x = rect.width*this.propX/2 - this.dx
+    node.y = rect.height*this.propY/2 - this.dy
+    this.pipService.createNodeForPipeline("ha",node)
+    
   }
   private reCalculate() {
     try {

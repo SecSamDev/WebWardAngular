@@ -1,17 +1,17 @@
 import { Component, OnInit,Input,Output, EventEmitter,ElementRef } from '@angular/core';
-import {NodeConector} from '../node';
+import {NodeConnector} from '../node';
 /**
  * SVG Component.
  * Use this component as: 
  * <svg:g pipeline-node  [node]="node"/>
  */
 @Component({
-  selector: 'svg:g[node-conector]',
-  templateUrl: './node-conector.component.html',
-  styleUrls: []
+  selector: 'svg:g[node-connector]',
+  templateUrl: './node-connector.component.html',
+  styleUrls: ['./node-connector.component.css']
 })
-export class NodeConectorComponent implements OnInit {
-  @Input() conector : NodeConector;
+export class NodeConnectorComponent implements OnInit {
+  @Input() connector : NodeConnector;
 
   constructor(private el: ElementRef) {
   }

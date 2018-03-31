@@ -22,9 +22,7 @@ export class PipelineNodeComponent implements OnInit {
 
 
   selectElement(){
-    console.log("Clicked " + this.node.name)
     this.nodeClicked.emit(this.node);
-    console.log(this.node.outputConectors)
   }
 
 }

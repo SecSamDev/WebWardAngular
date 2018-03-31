@@ -12,13 +12,13 @@
 </svg:svg>
 <svg:rect [node-move-directive]="node" #content class="pipe-card-move" *ngIf="node" x="10" y="10" [attr.height]="node.height - 20"
     [attr.width]="node.width - 20" rx="20" ry="20" (click)="selectElement()" />
-<svg:g node-conector *ngFor="let conector of node.inputConectors" [conector]="conector">
+<svg:g node-connector *ngFor="let connector of node.inputConnectors" [connector]="connector">
 
 </svg:g>
-<svg:g node-conector *ngFor="let conector of node.outputConectors" [conector]="conector">
+<svg:g node-connector *ngFor="let connector of node.outputConnectors" [connector]="connector">
 
 </svg:g>
-<svg:g node-conector *ngFor="let conector of node.errorConectors" [conector]="conector">
+<svg:g node-connector *ngFor="let connector of node.errorConnectors" [connector]="connector">
 
 </svg:g>
 <!-- Scale Diag BOT-RIGHT-->
