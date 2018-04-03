@@ -34,9 +34,13 @@
           <input type="text" class="form-control" name="tag" id="nodeTag" placeholder="Node Tag" [(ngModel)]="node.tag">
         </div>
         <div class="btn-group mr-2">
-          <button class="btn btn-sm btn-outline-secondary" (click)="node.createInputConnector()">+Inputs</button>
+          <button class="btn btn-sm btn-outline-secondary" (click)="addInConnector()">+Inputs</button>
           <button class="btn btn-sm btn-outline-secondary" (click)="node.deleteInput()">-Inputs</button>
         </div>
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary" (click)="addOutConnector()">+Output</button>
+            <button class="btn btn-sm btn-outline-secondary" (click)="node.deleteOutput()">-Output</button>
+          </div>
         <dl class="row">
           <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the node">ID</dt>
           <dd class="col-sm-9">{{node.id}}</dd>

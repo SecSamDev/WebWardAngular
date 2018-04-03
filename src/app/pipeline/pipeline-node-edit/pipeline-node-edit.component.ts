@@ -32,7 +32,12 @@ export class PipelineNodeEditComponent implements OnInit {
   }
   sureDelete() {
     this.node.removeMe();
-    this.pipService.removeNodeForPipeline("",this.node);
+    this.pipService.removeNodeForPipeline(this.node).subscribe((data)=>{
+      this.alert.clear();
+      this.alert.success("Deleted")
+    },err=>{
+      this.alert.error("Cant delete")
+    });
     this.activeModal.close('Close click');
   }
   deleteModal(content) {
@@ -46,5 +51,14 @@ export class PipelineNodeEditComponent implements OnInit {
   }
   ngOnChanges() {
     this._node = Object.assign({}, this.node);
+  }
+  addOutConnector(){
+    this.node.createOutputConnector();
+  }
+  addInConnector(){
+    this.node.createInputConnector();
+  }
+  addErrConnector(){
+    this.node.createErrorConnector();
   }
 }
