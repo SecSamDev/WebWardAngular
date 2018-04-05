@@ -60,7 +60,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.pipService.subscribeToPipelines().subscribe((data) => {
       this.pipService.findPipelines().subscribe((data) => {
         this.pipelines = data;
-        this.pipService.getNodesForPipeline(this.actual_pipe.id).subscribe((data) => {
+        this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((data) => {
           this._nodes = data;
         })
       })
@@ -202,7 +202,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   }
   selectPipeline(pipe: Pipeline) {
     this.actual_pipe = pipe;
-    this.pipService.getNodesForPipeline(this.actual_pipe.id).subscribe((nodes) => {
+    this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
       this._nodes = nodes;
     })
   }

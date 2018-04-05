@@ -26,6 +26,9 @@ export class PipelineNodeEditComponent implements OnInit {
   }
   save() {
     this._node = Object.assign({}, this.node);
+    this.pipService.updateNodeForPipeline(this.node).subscribe((data)=>{
+
+    },err=>{})
   }
   cancel() {
     this.node = Object.assign(this.node, this._node);
@@ -42,11 +45,8 @@ export class PipelineNodeEditComponent implements OnInit {
   }
   deleteModal(content) {
     this.modalService.open(content).result.then((result) => {
-      console.log(result)
     }, (reason) => {
-      console.error(reason)
     }).catch(err => {
-      console.error(err)
     });
   }
   ngOnChanges() {

@@ -200,17 +200,12 @@ export class PipelineNode {
             this.inputConnectors[i].conectedNodes = [];
             for (let i_c = 0; i_c < connecteds.length; i_c++) {//Cada conectado a nuestro conector
                 //Obtenemos referencia real al nodo
-                console.log(this.inputConnectors[i].conectedNodes)
                 let pipNode = findNodeInArray(array, connecteds[i_c].originNode ? connecteds[i_c].originNode.id : "");//Nodo conectado
-                console.log("We are conencted to: " + pipNode.id + " " + this.id)
                 if (pipNode !== null) {
                     //conRef = OutputConnectors or ErrorConnectors
                     let conRef = connecteds[i_c].type === 1 ? pipNode.outputConnectors : pipNode.errorConnectors;
-                    console.log(connecteds[i_c])
-                    console.log("Node connected of type: " + connecteds[i_c].type)
                     for (let i_pnc = 0; i_pnc < conRef.length; i_pnc++) {//Buscar conector del nodo conectado
                         if (conRef[i_pnc].id === connecteds[i_c].id) {
-                            console.log("Our connector : " + conRef[i_pnc].conectedNodes.length)
                             //The connector we are searching for
                             this.inputConnectors[i].conectedNodes.push(conRef[i_pnc]);
                             for (let j_conRef = 0; j_conRef < conRef[i_pnc].conectedNodes.length; j_conRef++) {
@@ -226,7 +221,6 @@ export class PipelineNode {
 
             }
         }
-        console.log(this)
     }
 }
 export function pipelineNodeFromJSON(data) {

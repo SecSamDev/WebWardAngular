@@ -20,6 +20,10 @@ export class Pipeline {
      */
     description: string = "";
     /**
+     * Status of the pipeline
+     */
+    status: number = 0;
+    /**
      * When the pipeline was created
      */
     create_date: Date = new Date(Date.now());
