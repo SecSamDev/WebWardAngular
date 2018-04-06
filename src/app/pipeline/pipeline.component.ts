@@ -54,6 +54,10 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.reCalculate()
     this.pipService.findPipelines().subscribe((pipes) => {
       this.pipelines = pipes;
+      if(pipes.length > 0){
+        this.selectPipeline(this.pipelines[0])
+        
+      }
     }, err => {
 
     })
@@ -196,6 +200,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     //this.pipService.
     for (let i = 0; i < this._nodes.length; i++) {
       this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { }, (err) => {
+        console.error(err)
         this.alertService.error((err.error && err.error.message) ? err.error.message : "Cant save nodes")
       })
     }
@@ -204,6 +209,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.actual_pipe = pipe;
     this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
       this._nodes = nodes;
+      console.log(nodes)
     })
   }
   private reCalculate() {

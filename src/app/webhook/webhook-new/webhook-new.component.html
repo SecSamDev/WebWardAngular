@@ -1,0 +1,25 @@
+<form>
+  <div class="card">
+    <div class="card-header">
+      <!--HEADER -->
+      <div class="form-group">
+        <label for="userName">WebHook Name</label>
+        <input type="text" class="form-control" name="name" id="hookName" placeholder="WebHookName" [(ngModel)]="_hook.name">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <select class="custom-select" name="selectPipe" id="selectedPipe" type="string" [ngModel]="selectedPipe" (ngModelChange)="selectPipe($event)">
+          <option *ngFor="let pipe of pipes" [attr.value]="pipe" [selected]="selectedPipe.id===pipe.id">{{pipe.name}}</option>
+        </select>
+        <select class="custom-select" name="node" id="selectNode" [(ngModel)]="_hook.node" type="string">
+          <option *ngFor="let node of nodes" [attr.value]="node.id" [selected]="_hook.node===node.id">{{node.type}}::{{node.name}}</option>
+        </select>
+      </div>
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary" (click)="create()">Create</button>
+        <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</form>

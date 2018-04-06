@@ -66,6 +66,10 @@ import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.com
 import { MyProfileComponent } from './user-management/my-profile/my-profile.component';
 import { UserProfileComponent } from './user-management/user-profile/user-profile.component';
 
+//-------------WEBHOOKS--------------------
+import { WebhookComponent,WebhookNewComponent,WebhookService } from './webhook/index';
+import { WebhookForNodeComponent } from './webhook/webhook-for-node/webhook-for-node.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,7 +109,10 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     NodePipeMeDirective,
     PipelineEditComponent,
     PipelineNewComponent,
-    NodeConnectorComponent
+    NodeConnectorComponent,
+    WebhookComponent,
+    WebhookNewComponent,
+    WebhookForNodeComponent
   ],
   imports: [
     BrowserModule,
@@ -130,6 +137,7 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
     HosePipeService,
     PipelineMouseService,
     PipelineService,
+    WebhookService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

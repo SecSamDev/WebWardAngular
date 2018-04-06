@@ -13,6 +13,7 @@ import { ScanCheckComponent, ScanCheckEditComponent } from './scan-check/index';
 import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component'
 import { MyProfileComponent} from './user-management/my-profile/my-profile.component';
 import { PipelineComponent} from './pipeline/pipeline.component';
+import { WebhookComponent} from './webhook/index'
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'console', component: WebWardConsoleComponent, canActivate: [AuthAdmin] },
   { path: 'profile', component: MyProfileComponent, canActivate: [AuthGuard] },
   { path: 'pipeline', component: PipelineComponent, canActivate: [AuthGuard] },
+  { path: 'webhook', component: WebhookComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }//Redirect to LOGIN
   //INIT path the last because then redirect not loaded
 ];

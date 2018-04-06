@@ -95,6 +95,7 @@ export class PipelineService {
         this.lastSearchNode = Date.now();
         this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id + '/node').map((data: any[]) => {
           let pipes: PipelineNode[] = [];
+          console.log(data)
           let auxPipe: PipelineNode[] = data as PipelineNode[];
           for (let i = 0; i < auxPipe.length; i++) {
             let aux = pipelineNodeFromJSON(auxPipe[i]);
@@ -119,6 +120,9 @@ export class PipelineService {
         observer.complete();
       }
     })
+  }
+  getAllNodesUser(): Observable<PipelineNode[]> {
+    return this.http.get(AppSettings.API_ENDPOINT + 'pipeline/nodes').map(data => data as PipelineNode[]);
   }
   createNodeForPipeline(node: PipelineNode): Observable<any> {
     this.lastSearchNode == this.lastSearchNode - 20000;
@@ -198,13 +202,14 @@ export class PipelineService {
   private addNodeToCache(node: PipelineNode): void {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].id === node.id) {
+        //Node exists so update and end
+        Object.assign(this.nodes[i], node);
+        this._nodes[i] = Object.assign({},node)
         return;
       }
     }
-    let obj = new Object();
     this.nodes.push(node);
-    Object.assign(obj, node)
-    this._nodes.push(obj);
+    this._nodes.push(Object.assign({}, node));
   }
   private findNodesInCache(pipe: Pipeline): PipelineNode[] {
     let retNodes: PipelineNode[] = [];
@@ -237,13 +242,12 @@ export class PipelineService {
     return retNodes;
   }
   private getDiffNodeInCache(node: PipelineNode) {
-    let diff : any = {};
-    Object.assign(diff, node);
+    let diff = Object.assign({},node)
     for (let i = 0; i < this._nodes.length; i++) {
       if (this._nodes[i].id === node.id) {
         let keys = Object.keys(this._nodes[i]);
         for (let j = 0; j < keys.length; j++) {
-          if (this._nodes[i][keys[j]] === node[keys[j]]) {
+          if (deepEqual(this._nodes[i][keys[j]],node[keys[j]])) {
             delete diff[keys[j]];
           }
         }
@@ -261,12 +265,34 @@ export class PipelineService {
   private updateNodeInCache(node: PipelineNode) {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].id === node.id) {
-        Object.assign(this.nodes[i], node);
-        Object.assign(this._nodes[i], node);
+        this.nodes[i] = node;
+        this._nodes[i] = Object.assign({},node)
         return;
       }
     }
   }
 
 }
+function deepEqual(x, y,deep = 4) {
+  if(deep < 0)
+    return true;
+  if (typeof x !== "object" && x === y) {
+    return true;
+  }else if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null)) {
+    if (Object.keys(x).length != Object.keys(y).length)
+      return false;
+    for (var prop in x) {
+      if (y.hasOwnProperty(prop))
+      {  
+        if (! deepEqual(x[prop], y[prop],deep-1))
+          return false;
+      }
+      else
+        return false;
+    }
 
+    return true;
+  }
+  else 
+    return false;
+}

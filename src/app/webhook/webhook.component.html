@@ -1,0 +1,30 @@
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>Web Hooks</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <div>
+          <button type="button" class="btn btn-primary" (click)="newHook()">Create new WebHook</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="tempHook" class="row">
+    <div class="col-sm-12 col-xl-12">
+      <webhook-new [hook]="tempHook"></webhook-new>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="list-group">
+        <select class="custom-select" name="selectedHook" id="selectedHook" [ngModel]="selectedHook" (ngModelChange)="onSelect($event)">
+          <option *ngFor="let hook of hooks" [attr.value]="hook" [selected]="selectedHook.id===hook.id">{{hook.name}}</option>
+        </select>
+      </div>
+      <hr/>
+      <div *ngIf="selectedHook" class="col-sm-12">
+        
+      </div>
+    </div>
+  </div>
+</div>

@@ -167,8 +167,8 @@ export class PipelineNode {
     /**
      * Serialize the object to a JSON format witouth references
      */
-    public toJSON() : any{
-        let ret :any = {};
+    public toJSON(): any {
+        let ret: any = {};
         ret.id = this.id;
         ret.name = this.name;
         ret.type = this.type;
@@ -181,13 +181,13 @@ export class PipelineNode {
         ret.inputParams = this.inputParams;
         ret.outputParams = this.outputParams;
         ret.errorParams = this.errorParams;
-        ret.inputConnectors = this.inputConnectors.map((val,i,arr)=>{
+        ret.inputConnectors = this.inputConnectors.map((val, i, arr) => {
             return val.toJSON();
         })
-        ret.outputConnectors = this.outputConnectors.map((val,i,arr)=>{
+        ret.outputConnectors = this.outputConnectors.map((val, i, arr) => {
             return val.toJSON();
         })
-        ret.errorConnectors = this.errorConnectors.map((val,i,arr)=>{
+        ret.errorConnectors = this.errorConnectors.map((val, i, arr) => {
             return val.toJSON();
         })
         return ret;
@@ -221,6 +221,22 @@ export class PipelineNode {
 
             }
         }
+        this.clean(array);
+    }
+    public clean(array: PipelineNode[]) {
+        for (let i = 0; i < this.inputConnectors.length; i++) {//Cada Conector
+            if (this.inputConnectors[i].conectedNodes.length > 0) {
+                let conecteds = this.inputConnectors[i].conectedNodes;
+                for (let j = 0; j < conecteds.length; j++) {
+                    let node = findNodeInArray(array, conecteds[j].originNode.id);
+                    if (!node) {
+                        this.inputConnectors[i].removeThisConnector(conecteds[j])
+                        j--;
+                    }
+                }
+
+            }
+        }
     }
 }
 export function pipelineNodeFromJSON(data) {
@@ -238,9 +254,9 @@ export function pipelineNodeFromJSON(data) {
     if (data.width && typeof data.width === 'number')
         node.width = data.width;
     node.pipe = data.pipe;
-    node.inputConnectors = connectorsFromJSONarray(data.inputConnectors,0, node);
-    node.outputConnectors = connectorsFromJSONarray(data.outputConnectors,1, node);
-    node.errorConnectors = connectorsFromJSONarray(data.errorConnectors,2, node);
+    node.inputConnectors = connectorsFromJSONarray(data.inputConnectors, 0, node);
+    node.outputConnectors = connectorsFromJSONarray(data.outputConnectors, 1, node);
+    node.errorConnectors = connectorsFromJSONarray(data.errorConnectors, 2, node);
     node.recalculate();
     return node;
 }
@@ -313,11 +329,11 @@ export class NodeConnector {
     /**
      * Serialize the object to a JSON format witouth references
      */
-    public toJSON() : any {
-        let ret : any = {};
+    public toJSON(): any {
+        let ret: any = {};
         ret.id = this.id;
-        ret.conectedNodes = this.conectedNodes.map((val,i,arr)=>{
-            let aux : any = {};
+        ret.conectedNodes = this.conectedNodes.map((val, i, arr) => {
+            let aux: any = {};
             aux.id = val.id;
             aux.type = val.type
             aux.originNode = val.originNode.id;
@@ -333,7 +349,11 @@ export class NodeConnector {
         for (let i = 0; i < this.conectedNodes.length; i++) {//Para cada conector
             if (this.conectedNodes[i] === con) {//encontramos al conector
                 this.conectedNodes.splice(i, 1);
-                con.removeThisConnector(this);
+                con.removeThisConnector(this)
+                break;
+            } else if (this.conectedNodes[i].originNode && this.conectedNodes[i].originNode.pipe === "") {
+                this.conectedNodes.splice(i, 1);
+                con.removeThisConnector(this)
                 break;
             }
         }
@@ -346,7 +366,6 @@ export class NodeConnector {
         if (con.originNode !== this.originNode && con.addConnector(this) && this.addConnector(con)) {
             return true;
         } else {
-            con.removeThisConnector(this);
             this.removeThisConnector(con);
             return false;
         }
@@ -374,27 +393,27 @@ export class NodeConnector {
         return false;
     }
 }
-export function connectorsFromJSONarray(array : any[], type : number,originNode : PipelineNode): NodeConnector[] {
+export function connectorsFromJSONarray(array: any[], type: number, originNode: PipelineNode): NodeConnector[] {
     let nodes: NodeConnector[] = [];
     for (let i = 0; i < array.length; i++) {
-        nodes.push(nodeConnectorFromJSON(array[i], originNode,type))
+        nodes.push(nodeConnectorFromJSON(array[i], originNode, type))
     }
     return nodes;
 }
 
-export function nodeConnectorFromJSON(data, originNode : PipelineNode,type : number): NodeConnector {
+export function nodeConnectorFromJSON(data, originNode: PipelineNode, type: number): NodeConnector {
     let aux = new NodeConnector();
     aux.x = data.x || 0;
     aux.y = data.y || 0;
     aux.id = data.id;
-    aux.type = type; 
+    aux.type = type;
     aux.originNode = originNode;
-    aux.conectedNodes = data.conectedNodes.map((val,i,arr)=>{
+    aux.conectedNodes = data.conectedNodes.map((val, i, arr) => {
         let ret = new NodeConnector();
         ret.id = val.id;
         ret.type = val.type;
-        if(typeof val.originNode === 'string'){
-            ret.originNode = new PipelineNode("","");
+        if (typeof val.originNode === 'string') {
+            ret.originNode = new PipelineNode("", "");
             ret.originNode.id = val.originNode;
         }
         return ret;
