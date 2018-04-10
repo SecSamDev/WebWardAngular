@@ -15,7 +15,9 @@ export class WebhookComponent implements OnInit {
   constructor(private webhookService : WebhookService) { }
 
   ngOnInit() {
+    console.log("Get webhooks pls")
     this.webhookService.getWebHooks().subscribe((webhooks)=>{
+      console.log(webhooks)
       this.hooks = webhooks;
       if(webhooks.length > 0)
           this.selectedHook = webhooks[0];
