@@ -90,6 +90,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       if (this.activeNode === event) {
         this.activeNode = null
       }
+      console.log(event)
       this.selectedNode = event;
       this.letItBe = true;
 
@@ -118,7 +119,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
    */
   handleMousePos(event) {
     if (event.evnt === 'mousemove') {
-      console.log("Mouse move")
       if (this.lastX === 0 && this.lastY === 0) {
 
       } else {

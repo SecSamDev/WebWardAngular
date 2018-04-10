@@ -97,7 +97,7 @@ export class PipelineNode {
         let con = new NodeConnector();
         con.originNode = this;
         con.type = IO_TYPES.INPUT;
-        con.id = this.inputConnectors.length.toString();
+        con.id = Math.random().toString();
         this.inputConnectors.push(con)
         this.calculatePosInputConnectors();
         return con;
@@ -106,7 +106,7 @@ export class PipelineNode {
         let con = new NodeConnector();
         con.originNode = this;
         con.type = IO_TYPES.OUTPUT;
-        con.id = this.outputConnectors.length.toString();
+        con.id = Math.random().toString();
         this.outputConnectors.push(con)
         this.calculatePosOutputConnectors();
         return con;
@@ -115,7 +115,7 @@ export class PipelineNode {
         let con = new NodeConnector();
         con.originNode = this;
         con.type = IO_TYPES.ERR;
-        con.id = this.errorConnectors.length.toString();
+        con.id = Math.random().toString();
         this.errorConnectors.push(con)
         this.calculatePosErrorConnectors();
         return con;
@@ -195,30 +195,43 @@ export class PipelineNode {
     }
     public fillReferences(array: PipelineNode[]) {
         //FIRST INPUT
-        for (let i = 0; i < this.inputConnectors.length; i++) {//Cada Conector
+        for (let i = 0; i < this.inputConnectors.length; i++) {//Cada Conector de entrada nuestro
             let connecteds = this.inputConnectors[i].conectedNodes;
-            this.inputConnectors[i].conectedNodes = [];
+            let us_in_connector = this.inputConnectors[i];//Nuestro conector de entrada
+            us_in_connector.conectedNodes = [];
             for (let i_c = 0; i_c < connecteds.length; i_c++) {//Cada conectado a nuestro conector
+                //El conector unido al nuestro
+                let his_connector_toUs = connecteds[i_c];
                 //Obtenemos referencia real al nodo
-                let pipNode = findNodeInArray(array, connecteds[i_c].originNode ? connecteds[i_c].originNode.id : "");//Nodo conectado
-                if (pipNode !== null) {
+                let pipNode = findNodeInArray(array,his_connector_toUs.originNode ? his_connector_toUs.originNode.id : "");//Nodo conectado
+                if (pipNode) {
                     //conRef = OutputConnectors or ErrorConnectors
-                    let conRef = connecteds[i_c].type === 1 ? pipNode.outputConnectors : pipNode.errorConnectors;
-                    for (let i_pnc = 0; i_pnc < conRef.length; i_pnc++) {//Buscar conector del nodo conectado
-                        if (conRef[i_pnc].id === connecteds[i_c].id) {
-                            //The connector we are searching for
-                            this.inputConnectors[i].conectedNodes.push(conRef[i_pnc]);
-                            for (let j_conRef = 0; j_conRef < conRef[i_pnc].conectedNodes.length; j_conRef++) {
-                                if (conRef[i_pnc].conectedNodes[j_conRef].id === this.inputConnectors[i].id) {
-                                    conRef[i_pnc].conectedNodes[j_conRef] = this.inputConnectors[i];
-                                    break;
-                                }
-                            }
+                    let connectorsOfConectedToUs = his_connector_toUs.type === 1 ? 
+                        pipNode.outputConnectors : his_connector_toUs.type === 2 ? 
+                        pipNode.errorConnectors : [];
+                    let findConector = false;
+                    for (let i_pnc = 0; i_pnc < connectorsOfConectedToUs.length; i_pnc++) {
+                        //Buscar conector del nodo conectado
+                        let outOrErr = connectorsOfConectedToUs[i_pnc];
+                        if (outOrErr.id === his_connector_toUs.id) {
+                            //We exists in the other node
+                            findConector = true;
+                            us_in_connector.addConnector(outOrErr)
+                            outOrErr.addConnector(us_in_connector)
                             break;
                         }
                     }
+                    if(!findConector){//We cant find the connector
+                        console.log(`Not connected to us: ${his_connector_toUs}`)
+                        connecteds.slice(i_c,1);
+                        i_c--;
+                    }
+                }else{
+                    //Nodo no encontrado
+                    console.log("Nodo no encontrado")
+                    connecteds.slice(i_c,1);
+                    i_c--;
                 }
-
             }
         }
         this.clean(array);
@@ -253,11 +266,14 @@ export function pipelineNodeFromJSON(data) {
         node.height = data.height;
     if (data.width && typeof data.width === 'number')
         node.width = data.width;
+    
     node.pipe = data.pipe;
     node.inputConnectors = connectorsFromJSONarray(data.inputConnectors, 0, node);
     node.outputConnectors = connectorsFromJSONarray(data.outputConnectors, 1, node);
     node.errorConnectors = connectorsFromJSONarray(data.errorConnectors, 2, node);
     node.recalculate();
+    if(data.pipe === '')
+        console.log(node)
     return node;
 }
 /**
@@ -367,6 +383,7 @@ export class NodeConnector {
             return true;
         } else {
             this.removeThisConnector(con);
+
             return false;
         }
     }
@@ -374,23 +391,20 @@ export class NodeConnector {
      * Añade un conector a nuestra lista. Devuelve true si lo logra y si no false.
      * @param con 
      */
-    private addConnector(con: NodeConnector): boolean {
-        if (!this.conectedNodes.find((elem) => {
-            if (elem === con) {
-                return true;
-            } else {
+    public addConnector(con: NodeConnector): boolean {
+        for(let i = 0; i < this.conectedNodes.length; i++){
+            if(this.conectedNodes[i].id === con.id){
+                this.conectedNodes[i] = con;
                 return false;
             }
-        })) {
-            if (this.type === IO_TYPES.INPUT && (con.type === IO_TYPES.ERR || con.type === IO_TYPES.OUTPUT)) {
-                this.conectedNodes.push(con);
-                return true;
-            } else if (con.type === IO_TYPES.INPUT && (this.type === IO_TYPES.ERR || this.type === IO_TYPES.OUTPUT)) {
-                this.conectedNodes.push(con);
-                return true;
-            }
         }
-        return false;
+        if (this.type === IO_TYPES.INPUT && (con.type === IO_TYPES.ERR || con.type === IO_TYPES.OUTPUT)) {
+            this.conectedNodes.push(con);
+            return true;
+        } else if (con.type === IO_TYPES.INPUT && (this.type === IO_TYPES.ERR || this.type === IO_TYPES.OUTPUT)) {
+            this.conectedNodes.push(con);
+            return true;
+        }
     }
 }
 export function connectorsFromJSONarray(array: any[], type: number, originNode: PipelineNode): NodeConnector[] {

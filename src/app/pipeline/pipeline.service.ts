@@ -104,6 +104,7 @@ export class PipelineService {
           for (let i = 0; i < pipes.length; i++) {
             pipes[i].fillReferences(pipes)
           }
+          console.log(pipes)
           return pipes;
         }).subscribe(pipes => {
           this.addNodesToCache(pipes);
