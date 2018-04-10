@@ -14,7 +14,8 @@ export class Pipeline {
     /**
      * Name of the pipeline
      */
-    name: String = "";
+    name: string = "";
+    web_project : string = "";
     /**
      * Description of the pipeline
      */

@@ -161,6 +161,17 @@
             </button>
         </div>
     </div>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" type="button" id="dropdownWebProject" (click)="fetchWebProjects()" ngbDropdownToggle>
+            Actual Project: {{actual_project.name}}
+        </button>
+        <div *ngIf="auth.isAuth()" ngbDropdownMenu aria-labelledby="dropdownWebProject">
+
+            <button *ngFor="let proj of projects"class="dropdown-item" (click)="selectProject(proj)">
+                {{proj.name}}
+            </button>
+        </div>
+    </div>
     <a class="navbar-brand" href="#">WebWard</a>
 </nav>
 <div class="container-fluid">

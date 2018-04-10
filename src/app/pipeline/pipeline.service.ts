@@ -7,6 +7,7 @@ import "rxjs/add/observable/of";
 import 'rxjs/add/operator/map'
 import { AppSettings } from '../appSettings';
 import { AlertService } from '../alert/alert.service';
+import { WebProjectService } from '../web-project/index';
 
 import { PipelineNode, PipelineNodeAtribute, pipelineNodeFromJSON } from './node';
 import { PIPE_TAGS } from './node';
@@ -24,13 +25,24 @@ export class PipelineService {
   private pullerObserver: Observable<boolean>;
 
   constructor(private http: HttpClient,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private webProjServ: WebProjectService
   ) {
     this.pullerObserver = new Observable(observer => {
       this.subscriber = observer;
     });
+    this.webProjServ.subscribeToWebProjects().subscribe((data) => {
+      this.clearCache();
+      this.notify();
+    }, err => { })
   }
-
+  clearCache() {
+    this.nodes = [];
+    this._nodes = [];
+    this.pipelines = [];
+    this.lastSearchPipe -= 30000;
+    this.lastSearchNode -= 30000;
+  }
   findPipeline(id: string) {
     return this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + id).map(data => data as Pipeline);
   }
@@ -38,7 +50,7 @@ export class PipelineService {
     return new Observable<Pipeline[]>((observer) => {
       if ((Date.now() - this.lastSearchPipe) > 10000) {
         this.lastSearchPipe = Date.now();
-        this.http.get(AppSettings.API_ENDPOINT + 'pipeline').map(data => data as Pipeline[]).subscribe(data => {
+        this.http.get(AppSettings.API_ENDPOINT + 'pipeline?web_project=' + this.webProjServ.getActualProject().id).map(data => data as Pipeline[]).subscribe(data => {
           this.pipelines = data;
           observer.next(data);
           observer.complete();
@@ -48,15 +60,17 @@ export class PipelineService {
         })
       } else {
         //Return cached data
-        observer.next(this.pipelines);
+        observer.next(this.getPipelinesForWebProject(this.webProjServ.getActualProject().id));
         observer.complete();
       }
     })
   }
   createPipeline(pipeline: Pipeline) {
     this.lastSearchPipe == this.lastSearchPipe - 20000;
-    return new Observable(observer => {
-      this.http.post(AppSettings.API_ENDPOINT + 'pipeline', pipeline, { responseType: 'json' })
+    this.clearCache();
+    pipeline.web_project = this.webProjServ.getActualProject().id;
+    return new Observable<Pipeline>(observer => {
+      this.http.post(AppSettings.API_ENDPOINT + 'pipeline', pipeline, { responseType: 'json' }).map(data => data as Pipeline)
         .subscribe(data => {
           this.notify();
           observer.next(data);
@@ -79,6 +93,7 @@ export class PipelineService {
   }
   deletePipeline(pipeline: Pipeline) {
     this.lastSearchPipe == this.lastSearchPipe - 20000;
+    this.clearCache();
     return new Observable(observer => {
       this.http.delete(AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id, { responseType: 'json' })
         .subscribe(data => {
@@ -91,11 +106,15 @@ export class PipelineService {
   }
   getNodesForPipeline(pipeline: Pipeline): Observable<PipelineNode[]> {
     return new Observable<PipelineNode[]>((observer) => {
-      if ((Date.now() - this.lastSearchNode) > 10000) {
+      if (this.nodesForPipelineInCache(pipeline) && (Date.now() - this.lastSearchNode) < 10000) {
+        //Return cached data
+        console.log("From cache")
+        observer.next(this.findNodesInCache(pipeline));
+        observer.complete();
+      } else {
         this.lastSearchNode = Date.now();
         this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id + '/node').map((data: any[]) => {
           let pipes: PipelineNode[] = [];
-          console.log(data)
           let auxPipe: PipelineNode[] = data as PipelineNode[];
           for (let i = 0; i < auxPipe.length; i++) {
             let aux = pipelineNodeFromJSON(auxPipe[i]);
@@ -104,7 +123,6 @@ export class PipelineService {
           for (let i = 0; i < pipes.length; i++) {
             pipes[i].fillReferences(pipes)
           }
-          console.log(pipes)
           return pipes;
         }).subscribe(pipes => {
           this.addNodesToCache(pipes);
@@ -114,11 +132,6 @@ export class PipelineService {
         }, err => {
           observer.error(err)
         });
-      } else {
-        //Return cached data
-        console.log("From cache")
-        observer.next(this.findNodesInCache(pipeline));
-        observer.complete();
       }
     })
   }
@@ -127,6 +140,7 @@ export class PipelineService {
   }
   createNodeForPipeline(node: PipelineNode): Observable<any> {
     this.lastSearchNode == this.lastSearchNode - 20000;
+    this.clearCache();
     return new Observable(observer => {
       this.http.post(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node', node, { responseType: 'json' })
         .subscribe(data => {
@@ -144,6 +158,7 @@ export class PipelineService {
   }
   removeNodeForPipeline(node: PipelineNode) {
     this.lastSearchNode == this.lastSearchNode - 20000;
+    this.clearCache();
     return new Observable(observer => {
       this.http.delete(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id, { responseType: 'json' })
         .subscribe(data => {
@@ -205,12 +220,20 @@ export class PipelineService {
       if (this.nodes[i].id === node.id) {
         //Node exists so update and end
         Object.assign(this.nodes[i], node);
-        this._nodes[i] = Object.assign({},node)
+        this._nodes[i] = Object.assign({}, node)
         return;
       }
     }
     this.nodes.push(node);
     this._nodes.push(Object.assign({}, node));
+  }
+  private nodesForPipelineInCache(pipe: Pipeline): boolean {
+    for (let i = 0; i < this.nodes.length; i++) {
+      if (this.nodes[i].pipe === pipe.id) {
+        return true;
+      }
+    }
+    return false;
   }
   private findNodesInCache(pipe: Pipeline): PipelineNode[] {
     let retNodes: PipelineNode[] = [];
@@ -242,50 +265,58 @@ export class PipelineService {
     }
     return retNodes;
   }
+  private getPipelinesForWebProject(id: string) {
+    let arr: Pipeline[] = [];
+    for (let i = 0; i < this.pipelines.length; i++) {
+      if (this.pipelines[i].web_project === id) {
+        arr.push(this.pipelines[i])
+      }
+    }
+    return arr;
+  }
   private getDiffNodeInCache(node: PipelineNode) {
-    let diff = Object.assign({},node)
+    let diff = Object.assign({}, node)
     for (let i = 0; i < this._nodes.length; i++) {
       if (this._nodes[i].id === node.id) {
         let keys = Object.keys(this._nodes[i]);
         for (let j = 0; j < keys.length; j++) {
-          if (deepEqual(this._nodes[i][keys[j]],node[keys[j]])) {
+          if (deepEqual(this._nodes[i][keys[j]], node[keys[j]])) {
             delete diff[keys[j]];
           }
         }
         break;
       }
     }
-    if((Object.keys(diff)).length  < 1)
+    if ((Object.keys(diff)).length < 1)
       return null;
-    else{
+    else {
       diff.id = node.id;
       return diff;
     }
-      
+
   }
   private updateNodeInCache(node: PipelineNode) {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].id === node.id) {
         this.nodes[i] = node;
-        this._nodes[i] = Object.assign({},node)
+        this._nodes[i] = Object.assign({}, node)
         return;
       }
     }
   }
 
 }
-function deepEqual(x, y,deep = 4) {
-  if(deep < 0)
+function deepEqual(x, y, deep = 4) {
+  if (deep < 0)
     return true;
   if (typeof x !== "object" && x === y) {
     return true;
-  }else if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null)) {
+  } else if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null)) {
     if (Object.keys(x).length != Object.keys(y).length)
       return false;
     for (var prop in x) {
-      if (y.hasOwnProperty(prop))
-      {  
-        if (! deepEqual(x[prop], y[prop],deep-1))
+      if (y.hasOwnProperty(prop)) {
+        if (!deepEqual(x[prop], y[prop], deep - 1))
           return false;
       }
       else
@@ -294,6 +325,6 @@ function deepEqual(x, y,deep = 4) {
 
     return true;
   }
-  else 
+  else
     return false;
 }

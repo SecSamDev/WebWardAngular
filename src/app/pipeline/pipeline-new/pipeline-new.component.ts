@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
 import {Pipeline} from '../pipeline';
 import {PipelineService} from '../pipeline.service';
 import {AlertService} from '../../alert/alert.service'
@@ -13,6 +13,7 @@ import {AlertService} from '../../alert/alert.service'
 })
 export class PipelineNewComponent implements OnInit {
   @Input()pipe : Pipeline;
+  @Output() completed = new EventEmitter<Pipeline>();
   constructor(private pipService  : PipelineService,private alertService : AlertService) {}
 
   ngOnInit() {
@@ -20,6 +21,7 @@ export class PipelineNewComponent implements OnInit {
   save(){
     this.pipService.createPipeline(this.pipe).subscribe((data)=>{
       this.alertService.success('Suscessfully saved pipeline')
+      return data;
     },err=>{
       this.alertService.warn('message' in err.error ? err.error.message : 'Cant save Pipeline')
     });

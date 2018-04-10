@@ -54,19 +54,43 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.reCalculate()
     this.pipService.findPipelines().subscribe((pipes) => {
       this.pipelines = pipes;
-      if(pipes.length > 0){
+      if (pipes.length > 0) {
         this.selectPipeline(this.pipelines[0])
-        
+
       }
     }, err => {
 
     })
     this.pipService.subscribeToPipelines().subscribe((data) => {
+      console.log("PIP COMP Notif")
       this.pipService.findPipelines().subscribe((data) => {
-        this.pipelines = data;
-        this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((data) => {
-          this._nodes = data;
-        })
+        
+        if (data.length === 0) {
+          this.actual_pipe = new Pipeline();
+          this.actual_pipe.name = "No Selected Pipe";
+          this.pipelines = [];
+          this._nodes = [];
+          this.selectedNode = null;
+          this.activeNode = null;
+        } else {
+          let found = false;
+          this.pipelines = data;
+          console.log("Data:")
+          console.log(data)
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].id === this.actual_pipe.id){
+              found = true;
+              break;
+            }
+          }
+          if(!found){
+            console.log("Not found")
+            this.actual_pipe = data[0];
+          }
+          this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((data) => {
+            this._nodes = data;
+          })
+        }
       })
 
     }, err => { })
@@ -205,11 +229,11 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       })
     }
   }
+
   selectPipeline(pipe: Pipeline) {
     this.actual_pipe = pipe;
     this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
       this._nodes = nodes;
-      console.log(nodes)
     })
   }
   private reCalculate() {

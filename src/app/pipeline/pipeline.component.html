@@ -34,7 +34,7 @@
   </div>
 </div>
 <div class="container-fluid" *ngIf="newPipe">
-  <pipeline-new [pipe]="newPipe"></pipeline-new>
+  <pipeline-new (completed)="selectPipeline($event)" [pipe]="newPipe"></pipeline-new>
 </div>
 <div class="container-fluid">
   <div class="row">
