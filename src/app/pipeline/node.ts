@@ -203,12 +203,12 @@ export class PipelineNode {
                 //El conector unido al nuestro
                 let his_connector_toUs = connecteds[i_c];
                 //Obtenemos referencia real al nodo
-                let pipNode = findNodeInArray(array,his_connector_toUs.originNode ? his_connector_toUs.originNode.id : "");//Nodo conectado
+                let pipNode = findNodeInArray(array, his_connector_toUs.originNode ? his_connector_toUs.originNode.id : "");//Nodo conectado
                 if (pipNode) {
                     //conRef = OutputConnectors or ErrorConnectors
-                    let connectorsOfConectedToUs = his_connector_toUs.type === 1 ? 
-                        pipNode.outputConnectors : his_connector_toUs.type === 2 ? 
-                        pipNode.errorConnectors : [];
+                    let connectorsOfConectedToUs = his_connector_toUs.type === 1 ?
+                        pipNode.outputConnectors : his_connector_toUs.type === 2 ?
+                            pipNode.errorConnectors : [];
                     let findConector = false;
                     for (let i_pnc = 0; i_pnc < connectorsOfConectedToUs.length; i_pnc++) {
                         //Buscar conector del nodo conectado
@@ -221,21 +221,25 @@ export class PipelineNode {
                             break;
                         }
                     }
-                    if(!findConector){//We cant find the connector
+                    if (!findConector) {//We cant find the connector
                         console.log(`Not connected to us: ${his_connector_toUs}`)
-                        connecteds.slice(i_c,1);
+                        connecteds.slice(i_c, 1);
                         i_c--;
                     }
-                }else{
+                } else {
                     //Nodo no encontrado
                     console.log("Nodo no encontrado")
-                    connecteds.slice(i_c,1);
+                    connecteds.slice(i_c, 1);
                     i_c--;
                 }
             }
         }
         this.clean(array);
     }
+    /**
+     * Removes ghost conectors
+     * @param array 
+     */
     public clean(array: PipelineNode[]) {
         for (let i = 0; i < this.inputConnectors.length; i++) {//Cada Conector
             if (this.inputConnectors[i].conectedNodes.length > 0) {
@@ -252,12 +256,20 @@ export class PipelineNode {
         }
     }
 }
-export function pipelineNodeFromJSON(data) {
+/**
+ * 
+ * @param data The new PipelineNode
+ */
+export function pipelineNodeFromJSON(data): PipelineNode {
     let node = new PipelineNode(data.name, data.tag, data.type);
-    node.id = data.id;
-    node.outputParams = data.outputParams;
-    node.inputParams = data.inputParams;
-    node.errorParams = data.errorParams;
+    if (data.id)
+        node.id = data.id;
+    if (data.outputParams)
+        node.outputParams = data.outputParams;
+    if (data.inputParams)
+        node.inputParams = data.inputParams;
+    if (data.errorParams)
+        node.errorParams = data.errorParams;
     if (data.x && typeof data.x === 'number')
         node.x = data.x;
     if (data.y && typeof data.y === 'number')
@@ -266,14 +278,15 @@ export function pipelineNodeFromJSON(data) {
         node.height = data.height;
     if (data.width && typeof data.width === 'number')
         node.width = data.width;
-    
-    node.pipe = data.pipe;
-    node.inputConnectors = connectorsFromJSONarray(data.inputConnectors, 0, node);
-    node.outputConnectors = connectorsFromJSONarray(data.outputConnectors, 1, node);
-    node.errorConnectors = connectorsFromJSONarray(data.errorConnectors, 2, node);
+    if (data.pipe)
+        node.pipe = data.pipe;
+    if(data.inputConnectors)
+        node.inputConnectors = connectorsFromJSONarray(data.inputConnectors, 0, node);
+    if(data.outputConnectors)
+        node.outputConnectors = connectorsFromJSONarray(data.outputConnectors, 1, node);
+    if(data.errorConnectors)
+        node.errorConnectors = connectorsFromJSONarray(data.errorConnectors, 2, node);
     node.recalculate();
-    if(data.pipe === '')
-        console.log(node)
     return node;
 }
 /**
@@ -392,8 +405,8 @@ export class NodeConnector {
      * @param con 
      */
     public addConnector(con: NodeConnector): boolean {
-        for(let i = 0; i < this.conectedNodes.length; i++){
-            if(this.conectedNodes[i].id === con.id){
+        for (let i = 0; i < this.conectedNodes.length; i++) {
+            if (this.conectedNodes[i].id === con.id) {
                 this.conectedNodes[i] = con;
                 return false;
             }
@@ -408,30 +421,34 @@ export class NodeConnector {
     }
 }
 export function connectorsFromJSONarray(array: any[], type: number, originNode: PipelineNode): NodeConnector[] {
-    let nodes: NodeConnector[] = [];
+    let conectors: NodeConnector[] = [];
     for (let i = 0; i < array.length; i++) {
-        nodes.push(nodeConnectorFromJSON(array[i], originNode, type))
+        conectors.push(nodeConnectorFromJSON(array[i], originNode, type))
     }
-    return nodes;
+    return conectors;
 }
 
 export function nodeConnectorFromJSON(data, originNode: PipelineNode, type: number): NodeConnector {
     let aux = new NodeConnector();
     aux.x = data.x || 0;
     aux.y = data.y || 0;
-    aux.id = data.id;
+    if(data.id)
+        aux.id = data.id;
     aux.type = type;
-    aux.originNode = originNode;
-    aux.conectedNodes = data.conectedNodes.map((val, i, arr) => {
-        let ret = new NodeConnector();
-        ret.id = val.id;
-        ret.type = val.type;
-        if (typeof val.originNode === 'string') {
-            ret.originNode = new PipelineNode("", "");
-            ret.originNode.id = val.originNode;
-        }
-        return ret;
-    });
+    if(originNode)
+        aux.originNode = originNode;
+    if(data.conectedNodes){
+        aux.conectedNodes = data.conectedNodes.map((val, i, arr) => {
+            let ret = new NodeConnector();
+            ret.id = val.id;
+            ret.type = val.type;
+            if (typeof val.originNode === 'string') {
+                ret.originNode = new PipelineNode("", "");
+                ret.originNode.id = val.originNode;
+            }
+            return ret;
+        });
+    }
     return aux;
 }
 

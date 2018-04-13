@@ -15,18 +15,29 @@ export class WebhookComponent implements OnInit {
   constructor(private webhookService : WebhookService) { }
 
   ngOnInit() {
-    console.log("Get webhooks pls")
-    this.webhookService.getWebHooks().subscribe((webhooks)=>{
-      console.log(webhooks)
-      this.hooks = webhooks;
-      if(webhooks.length > 0)
-          this.selectedHook = webhooks[0];
+    this.webhookService.subscribeToWebHooks().subscribe((data)=>{
+      this.fetchWebHooks();
     },err=>{})
+    this.fetchWebHooks();
+    
   }
   newHook(){
     this.tempHook = new WebHook();
   }
   onSelect(webhook : WebHook){
     this.selectedHook = webhook;
+  }
+  fetchWebHooks(){
+    console.log("Fetching")
+    this.webhookService.getWebHooks().subscribe((webhooks)=>{
+      this.hooks = webhooks;
+      if(webhooks.length > 0)
+          this.selectedHook = webhooks[0];
+      else
+        this.selectedHook = null;
+    },err=>{
+      this.hooks = [];
+      this.selectedHook = null;
+    })
   }
 }

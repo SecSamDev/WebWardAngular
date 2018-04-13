@@ -14,6 +14,7 @@ import { AlertService } from '../alert/alert.service'
 })
 export class PipelineComponent implements OnInit, AfterViewInit {
   private _nodes: PipelineNode[] = [];
+  private templates: PipelineNode[] = [];
   private pipelines: Pipeline[] = [];
   private actual_pipe: Pipeline = null;
   private newPipe: Pipeline = null;
@@ -29,7 +30,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   private activeNode: PipelineNode = null;
   height = 1280;
   width = 2048;
-  radius = 40;
   propX = 1;
   propY = 1;
   dx = 0;
@@ -59,24 +59,19 @@ export class PipelineComponent implements OnInit, AfterViewInit {
 
       }
     }, err => {
-
+      this.cleanPipes();
     })
+    this.pipService.getNodeTemplates().subscribe((nodes) => {
+      this.templates = nodes;
+    }, err => {})
     this.pipService.subscribeToPipelines().subscribe((data) => {
-      console.log("PIP COMP Notif")
       this.pipService.findPipelines().subscribe((data) => {
         
         if (data.length === 0) {
-          this.actual_pipe = new Pipeline();
-          this.actual_pipe.name = "No Selected Pipe";
-          this.pipelines = [];
-          this._nodes = [];
-          this.selectedNode = null;
-          this.activeNode = null;
+          this.cleanPipes();
         } else {
           let found = false;
           this.pipelines = data;
-          console.log("Data:")
-          console.log(data)
           for (let i = 0; i < data.length; i++) {
             if (data[i].id === this.actual_pipe.id){
               found = true;
@@ -84,16 +79,19 @@ export class PipelineComponent implements OnInit, AfterViewInit {
             }
           }
           if(!found){
-            console.log("Not found")
             this.actual_pipe = data[0];
           }
           this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((data) => {
             this._nodes = data;
           })
         }
+      },err=>{
+        this.cleanPipes();
       })
 
-    }, err => { })
+    }, err => {
+      this.cleanPipes();
+    })
   }
   get nodes(): PipelineNode[] {
     return this._nodes;
@@ -101,6 +99,14 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   @Input()
   set nodes(nodes: PipelineNode[]) {
     this._nodes = nodes;
+  }
+  cleanPipes(){
+    this.actual_pipe = new Pipeline();
+    this.actual_pipe.name = "No selected Pipeline";
+    this.pipelines = [];
+    this._nodes = [];
+    this.selectedNode = null;
+    this.activeNode = null;
   }
   handleNodeClick(event: PipelineNode) {
     //If double click in less than 1 sec then set as active node
@@ -204,8 +210,20 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       this.selectedNode = node;
     } catch (err) { }
   }
-  newNode() {
-    let node = new PipelineNode("New Node", Math.random().toString(), "ANY");
+  newNode(temp? : PipelineNode) {
+    let node : PipelineNode;
+    console.log(temp)
+    if(temp){
+      node = new PipelineNode(temp.name, temp.tag, temp.type);
+      node.inputConnectors = temp.inputConnectors;
+      node.inputParams = temp.inputParams;
+      node.outputConnectors = temp.outputConnectors;
+      node.outputParams = temp.outputParams;
+      node.errorConnectors = temp.errorConnectors;
+      node.errorParams = temp.errorParams;
+    }else{
+      node = new PipelineNode("New Node", Math.random().toString(), "ANY");
+    }
     node.pipe = this.actual_pipe.id;
     const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
     node.x = rect.width * this.propX / 2 - this.dx

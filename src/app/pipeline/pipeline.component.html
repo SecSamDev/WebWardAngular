@@ -15,8 +15,14 @@
         <a class="dropdown-item" *ngFor="let pipe of pipelines" (click)="selectPipeline(pipe)">{{pipe.name}}</a>
       </div>
     </div>
-    <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary" (click)="newNode()">New Node</button>
+    <div ngbDropdown class="dropdown  mr-2">
+      <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="selectNewNode" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        New Node
+      </button>
+      <div ngbDropdownMenu aria-labelledby="selectNewNodeButton">
+        <a class="dropdown-item" *ngFor="let template of templates" (click)="newNode(template)">{{template.name}}</a>
+      </div>
     </div>
     <div ngbDropdown class="dropdown  mr-2">
       <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"

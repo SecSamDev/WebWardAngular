@@ -200,6 +200,17 @@ export class PipelineService {
   subscribeToPipelines(): Observable<boolean> {
     return this.pullerObserver;
   }
+  getNodeTemplates() {
+    return this.http.get(AppSettings.API_ENDPOINT + 'node_templates').map((data: any[]) => {
+      let retData : PipelineNode[] = [];
+      for (let i = 0; i < data.length; i++) {
+        let auxNode = data[i];
+        let newNode = pipelineNodeFromJSON(auxNode)
+        retData.push(newNode)
+      }
+      return retData;
+    });
+  }
 
   /**
    * Use internally
