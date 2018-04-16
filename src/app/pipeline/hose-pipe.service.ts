@@ -41,7 +41,7 @@ export class HosePipeService {
       this.subscriber = observer;
     });
     this.hosepipe = new HosePipe();
-    this.hosepipe.origin = new NodeConnector();
+    this.hosepipe.origin = new NodeConnector(Math.random().toString());
     this.hosepipe.origin.x = 0;
     this.hosepipe.origin.y = 0;
   }

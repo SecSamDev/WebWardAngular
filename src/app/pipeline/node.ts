@@ -94,28 +94,25 @@ export class PipelineNode {
         }
     }
     public createInputConnector(): NodeConnector {
-        let con = new NodeConnector();
+        let con = new NodeConnector(generateIdForConnector());
         con.originNode = this;
         con.type = IO_TYPES.INPUT;
-        con.id = Math.random().toString();
         this.inputConnectors.push(con)
         this.calculatePosInputConnectors();
         return con;
     }
     public createOutputConnector(): NodeConnector {
-        let con = new NodeConnector();
+        let con = new NodeConnector(generateIdForConnector());
         con.originNode = this;
         con.type = IO_TYPES.OUTPUT;
-        con.id = Math.random().toString();
         this.outputConnectors.push(con)
         this.calculatePosOutputConnectors();
         return con;
     }
     public createErrorConnector(): NodeConnector {
-        let con = new NodeConnector();
+        let con = new NodeConnector(generateIdForConnector());
         con.originNode = this;
         con.type = IO_TYPES.ERR;
-        con.id = Math.random().toString();
         this.errorConnectors.push(con)
         this.calculatePosErrorConnectors();
         return con;
@@ -190,6 +187,8 @@ export class PipelineNode {
         ret.errorConnectors = this.errorConnectors.map((val, i, arr) => {
             return val.toJSON();
         })
+        console.log("Saving node: ")
+        console.log(ret)
         return ret;
 
     }
@@ -223,13 +222,13 @@ export class PipelineNode {
                     }
                     if (!findConector) {//We cant find the connector
                         console.log(`Not connected to us: ${his_connector_toUs}`)
-                        connecteds.slice(i_c, 1);
+                        connecteds.splice(i_c, 1);
                         i_c--;
                     }
                 } else {
                     //Nodo no encontrado
                     console.log("Nodo no encontrado")
-                    connecteds.slice(i_c, 1);
+                    connecteds.splice(i_c, 1);
                     i_c--;
                 }
             }
@@ -354,7 +353,9 @@ export class NodeConnector {
     type: number = 0;
     originNode: PipelineNode = null;
     conectedNodes: NodeConnector[] = [];
-
+    constructor(id){
+        this.id = id;
+    }
     /**
      * Serialize the object to a JSON format witouth references
      */
@@ -368,6 +369,8 @@ export class NodeConnector {
             aux.originNode = val.originNode.id;
             return aux;
         });
+        console.log("Saving connector")
+        console.log(ret)
         return ret;
     }
     /**
@@ -429,18 +432,15 @@ export function connectorsFromJSONarray(array: any[], type: number, originNode: 
 }
 
 export function nodeConnectorFromJSON(data, originNode: PipelineNode, type: number): NodeConnector {
-    let aux = new NodeConnector();
+    let aux = new NodeConnector(data.id ? data.id : generateIdForConnector());
     aux.x = data.x || 0;
     aux.y = data.y || 0;
-    if(data.id)
-        aux.id = data.id;
     aux.type = type;
     if(originNode)
         aux.originNode = originNode;
     if(data.conectedNodes){
         aux.conectedNodes = data.conectedNodes.map((val, i, arr) => {
-            let ret = new NodeConnector();
-            ret.id = val.id;
+            let ret = new NodeConnector(val.id);
             ret.type = val.type;
             if (typeof val.originNode === 'string') {
                 ret.originNode = new PipelineNode("", "");
@@ -460,3 +460,7 @@ function findNodeInArray(array: PipelineNode[], nodeID: string) {
     }
     return null;
 }
+
+function generateIdForConnector(){
+    return Date.now().toString(36).substring(6,15) + Math.random().toString(36).substring(2, 7);
+  }
