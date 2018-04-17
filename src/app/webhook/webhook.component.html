@@ -23,7 +23,8 @@
       </div>
       <hr/>
       <div *ngIf="selectedHook" class="col-sm-12">
-        
+        <a href="/api/webhook/{{selectedHook.id}}" target="_blank">Activate Hook</a>
+        {{selectedHook.id}}
       </div>
     </div>
   </div>

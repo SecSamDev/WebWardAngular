@@ -37,16 +37,12 @@
           <button class="btn btn-sm btn-outline-secondary" (click)="addInConnector()">+Inputs</button>
           <button class="btn btn-sm btn-outline-secondary" (click)="node.deleteInput()">-Inputs</button>
         </div>
-        <div class="btn-group mr-2">
-            <button class="btn btn-sm btn-outline-secondary" (click)="addOutConnector()">+Output</button>
-            <button class="btn btn-sm btn-outline-secondary" (click)="node.deleteOutput()">-Output</button>
-          </div>
         <dl class="row">
           <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the node">ID</dt>
           <dd class="col-sm-9">{{node.id}}</dd>
         </dl>
         <div class="btn-group d-flex" role="group">
-          <button type="submit" class="btn btn-primary w-100" (click)="save()">
+          <button type="submit" class="btn btn-primary w-100" (click)="save()" title="Saves the current node">
             <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	            viewBox="0 0 49 49" xml:space="preserve" height="24px" width="24px" style="fill: #ffffff">
               <g>
@@ -60,7 +56,7 @@
               </g>
             </svg>
           </button>
-          <button type="submit" class="btn btn-secondary w-100" (click)="cancel()">
+          <button type="submit" class="btn btn-secondary w-100" (click)="cancel()" title="Cancels the cahanges done to the node">
             <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
             version="1.1" x="0px" y="0px" viewBox="0 0 212.982 212.982" xml:space="preserve" style="fill: #ffffff">
               <g>
@@ -68,7 +64,7 @@
               </g>
             </svg>
           </button>
-          <button type="submit" class="btn btn-danger w-100" data-toggle="modal" data-target="#deleteModal" (click)="deleteModal(content)">
+          <button type="submit" class="btn btn-danger w-100" data-toggle="modal" data-target="#deleteModal" (click)="deleteModal(content)" title="Delete the current node">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 width="24px" height="24px" viewBox="0 0 774.266 774.266" style="fill: #ffffff"
                 xml:space="preserve">

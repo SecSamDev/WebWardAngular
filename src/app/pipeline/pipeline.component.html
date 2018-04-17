@@ -3,21 +3,27 @@
 
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary" (click)="newPipeline()">New Pipeline</button>
-      <button class="btn btn-sm btn-outline-secondary" (click)="savePipelineNodes()">Save</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="newPipeline()" title="Create a new Pipline">New Pipeline</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="savePipelineNodes()" title="Save the current status of the pipeline and all the Nodes">Save</button>
     </div>
     <div ngbDropdown class="dropdown  mr-2">
       <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="selectPipeline" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
+        aria-haspopup="true" aria-expanded="false" title="Allow us to switch between pipelines">
         Select Pipeline
       </button>
       <div ngbDropdownMenu aria-labelledby="selectPipelineButton">
         <a class="dropdown-item" *ngFor="let pipe of pipelines" (click)="selectPipeline(pipe)">{{pipe.name}}</a>
       </div>
     </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="false" id="periodicStatusUpdate" [(ngModel)]="periodicStatus" (ngModelChange)="doPeriodicStatusUpdate($event)">
+        <label class="form-check-label" for="defaultCheck1">
+          Synchronize pipeline
+        </label>
+      </div>
     <div ngbDropdown class="dropdown  mr-2">
       <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="selectNewNode" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
+        aria-haspopup="true" aria-expanded="false" title="Creates a new Node based on a template">
         New Node
       </button>
       <div ngbDropdownMenu aria-labelledby="selectNewNodeButton">
@@ -26,7 +32,7 @@
     </div>
     <div ngbDropdown class="dropdown  mr-2">
       <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
+        aria-haspopup="true" aria-expanded="false" title="Centers a node in the middle of the PipelineCanvas">
         Focus On Node
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -34,8 +40,8 @@
       </div>
     </div>
     <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary" (click)="handleZoom(-0.2)">+</button>
-      <button class="btn btn-sm btn-outline-secondary" (click)="handleZoom(0.2)">-</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="handleZoom(-0.2)" title="Zoom In. Use (Shift) + (Mouse Wheel)">+</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="handleZoom(0.2)" title="Zoom Out. Use (Shift) + (Mouse Wheel)">-</button>
     </div>
   </div>
 </div>
@@ -44,7 +50,7 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-9 col-md-8 col-sm-12" (window:resize)="onResize($event)">
+    <div class="col-lg-12 col-md-12 col-sm-12" (window:resize)="onResize($event)">
       <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" width="100%" height="100%" (mousedown)="onMouseDown($event)"
         (mouseleave)="onMouseLeave($event)" (mouseup)="onMouseUp($event)" (mousemove)="onMouseMove($event)">
         <defs>
@@ -98,16 +104,6 @@
         <svg:svg pipeline-node *ngFor="let node of _nodes" [node]="node" (nodeClicked)="handleNodeClick($event)" [attr.x]="node.x + dx"
           [attr.y]="node.y + dy" [attr.height]="node.height" [attr.width]="node.width"></svg:svg>
       </svg>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div *ngIf="activeNode" class="row pt-2">
-        <h4>Active Node</h4>
-        <pipeline-node-edit class="col-12 pt-2" [node]="activeNode"></pipeline-node-edit>
-      </div>
-      <div *ngIf="selectedNode" class="row pt-2">
-        <h4>Current Selected Node</h4>
-        <pipeline-node-edit class="col-12 pt-2" [node]="selectedNode"></pipeline-node-edit>
-      </div>
     </div>
   </div>
 

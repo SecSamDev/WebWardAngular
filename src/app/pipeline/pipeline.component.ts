@@ -7,6 +7,35 @@ import { PipelineMouseService } from './pipeline-mouse.service'
 import { PipelineService } from './pipeline.service'
 import { Pipeline } from './pipeline';
 import { AlertService } from '../alert/alert.service'
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import {Router} from '@angular/router';
+
+@Component({
+  selector: 'active-node-modal-content',
+  template: `
+  <div class="modal-header">
+    <h4 class="modal-title">{{node.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div *ngIf="node" class="modal-body">
+      <h4>Active Node: {{node.name}}</h4>
+      <node-types [node]="node"></node-types>
+      <pipeline-node-edit class="col-12 pt-2" [node]="node"></pipeline-node-edit>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>
+  `
+})
+export class ActiveNodeModalContent {
+  @Input() node: PipelineNode;
+
+  constructor(public activeModal: NgbActiveModal) { }
+}
+
 @Component({
   selector: 'app-pipeline',
   templateUrl: './pipeline.component.html',
@@ -18,12 +47,12 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   private pipelines: Pipeline[] = [];
   private actual_pipe: Pipeline = null;
   private newPipe: Pipeline = null;
-  /**
-   * The node that is selected. Only for do changes in active node
-   */
-  private selectedNode: PipelineNode = null;
   private letItBe: boolean = true;
   private hosePipe: HosePipe;
+
+  private periodicStatus = true;
+  private periodicNotifier: Subscription;
+
   /**
    * The node active, changes goes to this node
    */
@@ -38,9 +67,12 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   lastY: number = 0;
   @ViewChild('pipeCanvas') public pipeCanvas: ElementRef;
   constructor(
+    private router: Router,
     private hosePipeService: HosePipeService,
     private pipMouseService: PipelineMouseService,
     private pipService: PipelineService,
+    private modalService: NgbModal,
+    public activeModal: NgbActiveModal,
     private alertService: AlertService) {
     this.hosePipe = this.hosePipeService.getHosePipe();
   }
@@ -52,6 +84,10 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.reCalculate()
+    let routersubs = this.router.events.subscribe((val) => {
+      this.cleanPipes();
+      routersubs.unsubscribe();
+    });
     this.pipService.findPipelines().subscribe((pipes) => {
       this.pipelines = pipes;
       if (pipes.length > 0) {
@@ -63,29 +99,29 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     })
     this.pipService.getNodeTemplates().subscribe((nodes) => {
       this.templates = nodes;
-    }, err => {})
+    }, err => { })
     this.pipService.subscribeToPipelines().subscribe((data) => {
       this.pipService.findPipelines().subscribe((data) => {
-        
+
         if (data.length === 0) {
           this.cleanPipes();
         } else {
           let found = false;
           this.pipelines = data;
           for (let i = 0; i < data.length; i++) {
-            if (data[i].id === this.actual_pipe.id){
+            if (data[i].id === this.actual_pipe.id) {
               found = true;
               break;
             }
           }
-          if(!found){
+          if (!found) {
             this.actual_pipe = data[0];
           }
           this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((data) => {
             this._nodes = data;
-          })
+          }, err => { })
         }
-      },err=>{
+      }, err => {
         this.cleanPipes();
       })
 
@@ -100,30 +136,81 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   set nodes(nodes: PipelineNode[]) {
     this._nodes = nodes;
   }
-  cleanPipes(){
+  cleanPipes() {
     this.actual_pipe = new Pipeline();
     this.actual_pipe.name = "No selected Pipeline";
     this.pipelines = [];
     this._nodes = [];
-    this.selectedNode = null;
     this.activeNode = null;
+    if (this.periodicNotifier) {
+      this.periodicNotifier.unsubscribe();
+    }
+  }
+  selectPipeline(pipe: Pipeline) {
+    if (this.periodicNotifier) {
+      this.periodicNotifier.unsubscribe();
+    }
+    this.actual_pipe = pipe;
+    this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
+      this._nodes = nodes;
+      if(this.periodicStatus){
+        this.doPeriodicStatusUpdate();
+      }
+    }, err => {
+      this._nodes = [];
+    })
+  }
+  doPeriodicStatusUpdate(status: boolean = true) {
+    this.periodicStatus = status;
+    if (this.periodicStatus) {
+      
+      if (this.periodicNotifier) {
+        this.periodicNotifier.unsubscribe();
+      }
+      let subs = this.pipService.checkPipelineStatus(this.actual_pipe).subscribe((data) => {
+        if (this.actual_pipe.id === data.id) {
+          this.actual_pipe.status = data.status;
+          this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
+            for (let nod of nodes) {
+              let myNodo = this._nodes.find((val) => {
+                if (val.id === nod.id)
+                  return true;
+                return false;
+              });
+              if (myNodo) {
+                //Update status
+                console.log("status of nodo: " + myNodo.status)
+                myNodo.setStatus(nod.status);
+              }
+            }
+          }, err => {})
+        }else{
+          subs.unsubscribe();
+        }
+      }, err => {
+        subs.unsubscribe();
+      });
+      console.log("INIT")
+      this.periodicNotifier = subs;
+    } else {
+      if (this.periodicNotifier) {
+        this.periodicNotifier.unsubscribe();
+      }
+    }
+
   }
   handleNodeClick(event: PipelineNode) {
     //If double click in less than 1 sec then set as active node
     setTimeout(() => {
       this.letItBe = false;
     }, 1000);
-    if (this.selectedNode === event && this.letItBe) {
+    if (this.activeNode === event && this.letItBe) {
       this.activeNode = event;
-      this.selectedNode = null;
+      const modalRef = this.modalService.open(ActiveNodeModalContent);
+      modalRef.componentInstance.node = this.activeNode;
     } else {
-      if (this.activeNode === event) {
-        this.activeNode = null
-      }
-      console.log(event)
-      this.selectedNode = event;
       this.letItBe = true;
-
+      this.activeNode = event;
     }
 
   }
@@ -207,13 +294,11 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
       this.dx += rect.width * this.propX / 2 - this.dx - node.x - node.width / 2;
       this.dy += rect.height * this.propY / 2 - this.dy - node.y - node.height / 2;
-      this.selectedNode = node;
     } catch (err) { }
   }
-  newNode(temp? : PipelineNode) {
-    let node : PipelineNode;
-    console.log(temp)
-    if(temp){
+  newNode(temp?: PipelineNode) {
+    let node: PipelineNode;
+    if (temp) {
       node = new PipelineNode(temp.name, temp.tag, temp.type);
       node.inputConnectors = temp.inputConnectors;
       node.inputParams = temp.inputParams;
@@ -221,15 +306,16 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       node.outputParams = temp.outputParams;
       node.errorConnectors = temp.errorConnectors;
       node.errorParams = temp.errorParams;
-    }else{
+      node.properties = temp.properties;
+    } else {
       node = new PipelineNode("New Node", Math.random().toString(), "ANY");
     }
     node.pipe = this.actual_pipe.id;
     const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
-    node.x = rect.width * this.propX / 2 - this.dx
-    node.y = rect.height * this.propY / 2 - this.dy
+    node.x = 10
+    node.y = 10
+    this.savePipelineNodes();
     this.pipService.createNodeForPipeline(node).subscribe((data) => {
-      console.log(data)
     }, err => {
       this.alertService.error(err.error.message)
     });
@@ -242,17 +328,9 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     //this.pipService.
     for (let i = 0; i < this._nodes.length; i++) {
       this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { }, (err) => {
-        console.error(err)
         this.alertService.error((err.error && err.error.message) ? err.error.message : "Cant save nodes")
       })
     }
-  }
-
-  selectPipeline(pipe: Pipeline) {
-    this.actual_pipe = pipe;
-    this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
-      this._nodes = nodes;
-    })
   }
   private reCalculate() {
     try {

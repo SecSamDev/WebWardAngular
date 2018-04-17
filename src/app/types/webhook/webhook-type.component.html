@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="card-header">
+    <!--HEADER -->
+    Property :: {{param.name}} :: of type :: {{param.type}}
+  </div>
+  <div class="card-body">
+    <div class="form-group row">
+      <label class="col-sm-3" for="hookName">WebHook: </label>
+      <input type="text" class="form-control col-sm-5" name="name" id="hookName" placeholder="WebHookName" [(ngModel)]="hook.name">
+      <div class="btn-group col-sm-4">
+        <button type="submit" class="btn btn-primary" (click)="save()" title="Creates/Updates a webhook for this node">Save</button>
+        <button type="submit" class="btn btn-warning" (click)="delete()" title="Deletes the webhook for this node">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 export const minHeight = 200;
 export const minWidth = 150;
 export const PIPE_TAGS = {
@@ -36,6 +37,10 @@ export class PipelineNode {
      * Pipe Type of this node like START or NOTIFY_ERR
      */
     type: string = PIPE_TAGS.ANY;
+    /**
+     * Actual status of the node
+     */
+    status : number = 0;
     /**
      * Database identificator
      */
@@ -79,6 +84,12 @@ export class PipelineNode {
     y: number = 1;
     height: number = 300;
     selected: boolean = false;
+    subscriptor = new EventEmitter<boolean>();
+    
+    setStatus(status:number){
+        this.status = status; 
+        this.subscriptor.emit(true);
+    }
     removeMe() {
         for (let i = 0; i < this.inputConnectors.length; i++) {
             this.deleteInput();
@@ -178,6 +189,7 @@ export class PipelineNode {
         ret.inputParams = this.inputParams;
         ret.outputParams = this.outputParams;
         ret.errorParams = this.errorParams;
+        ret.properties = this.properties;
         ret.inputConnectors = this.inputConnectors.map((val, i, arr) => {
             return val.toJSON();
         })
@@ -269,6 +281,8 @@ export function pipelineNodeFromJSON(data): PipelineNode {
         node.inputParams = data.inputParams;
     if (data.errorParams)
         node.errorParams = data.errorParams;
+    if (data.properties)
+        node.properties = data.properties;
     if (data.x && typeof data.x === 'number')
         node.x = data.x;
     if (data.y && typeof data.y === 'number')
@@ -279,6 +293,8 @@ export function pipelineNodeFromJSON(data): PipelineNode {
         node.width = data.width;
     if (data.pipe)
         node.pipe = data.pipe;
+    if(data.status)
+        node.status = data.status;
     if(data.inputConnectors)
         node.inputConnectors = connectorsFromJSONarray(data.inputConnectors, 0, node);
     if(data.outputConnectors)
@@ -369,8 +385,6 @@ export class NodeConnector {
             aux.originNode = val.originNode.id;
             return aux;
         });
-        console.log("Saving connector")
-        console.log(ret)
         return ret;
     }
     /**

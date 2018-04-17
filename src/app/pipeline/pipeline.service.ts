@@ -4,11 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/interval';
 import { AppSettings } from '../appSettings';
 import { AlertService } from '../alert/alert.service';
 import { WebProjectService } from '../web-project/index';
-
+import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 import { PipelineNode, PipelineNodeAtribute, pipelineNodeFromJSON } from './node';
 import { PIPE_TAGS } from './node';
 import { Pipeline } from './pipeline'
@@ -23,11 +24,13 @@ export class PipelineService {
   private lastSearchNode: number = Date.now() - 20000;
   private subscriber: Subscriber<boolean>;
   private pullerObserver: Observable<boolean>;
+  private activeCache;
 
   constructor(private http: HttpClient,
     private alertService: AlertService,
     private webProjServ: WebProjectService
   ) {
+    this.activeCache = false;
     this.pullerObserver = new Observable(observer => {
       this.subscriber = observer;
     });
@@ -48,7 +51,7 @@ export class PipelineService {
   }
   findPipelines() {
     return new Observable<Pipeline[]>((observer) => {
-      if ((Date.now() - this.lastSearchPipe) > 10000) {
+      if ((!this.activeCache) || (Date.now() - this.lastSearchPipe) > 10000 ) {
         this.lastSearchPipe = Date.now();
         this.http.get(AppSettings.API_ENDPOINT + 'pipeline?web_project=' + this.webProjServ.getActualProject().id).map(data => data as Pipeline[]).subscribe(data => {
           this.pipelines = data;
@@ -74,6 +77,7 @@ export class PipelineService {
         .subscribe(data => {
           this.notify();
           observer.next(data);
+          observer.complete();
         }, err => {
           observer.error(err);
         });
@@ -86,6 +90,7 @@ export class PipelineService {
         .subscribe(data => {
           this.notify();
           observer.next(data);
+          observer.complete();
         }, err => {
           observer.error(err);
         });
@@ -99,14 +104,31 @@ export class PipelineService {
         .subscribe(data => {
           this.notify();
           observer.next(data);
+          observer.complete();
         }, err => {
           observer.error(err);
         });
     });
   }
+  checkPipelineStatus(pipeline : Pipeline): Observable<Pipeline>{
+    this.activeCache = false;
+    return Observable.interval(1000).flatMap(i=>{
+      return new Observable(observer =>{
+        this.findPipeline(pipeline.id).subscribe((data)=>{
+          if(data.last_update !== pipeline.last_update){
+            observer.next(data);
+            observer.complete();
+          }
+        },err=>{})
+      })
+    })
+  }
+  getNode(node:PipelineNode){
+    return this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id);
+  }
   getNodesForPipeline(pipeline: Pipeline): Observable<PipelineNode[]> {
     return new Observable<PipelineNode[]>((observer) => {
-      if (this.nodesForPipelineInCache(pipeline) && (Date.now() - this.lastSearchNode) < 10000) {
+      if ((this.activeCache) && (this.nodesForPipelineInCache(pipeline) && (Date.now() - this.lastSearchNode) < 10000)) {
         //Return cached data
         console.log("From cache")
         observer.next(this.findNodesInCache(pipeline));
@@ -174,7 +196,7 @@ export class PipelineService {
   }
   updateNodeForPipeline(node: PipelineNode) {
     this.lastSearchNode == this.lastSearchNode - 20000;
-    let dif = this.getDiffNodeInCache(node);
+    let dif = this.activeCache ? this.getDiffNodeInCache(node) : node;
     return new Observable(observer => {
       if (dif === null) {
         observer.next({})

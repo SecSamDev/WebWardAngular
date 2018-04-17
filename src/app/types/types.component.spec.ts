@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WebhookForNodeComponent } from './webhook-for-node.component';
+import { TypesComponent } from './types.component';
 
-describe('WebhookForNodeComponent', () => {
-  let component: WebhookForNodeComponent;
-  let fixture: ComponentFixture<WebhookForNodeComponent>;
+describe('TypesComponent', () => {
+  let component: TypesComponent;
+  let fixture: ComponentFixture<TypesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WebhookForNodeComponent ]
+      declarations: [ TypesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WebhookForNodeComponent);
+    fixture = TestBed.createComponent(TypesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

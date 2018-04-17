@@ -4,7 +4,7 @@
 <svg:svg x="10" y="10" height="40" [attr.width]="node.width-20">
     <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H' + (node.width-40) + ' Q' + (node.width-20) + ' 1 ' + (node.width) + ' 21' + ' V40z'"
         class="pipe-card-head" />
-    <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H41 V40z'" fill="green" stroke="black" sroke-width="1.5" />
+    <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H41 V40z'" [attr.fill]="statusColor" stroke="black" sroke-width="1.5" />
     <svg:text [attr.x]="50" [attr.y]="30" fill="black" font-family="Arial" font-size="30">{{node.name}}</svg:text>
 </svg:svg>
 <svg:svg x="10" y="40" [attr.height]="node.height - 50" [attr.width]="node.width-20">
