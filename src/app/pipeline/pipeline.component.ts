@@ -5,36 +5,14 @@ import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { PipelineMouseService } from './pipeline-mouse.service'
 import { PipelineService } from './pipeline.service'
+import { PipelineNodeEditComponent } from './pipeline-node-edit/pipeline-node-edit.component'
+import { PipelineEditComponent } from './pipeline-edit/pipeline-edit.component'
 import { Pipeline } from './pipeline';
 import { AlertService } from '../alert/alert.service'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import {Router} from '@angular/router';
 
-@Component({
-  selector: 'active-node-modal-content',
-  template: `
-  <div class="modal-header">
-    <h4 class="modal-title">{{node.name}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div *ngIf="node" class="modal-body">
-      <h4>Active Node: {{node.name}}</h4>
-      <node-types [node]="node"></node-types>
-      <pipeline-node-edit class="col-12 pt-2" [node]="node"></pipeline-node-edit>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-  </div>
-  `
-})
-export class ActiveNodeModalContent {
-  @Input() node: PipelineNode;
-
-  constructor(public activeModal: NgbActiveModal) { }
-}
 
 @Component({
   selector: 'app-pipeline',
@@ -50,7 +28,11 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   private letItBe: boolean = true;
   private hosePipe: HosePipe;
 
-  private periodicStatus = true;
+  /**
+   * Allow to poll periodically the status of the nodes
+   * @type boolean
+   */
+  private periodicStatus = false;
   private periodicNotifier: Subscription;
 
   /**
@@ -66,6 +48,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   lastX: number = 0;
   lastY: number = 0;
   @ViewChild('pipeCanvas') public pipeCanvas: ElementRef;
+
   constructor(
     private router: Router,
     private hosePipeService: HosePipeService,
@@ -163,7 +146,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   doPeriodicStatusUpdate(status: boolean = true) {
     this.periodicStatus = status;
     if (this.periodicStatus) {
-      
       if (this.periodicNotifier) {
         this.periodicNotifier.unsubscribe();
       }
@@ -178,8 +160,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
                 return false;
               });
               if (myNodo) {
-                //Update status
-                console.log("status of nodo: " + myNodo.status)
                 myNodo.setStatus(nod.status);
               }
             }
@@ -190,7 +170,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       }, err => {
         subs.unsubscribe();
       });
-      console.log("INIT")
       this.periodicNotifier = subs;
     } else {
       if (this.periodicNotifier) {
@@ -206,7 +185,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     }, 1000);
     if (this.activeNode === event && this.letItBe) {
       this.activeNode = event;
-      const modalRef = this.modalService.open(ActiveNodeModalContent);
+      const modalRef = this.modalService.open(PipelineNodeEditComponent);
       modalRef.componentInstance.node = this.activeNode;
     } else {
       this.letItBe = true;
@@ -324,13 +303,24 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   newPipeline() {
     this.newPipe = new Pipeline();
   }
+  editPipeline() {
+    //PipelineEditComponent
+    const modalRef = this.modalService.open(PipelineEditComponent);
+    modalRef.componentInstance.pipeline = this.actual_pipe;
+  }
   savePipelineNodes() {
     //this.pipService.
-    for (let i = 0; i < this._nodes.length; i++) {
-      this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { }, (err) => {
-        this.alertService.error((err.error && err.error.message) ? err.error.message : "Cant save nodes")
-      })
-    }
+    let i = 0;
+    this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { 
+      //First try with one node. If error then abort updates
+      for (i = 1; i < this._nodes.length; i++) {
+        this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { }, (err) => {
+          this.alertService.error((err.error && err.error.message) ? err.error.message : "Cant save nodes")
+        })
+      }
+    }, (err) => {
+      this.alertService.error((err.error && err.error.message) ? err.error.message : "Cant save nodes")
+    })
   }
   private reCalculate() {
     try {

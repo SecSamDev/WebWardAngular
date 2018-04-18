@@ -57,8 +57,7 @@ import {
   PipelineNewComponent,
   HosePipeService,
   PipelineMouseService,
-  NodeConnectorComponent,
-  ActiveNodeModalContent
+  NodeConnectorComponent
 } from './pipeline/index'
 
 import { ContainerComponent } from './container/container.component';
@@ -69,7 +68,8 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
 
 //-------------WEBHOOKS--------------------
 import { WebhookComponent,WebhookNewComponent,WebhookService } from './webhook/index';
-import { TypesComponent,TypesDirective,WebhookTypeComponent } from './types/index';
+//---------------NODE ATTRIBUYTE TYPES-------------------------
+import { TypesComponent,TypesDirective,WebhookTypeComponent,DefaultTypeComponent } from './types/index';
 
 @NgModule({
   declarations: [
@@ -113,10 +113,10 @@ import { TypesComponent,TypesDirective,WebhookTypeComponent } from './types/inde
     NodeConnectorComponent,
     WebhookComponent,
     WebhookNewComponent,
-    ActiveNodeModalContent,
     TypesDirective,
     WebhookTypeComponent,
-    TypesComponent
+    TypesComponent,
+    DefaultTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -149,7 +149,7 @@ import { TypesComponent,TypesDirective,WebhookTypeComponent } from './types/inde
     }
 
   ],
-  bootstrap: [AppComponent,ActiveNodeModalContent,WebhookTypeComponent]
+  bootstrap: [AppComponent,PipelineEditComponent,PipelineNodeEditComponent,WebhookTypeComponent,DefaultTypeComponent]
 })
 
 export class AppModule { }

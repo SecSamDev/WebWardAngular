@@ -199,8 +199,6 @@ export class PipelineNode {
         ret.errorConnectors = this.errorConnectors.map((val, i, arr) => {
             return val.toJSON();
         })
-        console.log("Saving node: ")
-        console.log(ret)
         return ret;
 
     }

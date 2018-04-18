@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver } from '@
 import { PipelineNodeAtribute, PipelineNode } from '../pipeline/node';
 import { TypesDirective } from './types.directive';
 import { WebhookTypeComponent } from './webhook/webhook-type.component'
+import { DefaultTypeComponent } from './default/default-type.component'
 import { TypeComponent } from './type.component';
 
 @Component({
@@ -37,8 +38,12 @@ export class TypesComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   selectParam(param: PipelineNodeAtribute) {
-    this.selectedParam = param;
-    this.loadComponent();
+    if(param){
+      this.selectedParam = param;
+      this.loadComponent();
+    }else{
+      this.loadComponent();
+    }
   }
   ngOnInit() {
   }
@@ -48,6 +53,9 @@ export class TypesComponent implements OnInit {
     switch (this.selectedParam.type) {
       case 'WEBHOOK':
         comp = WebhookTypeComponent;
+        break;
+      default:
+        comp = DefaultTypeComponent;
         break;
     }
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(comp);

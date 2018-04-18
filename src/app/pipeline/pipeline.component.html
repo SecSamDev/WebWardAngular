@@ -4,6 +4,7 @@
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
       <button class="btn btn-sm btn-outline-secondary" (click)="newPipeline()" title="Create a new Pipline">New Pipeline</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="editPipeline()" title="Edits the current Pipline">Edit Pipeline</button>
       <button class="btn btn-sm btn-outline-secondary" (click)="savePipelineNodes()" title="Save the current status of the pipeline and all the Nodes">Save</button>
     </div>
     <div ngbDropdown class="dropdown  mr-2">
@@ -15,12 +16,26 @@
         <a class="dropdown-item" *ngFor="let pipe of pipelines" (click)="selectPipeline(pipe)">{{pipe.name}}</a>
       </div>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="false" id="periodicStatusUpdate" [(ngModel)]="periodicStatus" (ngModelChange)="doPeriodicStatusUpdate($event)">
-        <label class="form-check-label" for="defaultCheck1">
-          Synchronize pipeline
-        </label>
-      </div>
+    <div class="btn-group mr-2">
+      <button type="button" class="btn" [ngClass]="['btn',!periodicStatus ? 'btn-secondary' : 'btn-primary']" (click)="periodicStatus=!periodicStatus;doPeriodicStatusUpdate(periodicStatus);">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="30" height="30"
+          viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="561"
+            height="561" viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
+            <animateTransform *ngIf="periodicStatus" attributeType="xml" attributeName="transform" type="rotate" from="360 280 280 " to="0 280 280" dur="4s"
+              repeatCount="indefinite" />
+            <g>
+              <path d="M280.5,76.5V0l-102,102l102,102v-76.5c84.15,0,153,68.85,153,153c0,25.5-7.65,51-17.85,71.4l38.25,38.25
+            C471.75,357,484.5,321.3,484.5,280.5C484.5,168.3,392.7,76.5,280.5,76.5z M280.5,433.5c-84.15,0-153-68.85-153-153
+            c0-25.5,7.65-51,17.85-71.4l-38.25-38.25C89.25,204,76.5,239.7,76.5,280.5c0,112.2,91.8,204,204,204V561l102-102l-102-102V433.5z">
+
+              </path>
+            </g>
+
+          </svg>
+        </svg>
+      </button>
+    </div>
     <div ngbDropdown class="dropdown  mr-2">
       <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="selectNewNode" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false" title="Creates a new Node based on a template">

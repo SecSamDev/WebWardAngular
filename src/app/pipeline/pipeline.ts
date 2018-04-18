@@ -23,7 +23,7 @@ export class Pipeline {
     /**
      * Status of the pipeline
      */
-    status: number = 0;
+    status: number = 5;
     /**
      * When the pipeline was created
      */

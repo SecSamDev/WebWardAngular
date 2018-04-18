@@ -4,7 +4,7 @@ import {Pipeline} from './pipeline'
 //import {} from ''
 
 //---------PIPES---------
-import {PipelineComponent,ActiveNodeModalContent} from './pipeline.component'
+import {PipelineComponent} from './pipeline.component'
 import {PipelineDirective} from './pipeline.directive'
 import {PipelineService} from './pipeline.service'
 import {PipelineEditComponent} from './pipeline-edit/pipeline-edit.component'
@@ -36,6 +36,5 @@ export {
     PipelineEditComponent,
     HosePipeService,
     PipelineMouseService,
-    NodeConnectorComponent,
-    ActiveNodeModalContent
+    NodeConnectorComponent
 }

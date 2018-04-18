@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-header">
+    <!--HEADER -->
+    {{param.name}}
+  </div>
+  <div class="card-body">
+    <div class="col-sm-12">
+      <div class="form-group row">
+        <label class="col-sm-4" for="valName">Name: </label>
+        <input type="text" class="form-control col-sm-8" name="name" id="valName" placeholder="Name" [(ngModel)]="param.name">
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4" for="valValue">Value: </label>
+        <input type="text" class="form-control col-sm-8" name="value" id="valValue" placeholder="Value" [(ngModel)]="param.value">
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group row d-flex">
+      <button type="submit" class="btn btn-primary col-sm-6" (click)="save()" title="Creates/Updates a parameter for this node">Save</button>
+      <button type="submit" class="btn btn-warning col-sm-6" (click)="delete()" title="Deletes the parameter for this node">Delete</button>
+    </div>
+  </div>
+
+</div>

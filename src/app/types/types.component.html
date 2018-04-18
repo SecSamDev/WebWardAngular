@@ -4,24 +4,24 @@
     <div class="form-group row">
       <label for="selectedProp" class="col-sm-4 col-form-label">Properties:</label>
       <div class="col-sm-8">
-        <select class="custom-select" name="selectedProp" id="selectedProp" type="string" [ngModel]="selectedParam" (ngModelChange)="selectParam($event)">
-          <option *ngFor="let param of properties" [attr.value]="param" [selected]="selectedParam.name===param.name">{{param.name}}</option>
+        <select class="custom-select" name="selectedProp" id="selectedProp" [(ngModel)]="selectedParam" (ngModelChange)="selectParam($event)">
+          <option *ngFor="let param of properties" [ngValue]="param" [selected]="selectedParam.name===param.name">{{param.name}}</option>
         </select>
       </div>
     </div>
     <div class="form-group row">
       <label for="selectedOutParam" class="col-sm-4 col-form-label">Out Params</label>
       <div class="col-sm-8">
-        <select class="custom-select" name="selectedOutParam" id="selectedOutParam" type="string" [ngModel]="selectedParam" (ngModelChange)="selectParam($event)">
-          <option *ngFor="let param of outParams" [attr.value]="param" [selected]="selectedParam.name===param.name">{{param.name}}</option>
+        <select class="custom-select" name="selectedOutParam" id="selectedOutParam"  [(ngModel)]="selectedParam" (ngModelChange)="selectParam($event)">
+          <option *ngFor="let param of outParams" [ngValue]="param" [selected]="selectedParam.name===param.name">{{param.name}}</option>
         </select>
       </div>
     </div>
     <div class="form-group row">
       <label for="selectedErrParam" class="col-sm-4 col-form-label">Err Params</label>
       <div class="col-sm-8">
-        <select class="custom-select" name="selectedErrParam" id="selectedErrParam" type="string" [ngModel]="selectedParam" (ngModelChange)="selectParam($event)">
-          <option *ngFor="let param of errParams" [attr.value]="param" [selected]="selectedParam.name===param.name">{{param.name}}</option>
+        <select class="custom-select" name="selectedErrParam" id="selectedErrParam"  [(ngModel)]="selectedParam" (ngModelChange)="selectParam($event)">
+          <option *ngFor="let param of errParams" [ngValue]="param" [selected]="selectedParam.name===param.name">{{param.name}}</option>
         </select>
       </div>
     </div>
