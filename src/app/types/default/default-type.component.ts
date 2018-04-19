@@ -19,7 +19,6 @@ export class DefaultTypeComponent implements OnInit, TypeComponent {
    
   }
   save() {
-    console.log(this.node.properties)
     this.pipService.updateNodeForPipeline(this.node).subscribe((data)=>{
       this.alert.success("Propertie: " + this.param.name + " saved")
     },err=>{

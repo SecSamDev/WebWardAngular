@@ -293,7 +293,8 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
     node.x = 10
     node.y = 10
-    this.savePipelineNodes();
+    if(this._nodes.length > 0)
+      this.savePipelineNodes();
     this.pipService.createNodeForPipeline(node).subscribe((data) => {
     }, err => {
       this.alertService.error(err.error.message)
