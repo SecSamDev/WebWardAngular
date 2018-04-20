@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-header">
+    <!--HEADER -->
+    {{param.name}}
+  </div>
+  <div class="card-body">
+    <div class="col-sm-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">
+              Value
+              <button type="submit" class="btn btn-primary float-right" (click)="addRow()" title="Adds a row to the array">+</button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let elemento of array_elements; let i = index">
+            <th scope="row">{{i}}</th>
+            <td>
+              <input type="text" [(ngModel)]="array_elements[i]" />
+              <button type="submit" class="btn btn-secondary float-right" (click)="removeRow(i)" title="Removes a row in the array">-</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group row d-flex">
+      <button type="submit" class="btn btn-primary col-sm-6" (click)="save()" title="Creates/Updates a parameter for this node">Save</button>
+      <button type="submit" class="btn btn-warning col-sm-6" (click)="delete()" title="Deletes the parameter for this node">Delete</button>
+    </div>
+  </div>
+</div>

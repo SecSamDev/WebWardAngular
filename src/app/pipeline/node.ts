@@ -186,6 +186,7 @@ export class PipelineNode {
         ret.width = this.width;
         ret.height = this.height;
         ret.pipe = this.pipe;
+        ret.status = Number(this.status);
         ret.inputParams = this.inputParams;
         ret.outputParams = this.outputParams;
         ret.errorParams = this.errorParams;
@@ -321,7 +322,11 @@ export class PipelineNodeAtribute {
     /**
      * Default value
      */
-    value: any;
+    value: string = "";
+    /**
+     * Default value
+     */
+    decoratorValue: string = this.value;
     /**
      * Is optional this atribute
      */

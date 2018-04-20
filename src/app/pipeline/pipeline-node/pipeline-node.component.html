@@ -9,6 +9,12 @@
 </svg:svg>
 <svg:svg x="10" y="40" [attr.height]="node.height - 50" [attr.width]="node.width-20">
     <!-- Aqui ira el contenido. Solo los parametros que acepta de entrada del nodo que recibe -->
+    <svg:g *ngFor="let prop of showProperties;let i = index">
+        <svg:text *ngIf="prop.nickname && prop.nickname != ''" [attr.x]="5" [attr.y]="35 + 70*i" fill="black" font-family="Arial" font-size="30">{{prop.nickname}}:</svg:text>
+        <svg:text *ngIf="!prop.nickname || prop.nickname == ''" [attr.x]="5" [attr.y]="35 + 70*i" fill="black" font-family="Arial" font-size="30">{{prop.name}}:</svg:text>
+        <svg:text  *ngIf="prop.value !== '' && (!prop.decoratorValue || prop.decoratorValue === '')" [attr.x]="50" [attr.y]="70 + 70*i" fill="black" font-family="Arial" font-size="30">{{prop.value}}</svg:text>
+        <svg:text  *ngIf="prop.decoratorValue !=='';" [attr.x]="50" [attr.y]="70 +70*i" fill="black" font-family="Arial" font-size="30">{{prop.decoratorValue}}</svg:text>
+    </svg:g>
 </svg:svg>
 <svg:rect [node-move-directive]="node" #content class="pipe-card-move" *ngIf="node" x="10" y="10" [attr.height]="node.height - 20"
     [attr.width]="node.width - 20" rx="20" ry="20" (click)="selectElement()" />

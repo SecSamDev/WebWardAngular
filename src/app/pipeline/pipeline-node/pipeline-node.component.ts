@@ -13,6 +13,7 @@ import { PipelineNode, PipelineNodeAtribute } from '../node';
 export class PipelineNodeComponent implements OnInit {
   private _node: PipelineNode;
   private statusColor = "green";
+  private showProperties : PipelineNodeAtribute[] = [];
   private subscription;
   @Output() nodeClicked = new EventEmitter<PipelineNode>();
   @Input() set node(node: PipelineNode) {
@@ -20,6 +21,7 @@ export class PipelineNodeComponent implements OnInit {
       this._node.subscriptor.unsubscribe();
     this._node = node;
     this.setColor();
+    this.setProperties();
     this.subscription = this._node.subscriptor.subscribe(() => {
       this.setColor();
     })
@@ -53,7 +55,30 @@ export class PipelineNodeComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  setProperties(){
+    let showProp : PipelineNodeAtribute;
+    if((showProp = this._node.properties.find((val,i,arr)=>{
+      if(val.name === '_SHOW'){
+        return true;
+      }else{
+        return false;
+      }
+    }))){
+      let propNames = showProp.value.split(',');
+      for(let searchPropertie of propNames){
+        let foundPropertie : PipelineNodeAtribute;
+        if((foundPropertie = this._node.properties.find((val,i,arr)=>{
+          if(val.name === searchPropertie){
+            return true;
+          }else{
+            return false;
+          }
+        }))){
+          this.showProperties.push(foundPropertie);
+        }
+      }
+    }
+  }
 
   selectElement() {
     this.nodeClicked.emit(this.node);

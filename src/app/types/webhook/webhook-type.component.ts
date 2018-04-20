@@ -3,6 +3,7 @@ import { WebhookService, WebHook } from '../../webhook/index';
 import { PipelineNodeAtribute, PipelineNode,PipelineService } from '../../pipeline/index'
 import { TypeComponent } from '../type.component'
 import { AlertService } from '../../alert/alert.service'
+import {AppSettings} from '../../appSettings'
 
 @Component({
   selector: 'type-webhook',
@@ -33,6 +34,15 @@ export class WebhookTypeComponent implements OnInit, TypeComponent {
         }
     }, err => {
     })
+  }
+  activate(){
+    if(this.hook.id){
+      this.webhookService.activateWebHook(this.hook).subscribe((data)=>{
+        this.alert.success("Webhook: " + this.hook.name + " activated")
+      },err=>{
+        this.alert.error("Cannot activate webhook")
+      })
+    }
   }
   save() {
     if (this.hook.id && this.hook.id.length > 3) {

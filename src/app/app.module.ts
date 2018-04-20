@@ -69,7 +69,7 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
 //-------------WEBHOOKS--------------------
 import { WebhookComponent,WebhookNewComponent,WebhookService } from './webhook/index';
 //---------------NODE ATTRIBUYTE TYPES-------------------------
-import { TypesComponent,TypesDirective,WebhookTypeComponent,DefaultTypeComponent } from './types/index';
+import { TypesModule } from './types/types.module';
 
 @NgModule({
   declarations: [
@@ -112,19 +112,15 @@ import { TypesComponent,TypesDirective,WebhookTypeComponent,DefaultTypeComponent
     PipelineNewComponent,
     NodeConnectorComponent,
     WebhookComponent,
-    WebhookNewComponent,
-    TypesDirective,
-    WebhookTypeComponent,
-    TypesComponent,
-    DefaultTypeComponent
+    WebhookNewComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    AppRoutingModule
-
+    AppRoutingModule,
+    TypesModule
   ],
   providers: [
     WebProjectService,
@@ -149,7 +145,7 @@ import { TypesComponent,TypesDirective,WebhookTypeComponent,DefaultTypeComponent
     }
 
   ],
-  bootstrap: [AppComponent,PipelineEditComponent,PipelineNodeEditComponent,WebhookTypeComponent,DefaultTypeComponent]
+  bootstrap: [AppComponent,PipelineEditComponent,PipelineNodeEditComponent]
 })
 
 export class AppModule { }

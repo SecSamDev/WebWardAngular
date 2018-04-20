@@ -15,7 +15,7 @@
       <textarea class="form-control" id="pipelineDescription" rows="3" name="description" [(ngModel)]="pipeline.description"></textarea>
     </div>
     <div class="form-group">
-      <label for="pipelineStatus">Pipeline sTATUS</label>
+      <label for="pipelineStatus">Pipeline Status</label>
       <select class="custom-select" name="pipelineStatus" id="pipelineStatus" [(ngModel)]="pipeline.status">
         <option [value]="0" [selected]="pipeline.status === 0">WAITING</option>
         <option [value]="1" [selected]="pipeline.status === 1">STARTED</option>

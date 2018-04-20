@@ -24,6 +24,9 @@ export class WebhookService {
     let webProjID = this.webProjServ.getActualProject().id;
     return this.http.get(AppSettings.API_ENDPOINT + 'webhook' + (webProjID ? "?web_project=" + webProjID : "")).map(data => data as WebHook[]);
   }
+  activateWebHook(webhook: WebHook): Observable<any> {
+    return this.http.get(AppSettings.API_ENDPOINT + 'webhook/' + webhook.id);
+  }
   deleteWebHook(webhook: WebHook) {
     return this.http.delete(AppSettings.API_ENDPOINT + 'webhook/' + webhook.id);
   }
