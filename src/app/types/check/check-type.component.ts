@@ -4,11 +4,11 @@ import { AlertService } from '../../alert/alert.service'
 import { TypeComponent } from '../type.component'
 
 @Component({
-    selector: 'type-array',
-    templateUrl: './array-type.component.html',
-    styleUrls: ['./array-type.component.css']
+    selector: 'type-check',
+    templateUrl: './check-type.component.html',
+    styleUrls: ['./check-type.component.css']
 })
-export class ArrayTypeComponent implements OnInit, TypeComponent {
+export class CheckTypeComponent implements OnInit, TypeComponent {
     @Input() node: PipelineNode;
     @Input() param: PipelineNodeAtribute;
     private array_elements: string[] = [];
@@ -16,14 +16,14 @@ export class ArrayTypeComponent implements OnInit, TypeComponent {
     constructor(private pipService: PipelineService, private alert: AlertService) { }
 
     ngOnInit() {
-        if (this.param.type === 'ARRAY')
+        console.log(this.param.value)
+        if (this.param.type === 'CHECK_SCAN')
             this.array_elements = parseArray(this.param.value)
-        if (this.param.type === 'JSON_ARRAY')
-            this.array_elements = parseJSONArray(this.param.value)
         this.param.decoratorValue = this.array_elements.join(',')
     }
     save() {
-        this.param.value = this.array_elements.join(',');
+        if (this.array_elements)
+            this.param.value = this.array_elements.join(',');
         this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
             this.alert.success("Propertie: " + this.param.name + " saved")
         }, err => {
@@ -32,28 +32,28 @@ export class ArrayTypeComponent implements OnInit, TypeComponent {
     }
     delete() {
         let found = false;
-        for(let i = 0; i < this.node.properties.length && !found;  i++){
-            if(this.node.properties[i] === this.param){
-                this.node.properties.splice(i,1);
+        for (let i = 0; i < this.node.properties.length && !found; i++) {
+            if (this.node.properties[i] === this.param) {
+                this.node.properties.splice(i, 1);
                 this.param = null;
                 found = true;
             }
         }
-        for(let i = 0; i < this.node.errorParams.length && !found;  i++){
-            if(this.node.errorParams[i] === this.param){
-                this.node.errorParams.splice(i,1);
+        for (let i = 0; i < this.node.errorParams.length && !found; i++) {
+            if (this.node.errorParams[i] === this.param) {
+                this.node.errorParams.splice(i, 1);
                 this.param = null;
                 found = true;
             }
         }
-        for(let i = 0; i < this.node.outputParams.length && !found;  i++){
-            if(this.node.outputParams[i] === this.param){
-                this.node.outputParams.splice(i,1);
+        for (let i = 0; i < this.node.outputParams.length && !found; i++) {
+            if (this.node.outputParams[i] === this.param) {
+                this.node.outputParams.splice(i, 1);
                 this.param = null;
                 found = true;
             }
         }
-        if(found){
+        if (found) {
             this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
                 this.alert.success("Propertie: " + this.param.name + " saved")
             }, err => {
@@ -61,11 +61,11 @@ export class ArrayTypeComponent implements OnInit, TypeComponent {
             })
         }
     }
-    addRow(){
+    addRow() {
         this.array_elements.push(`Element ${this.array_elements.length}`)
     }
-    removeRow(pos:number = 0){
-        this.array_elements.splice(pos,1)
+    removeRow(pos: number = 0) {
+        this.array_elements.splice(pos, 1)
     }
     trackByFn(index: any, item: any) {
         return index;
@@ -73,12 +73,23 @@ export class ArrayTypeComponent implements OnInit, TypeComponent {
 
 }
 function parseJSONArray(val) {
-    if(val.length > 0){
+    if (val.length > 0) {
         return val;
-    }else if(typeof val === 'string'){
+    } else if (typeof val === 'string') {
         return val.split(',');
     }
 }
-function parseArray(val: string) {
-    return val.split(',');
+function parseArray(val) {
+    if (typeof val === 'string') {
+        return val.split(',').map((val, i, arr) => {
+            return new String(val);
+        })
+    } else if (val.length > 0) {
+        return val.map((val, i, arr) => {
+            return new String(val);
+        })
+    } else {
+        return [];
+    }
+
 }

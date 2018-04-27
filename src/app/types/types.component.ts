@@ -1,11 +1,14 @@
 import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { PipelineNodeAtribute, PipelineNode } from '../pipeline/node';
 import { TypesDirective } from './types.directive';
-import { WebhookTypeComponent } from './webhook/webhook-type.component'
+import { WebhookTypeComponent } from './webhook/webhook-type.component';
+import { ObjectTypeComponent } from './object/object-type.component';
 import { DefaultTypeComponent } from './default/default-type.component';
 import { ArrayTypeComponent } from './array/array-type.component';
 import { DaysTypeComponent } from './days/days-type.component';
 import { TimeTypeComponent } from './time/time-type.component';
+import { CheckTypeComponent } from './check/check-type.component';
+import { ScanProfileTypeComponent } from './scan-profile/scan-profile-type.component';
 import { TypeComponent } from './type.component';
 
 @Component({
@@ -50,39 +53,54 @@ export class TypesComponent implements OnInit {
   }
   ngOnInit() {
   }
-  addPropertie(){
+  addPropertie() {
     let propertie = new PipelineNodeAtribute();
     propertie.name = "Propertie n" + this.properties.length;
     propertie.value = "";
     let pos = this.properties.push(propertie)
-    this.selectedParam = this.properties[pos-1]
+    this.selectedParam = this.properties[pos - 1]
   }
-  addErrParameter(){
+  addErrParameter() {
     let propertie = new PipelineNodeAtribute();
     propertie.name = "Error Parameter n" + this.errParams.length;
     propertie.value = "";
-    let pos =this.errParams.push(propertie)
-    this.selectedParam = this.errParams[pos-1]
+    let pos = this.errParams.push(propertie)
+    this.selectedParam = this.errParams[pos - 1]
   }
-  addOutParameter(){
+  addOutParameter() {
     let propertie = new PipelineNodeAtribute();
     propertie.name = "Output Parameter n" + this.outParams.length;
     propertie.value = "";
-    let pos =this.outParams.push(propertie)
-    this.selectedParam = this.outParams[pos-1]
+    let pos = this.outParams.push(propertie)
+    this.selectedParam = this.outParams[pos - 1]
   }
 
   loadComponent() {
     let comp;
-    switch (this.selectedParam.type) {
+    switch ((this.selectedParam.type).toUpperCase()) {
       case 'WEBHOOK':
         comp = WebhookTypeComponent;
+        break;
+      case 'OBJECT':
+        comp = ObjectTypeComponent;
+        break;
+      case 'JSON_OBJECT':
+        comp = ObjectTypeComponent;
         break;
       case 'DAYS_PICKER':
         comp = DaysTypeComponent;
         break;
       case 'ARRAY':
         comp = ArrayTypeComponent;
+        break;
+      case 'JSON_ARRAY':
+        comp = ArrayTypeComponent;
+        break;
+      case 'CHECK_SCAN':
+        comp = CheckTypeComponent;
+        break;
+      case 'SCAN_PROFILE':
+        comp = ScanProfileTypeComponent;
         break;
       case 'TIME':
         comp = TimeTypeComponent;

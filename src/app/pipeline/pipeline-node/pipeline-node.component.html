@@ -7,7 +7,7 @@
     <svg:path [attr.d]="'M1 40 V21 Q1 1 21 1 H41 V40z'" [attr.fill]="statusColor" stroke="black" sroke-width="1.5" />
     <svg:text [attr.x]="50" [attr.y]="30" fill="black" font-family="Arial" font-size="30">{{node.name}}</svg:text>
 </svg:svg>
-<svg:svg x="10" y="40" [attr.height]="node.height - 50" [attr.width]="node.width-20">
+<svg:svg x="30" y="40" [attr.height]="node.height - 50" [attr.width]="node.width-50">
     <!-- Aqui ira el contenido. Solo los parametros que acepta de entrada del nodo que recibe -->
     <svg:g *ngFor="let prop of showProperties;let i = index">
         <svg:text *ngIf="prop.nickname && prop.nickname != ''" [attr.x]="5" [attr.y]="35 + 70*i" fill="black" font-family="Arial" font-size="30">{{prop.nickname}}:</svg:text>

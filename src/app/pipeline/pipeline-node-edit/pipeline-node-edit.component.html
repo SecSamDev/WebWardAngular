@@ -18,16 +18,16 @@
       <button class="btn btn-sm btn-outline-secondary w-100" (click)="node.deleteInput()">-Inputs</button>
     </div>
     <div class="form-group row">
-        <label class="col-sm-4" for="nodeName">Node Status</label>
-        <select class="custom-select" name="nodeStatus" id="nodeStatus" [(ngModel)]="node.status">
-            <option [value]="0" [selected]="node.status === 0">WAITING</option>
-            <option [value]="1" [selected]="node.status === 1">STARTED</option>
-            <option [value]="2" [selected]="node.status === 2">SUCCESS</option>
-            <option [value]="3" [selected]="node.status === 3">ERROR</option>
-            <option [value]="4" [selected]="node.status === 4">END</option>
-            <option [value]="5" [selected]="node.status === 5">INACTIVE</option>
-          </select>
-      </div>
+      <label class="col-sm-4" for="nodeName">Node Status</label>
+      <select class="custom-select" name="nodeStatus" id="nodeStatus" [(ngModel)]="node.status">
+        <option [value]="0" [selected]="node.status === 0">WAITING</option>
+        <option [value]="1" [selected]="node.status === 1">STARTED</option>
+        <option [value]="2" [selected]="node.status === 2">SUCCESS</option>
+        <option [value]="3" [selected]="node.status === 3">ERROR</option>
+        <option [value]="4" [selected]="node.status === 4">END</option>
+        <option [value]="5" [selected]="node.status === 5">INACTIVE</option>
+      </select>
+    </div>
     <dl class="row">
       <dt class="col-sm-1" data-toggle="tooltip" data-placement="top" title="The ID of the node">ID</dt>
       <dd class="col-sm-11">{{node.id}}</dd>

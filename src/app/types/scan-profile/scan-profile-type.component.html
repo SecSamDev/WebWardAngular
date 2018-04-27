@@ -5,12 +5,18 @@
   </div>
   <div class="card-body">
     <div class="col-sm-12">
+      <div class="form-group row">
+        <label class="col-sm-4" for="profile">Select Scan Profile:</label>
+        <select class="custom-select" name="profile" id="profile" (change)="selectTemplate($event.target.value)">
+          <option *ngFor="let elem of templates; let i = index" [value]="i">{{elem.name}}</option>
+        </select>
+      </div>
       <table class="table">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">
-              Value
+              Scan Profile:
               <button type="submit" class="btn btn-primary float-right" (click)="addRow()" title="Adds a row to the array">+</button>
             </th>
           </tr>

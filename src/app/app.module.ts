@@ -32,6 +32,7 @@ import { UserService, UserManagementComponent, UserEditComponent, UserNewCompone
 import { ScanCheckComponent, ScanCheckEditComponent, ScanCheckNewComponent, ScanCheckService, ScanCheckViewComponent } from './scan-check/index';
 
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
+import { ScanProfileService } from './scan-profile/scan-profile.service';
 import { ScanReportComponent } from './scan-report/scan-report.component';
 
 //-----------AUTH---------------
@@ -138,6 +139,7 @@ import { TypesModule } from './types/types.module';
     PipelineMouseService,
     PipelineService,
     WebhookService,
+    ScanProfileService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

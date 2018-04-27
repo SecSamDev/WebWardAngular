@@ -1,4 +1,5 @@
 import {ScanReport} from '../scan-report/scan-report';
+
 export class ScanProfile{
     /**
      * Identification in the DB
@@ -15,9 +16,5 @@ export class ScanProfile{
     /**
      * Array of vulenrabilities to check
      */
-    check : [string];
-    /**
-     * Array of identificators of the last reports of the scanner
-     */
-    reports : [ScanReport] | [string];
+    checks : string[];
 }
