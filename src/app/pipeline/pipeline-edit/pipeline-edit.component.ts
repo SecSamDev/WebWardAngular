@@ -40,5 +40,15 @@ export class PipelineEditComponent implements OnInit {
       this.alert.error('Cant delete pipeline');
     })
   }
+  sureDelete() {
+    this.delete()
+    this.activeModal.close('Close click');
+  }
+  deleteModal(content) {
+    this.modalService.open(content).result.then((result) => {
+    }, (reason) => {
+    }).catch(err => {
+    });
+  }
 
 }

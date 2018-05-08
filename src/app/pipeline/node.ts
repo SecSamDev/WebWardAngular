@@ -264,6 +264,32 @@ export class PipelineNode {
 
             }
         }
+        for (let i = 0; i < this.outputConnectors.length; i++) {//Cada Conector
+            if (this.outputConnectors[i].conectedNodes.length > 0) {
+                let conecteds = this.outputConnectors[i].conectedNodes;
+                for (let j = 0; j < conecteds.length; j++) {
+                    let node = findNodeInArray(array, conecteds[j].originNode.id);
+                    if (!node) {
+                        this.outputConnectors[i].removeThisConnector(conecteds[j])
+                        j--;
+                    }
+                }
+
+            }
+        }
+        for (let i = 0; i < this.errorConnectors.length; i++) {//Cada Conector
+            if (this.errorConnectors[i].conectedNodes.length > 0) {
+                let conecteds = this.errorConnectors[i].conectedNodes;
+                for (let j = 0; j < conecteds.length; j++) {
+                    let node = findNodeInArray(array, conecteds[j].originNode.id);
+                    if (!node) {
+                        this.errorConnectors[i].removeThisConnector(conecteds[j])
+                        j--;
+                    }
+                }
+
+            }
+        }
     }
 }
 /**

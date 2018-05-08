@@ -15,7 +15,7 @@ export class ObjectTypeComponent implements OnInit, TypeComponent {
 
   @Input() set param(prm){
     Object.assign(this._param,prm);
-    this._param.value = JSON.stringify(prm.value);
+    this._param.value = JSON.stringify(prm.value,null, "\t");
   };
   get param(){
     return this._param;

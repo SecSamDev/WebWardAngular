@@ -71,6 +71,11 @@ import { UserProfileComponent } from './user-management/user-profile/user-profil
 import { WebhookComponent,WebhookNewComponent,WebhookService } from './webhook/index';
 //---------------NODE ATTRIBUYTE TYPES-------------------------
 import { TypesModule } from './types/types.module';
+import { InfraestructureComponent } from './container/infraestructure/infraestructure.component';
+import { InfraestructureService } from './container/infraestructure.service';
+import { InfraestructureEditComponent } from './container/infraestructure-edit/infraestructure-edit.component';
+import { InfraestructureNewComponent } from './container/infraestructure-new/infraestructure-new.component';
+
 
 @NgModule({
   declarations: [
@@ -113,7 +118,10 @@ import { TypesModule } from './types/types.module';
     PipelineNewComponent,
     NodeConnectorComponent,
     WebhookComponent,
-    WebhookNewComponent
+    WebhookNewComponent,
+    InfraestructureComponent,
+    InfraestructureEditComponent,
+    InfraestructureNewComponent
   ],
   imports: [
     BrowserModule,
@@ -140,6 +148,7 @@ import { TypesModule } from './types/types.module';
     PipelineService,
     WebhookService,
     ScanProfileService,
+    InfraestructureService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
