@@ -21,7 +21,7 @@ export class WWInfraestructure{
     /**
      * Ports exposed
      */
-    ports = [5432]
+    ports = []
     /**
      * Replicas of the container
      */
@@ -29,7 +29,7 @@ export class WWInfraestructure{
     /**
      * Volumes needed
      */
-    volumes = ["100Mb"];
+    volumes = [];
     /**
      * Environmental variables
      */

@@ -75,6 +75,7 @@ import { InfraestructureComponent } from './container/infraestructure/infraestru
 import { InfraestructureService } from './container/infraestructure.service';
 import { InfraestructureEditComponent } from './container/infraestructure-edit/infraestructure-edit.component';
 import { InfraestructureNewComponent } from './container/infraestructure-new/infraestructure-new.component';
+import { WwmodulesComponent } from './wwmodules/wwmodules.component';
 
 
 @NgModule({
@@ -121,7 +122,8 @@ import { InfraestructureNewComponent } from './container/infraestructure-new/inf
     WebhookNewComponent,
     InfraestructureComponent,
     InfraestructureEditComponent,
-    InfraestructureNewComponent
+    InfraestructureNewComponent,
+    WwmodulesComponent
   ],
   imports: [
     BrowserModule,
