@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { AlertService } from './alert/alert.service';
 import { WebProjectService, WebProject } from './web-project/index'
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
     this.auth.signOut();
   }
   ngOnInit() {
+    //TODO: Important detect API REST direction from navbar
     this.fetchWebProjects();
     this.webProjServ.subscribeToWebProjects().subscribe((data) => {
       this.fetchWebProjects();
