@@ -19,6 +19,7 @@ export class PipelineNewComponent implements OnInit {
   ngOnInit() {
   }
   save(){
+    this.pipe.status = 5;
     this.pipService.createPipeline(this.pipe).subscribe((data)=>{
       this.alertService.success('Suscessfully saved pipeline')
       return data;

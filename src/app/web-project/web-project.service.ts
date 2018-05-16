@@ -6,7 +6,7 @@ import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/map'
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AppSettings } from '../appSettings';
+import { AppSettingsService } from '../app-settings.service';
 import { WebProject } from './web-project';
 import { AlertService } from '../alert/alert.service';
 import { EnvironmentService } from '../environment/environment.service';
@@ -17,7 +17,11 @@ export class WebProjectService {
   private subscriber: Subscriber<boolean>;
   private pullerObserver: Observable<boolean>;
   private actualProject: WebProject = new WebProject();
-  constructor(private http: HttpClient, private alertService: AlertService, private envServ: EnvironmentService) {
+  constructor(
+    private AppSettings : AppSettingsService,
+    private http: HttpClient, 
+    private alertService: AlertService, 
+    private envServ: EnvironmentService) {
     this.pullerObserver = new Observable(observer => {
       this.subscriber = observer;
     });
@@ -26,7 +30,7 @@ export class WebProjectService {
   getWebProjects(fill: boolean = false): Observable<WebProject[]> {
     return new Observable(observer => {
       if (fill) {
-        this.http.get(AppSettings.API_ENDPOINT + 'webproject')
+        this.http.get(this.AppSettings.API_ENDPOINT + 'webproject')
           .map(data => data as WebProject[])
           .flatMap((projects: WebProject[]) => Observable.forkJoin(projects.map(
             (project: WebProject) => {
@@ -49,7 +53,7 @@ export class WebProjectService {
             observer.error(err);
           });
       } else {
-        this.http.get(AppSettings.API_ENDPOINT + 'webproject').map(data => data as WebProject[])
+        this.http.get(this.AppSettings.API_ENDPOINT + 'webproject').map(data => data as WebProject[])
           .subscribe(data => {
             if (data.length > 0  && this.actualProject.id === '') {
               this.actualProject = data[0];
@@ -64,7 +68,7 @@ export class WebProjectService {
   }
   getWebProject(id: string, fill: boolean = false): Observable<WebProject> {
     if (fill) {
-      return this.http.get(AppSettings.API_ENDPOINT + 'webproject/' + id)
+      return this.http.get(this.AppSettings.API_ENDPOINT + 'webproject/' + id)
         .map(data => data as WebProject)
         .flatMap((project: WebProject) => {
           return Observable.forkJoin(project.environments.map(
@@ -78,13 +82,13 @@ export class WebProjectService {
         }
         )
     } else {
-      return this.http.get(AppSettings.API_ENDPOINT + 'webproject/' + id).map(data => data as WebProject);
+      return this.http.get(this.AppSettings.API_ENDPOINT + 'webproject/' + id).map(data => data as WebProject);
     }
 
   }
   postWebProject(project: WebProject) {
     return new Observable(observer => {
-      this.http.post(AppSettings.API_ENDPOINT + 'webproject', project, { responseType: 'json' })
+      this.http.post(this.AppSettings.API_ENDPOINT + 'webproject', project, { responseType: 'json' })
         .subscribe(data => {
           this.notify();
           observer.next(data);
@@ -95,7 +99,7 @@ export class WebProjectService {
   }
   updateWebProject(project: WebProject) {
     return new Observable(observer => {
-      this.http.put(AppSettings.API_ENDPOINT + 'webproject/' + project.id, project, { responseType: 'json' })
+      this.http.put(this.AppSettings.API_ENDPOINT + 'webproject/' + project.id, project, { responseType: 'json' })
         .subscribe(data => {
           this.notify();
           observer.next(data);
@@ -107,7 +111,7 @@ export class WebProjectService {
   deleteWebProject(project: WebProject) {
 
     return new Observable(observer => {
-      this.http.delete(AppSettings.API_ENDPOINT + 'webproject/' + project.id, { responseType: 'json' })
+      this.http.delete(this.AppSettings.API_ENDPOINT + 'webproject/' + project.id, { responseType: 'json' })
         .subscribe(data => {
           this.notify();
           observer.next(data);

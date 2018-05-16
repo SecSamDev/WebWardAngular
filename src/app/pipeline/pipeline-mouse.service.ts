@@ -4,7 +4,6 @@ import { Observer } from 'rxjs/Observer';
 import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/map'
-import { AppSettings } from '../appSettings';
 import { AlertService } from '../alert/alert.service';
 
 import { PipelineNode, PipelineNodeAtribute,PIPE_TAGS } from './node';

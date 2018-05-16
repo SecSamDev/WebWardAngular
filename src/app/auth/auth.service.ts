@@ -3,12 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AppSettings } from '../appSettings';
 import { Router } from '@angular/router';
+import { AppSettingsService } from '../app-settings.service';
 @Injectable()
 export class AuthService {
     helper = new JwtHelperService();
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router,private AppSettings : AppSettingsService) { }
     myVar: boolean = true;
     public getToken() {
         return localStorage.getItem('token');
@@ -26,7 +26,7 @@ export class AuthService {
      */
     public signIn(username: string, password: string, remember: boolean = false) {
         return this.http.post<any>(
-            AppSettings.API_ENDPOINT + 'authenticate',
+            this.AppSettings.API_ENDPOINT + 'authenticate',
             { 'username': username, 'password': password, 'remember': remember }, { responseType: 'json' }
         )
             .map(data => {

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { NgbModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule } from '@angular/forms';
@@ -44,13 +44,13 @@ import { TokenInterceptor } from './auth/auth.interceptor';
 
 //-------------PIPELINE-------------
 import {
-  PipelineComponent, 
-  PipelineDirective, 
-  PipelineNodeAtribute, 
-  PipelineNodeComponent, 
-  NodeMoveDirective, 
-  PipelineNodeEditComponent, 
-  PipelineNodeNewComponent, 
+  PipelineComponent,
+  PipelineDirective,
+  PipelineNodeAtribute,
+  PipelineNodeComponent,
+  NodeMoveDirective,
+  PipelineNodeEditComponent,
+  PipelineNodeNewComponent,
   PipelineService,
   NodeResizeDirective,
   NodePipeMeDirective,
@@ -61,22 +61,20 @@ import {
   NodeConnectorComponent
 } from './pipeline/index'
 
-import { ContainerComponent } from './container/container.component';
 import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
 import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component';
 import { MyProfileComponent } from './user-management/my-profile/my-profile.component';
 import { UserProfileComponent } from './user-management/user-profile/user-profile.component';
 
 //-------------WEBHOOKS--------------------
-import { WebhookComponent,WebhookNewComponent,WebhookService } from './webhook/index';
+import { WebhookComponent, WebhookNewComponent, WebhookService } from './webhook/index';
 //---------------NODE ATTRIBUYTE TYPES-------------------------
 import { TypesModule } from './types/types.module';
-import { InfraestructureComponent } from './container/infraestructure/infraestructure.component';
-import { InfraestructureService } from './container/infraestructure.service';
-import { InfraestructureEditComponent } from './container/infraestructure-edit/infraestructure-edit.component';
-import { InfraestructureNewComponent } from './container/infraestructure-new/infraestructure-new.component';
 import { WwmodulesComponent } from './wwmodules/wwmodules.component';
 
+import { AppSettingsService } from './app-settings.service';
+import { InfrastructureComponent } from './infrastructure/infrastructure.component';
+import { ArachniComponent } from './arachni/arachni.component'
 
 @NgModule({
   declarations: [
@@ -90,7 +88,6 @@ import { WwmodulesComponent } from './wwmodules/wwmodules.component';
     WebProjectNewComponent,
     ScanProfileComponent,
     ScanReportComponent,
-    ContainerComponent,
     DashboardWebProjectComponent,
     UserManagementComponent,
     UserEditComponent,
@@ -120,10 +117,9 @@ import { WwmodulesComponent } from './wwmodules/wwmodules.component';
     NodeConnectorComponent,
     WebhookComponent,
     WebhookNewComponent,
-    InfraestructureComponent,
-    InfraestructureEditComponent,
-    InfraestructureNewComponent,
-    WwmodulesComponent
+    WwmodulesComponent,
+    InfrastructureComponent,
+    ArachniComponent
   ],
   imports: [
     BrowserModule,
@@ -150,7 +146,7 @@ import { WwmodulesComponent } from './wwmodules/wwmodules.component';
     PipelineService,
     WebhookService,
     ScanProfileService,
-    InfraestructureService,
+    AppSettingsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
@@ -158,7 +154,7 @@ import { WwmodulesComponent } from './wwmodules/wwmodules.component';
     }
 
   ],
-  bootstrap: [AppComponent,PipelineEditComponent,PipelineNodeEditComponent]
+  bootstrap: [AppComponent, PipelineEditComponent, PipelineNodeEditComponent]
 })
 
 export class AppModule { }

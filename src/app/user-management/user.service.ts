@@ -5,7 +5,7 @@ import { Observer } from 'rxjs/Observer';
 import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/map';
-import { AppSettings } from '../appSettings';
+import { AppSettingsService } from '../app-settings.service';
 import { User } from './user';
 
 @Injectable()
@@ -13,25 +13,25 @@ export class UserService {
     private subscriber: Subscriber<boolean>;
     private pullerObserver: Observable<boolean>;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private AppSettings : AppSettingsService) {
         this.pullerObserver = new Observable(observer => {
             this.subscriber = observer;
         });
 
     }
     getUsers(): Observable<User[]> {
-        return this.http.get(AppSettings.API_ENDPOINT + 'user').map(data => {
+        return this.http.get(this.AppSettings.API_ENDPOINT + 'user').map(data => {
             return data as User[];
         });
 
     }
     getUser(id: string, fill: boolean = false): Observable<User> {
-        return this.http.get(AppSettings.API_ENDPOINT + 'user/' + id).map(data => data as User);
+        return this.http.get(this.AppSettings.API_ENDPOINT + 'user/' + id).map(data => data as User);
 
     }
     postUser(user: User) {
         return new Observable(observer => {
-            this.http.post(AppSettings.API_ENDPOINT + 'user', user, { responseType: 'json' })
+            this.http.post(this.AppSettings.API_ENDPOINT + 'user', user, { responseType: 'json' })
                 .subscribe(data => {
                     this.notify();
                     observer.next(data);
@@ -42,7 +42,7 @@ export class UserService {
     }
     updateUser(user: User) {
         return new Observable(observer => {
-            this.http.put(AppSettings.API_ENDPOINT + 'user/' + user.id, user, { responseType: 'json' })
+            this.http.put(this.AppSettings.API_ENDPOINT + 'user/' + user.id, user, { responseType: 'json' })
                 .subscribe(data => {
                     this.notify();
                     observer.next(data);
@@ -54,7 +54,7 @@ export class UserService {
     deleteUser(user: User) {
 
         return new Observable(observer => {
-            this.http.delete(AppSettings.API_ENDPOINT + 'user/' + user.id, { responseType: 'json' })
+            this.http.delete(this.AppSettings.API_ENDPOINT + 'user/' + user.id, { responseType: 'json' })
                 .subscribe(data => {
                     this.notify();
                     observer.next(data);

@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { PipelineNodeAtribute, PipelineNode, PipelineService } from '../../pipeline/index'
 import { TypeComponent } from '../type.component'
 import { AlertService } from '../../alert/alert.service'
-import { AppSettings } from '../../appSettings'
 import { ScanProfileService } from '../../scan-profile/scan-profile.service';
 import { ScanProfile } from '../../scan-profile/scan-profile';
 

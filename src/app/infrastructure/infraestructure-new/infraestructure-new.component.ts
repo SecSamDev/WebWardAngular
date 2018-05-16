@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { KubeContainer } from '../container';
 import { InfraestructureService } from '../infraestructure.service';
+import { WWInfraestructure } from '../infraestructure';
 
 @Component({
   selector: 'infraestructure-new',
@@ -8,15 +8,12 @@ import { InfraestructureService } from '../infraestructure.service';
   styleUrls: ['./infraestructure-new.component.css']
 })
 export class InfraestructureNewComponent implements OnInit {
-  private _infraestructure: KubeContainer;
+  private _infraestructure: WWInfraestructure;
   private _content: string = "";
-  @Input() set infraestructure(inf: KubeContainer) {
+  @Input() set infraestructure(inf: WWInfraestructure) {
     this._infraestructure = inf;
-    if(inf.content)
-      this._content = JSON.stringify(inf.content, null, "\t");
   }
   get infraestructure() {
-    this._infraestructure.content = JSON.parse(this._content)
     return this._infraestructure;
   }
   constructor(private infrService: InfraestructureService) { }

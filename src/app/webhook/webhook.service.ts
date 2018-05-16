@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettings } from '../appSettings';
+import { AppSettingsService } from '../app-settings.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { WebHook } from './webhook'
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,11 @@ import { WebProjectService } from '../web-project/index'
 export class WebhookService {
   private subscriber: Subscriber<boolean>;
   private pullerObserver: Observable<boolean>;
-  constructor(private http: HttpClient, private webProjServ: WebProjectService) {
+
+  constructor(
+    private AppSettings : AppSettingsService,
+    private http: HttpClient, 
+    private webProjServ: WebProjectService) {
     this.pullerObserver = new Observable(observer => {
       this.subscriber = observer;
     });
@@ -22,22 +26,22 @@ export class WebhookService {
   }
   getWebHooks(): Observable<WebHook[]> {
     let webProjID = this.webProjServ.getActualProject().id;
-    return this.http.get(AppSettings.API_ENDPOINT + 'webhook' + (webProjID ? "?web_project=" + webProjID : "")).map(data => data as WebHook[]);
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'webhook' + (webProjID ? "?web_project=" + webProjID : "")).map(data => data as WebHook[]);
   }
   activateWebHook(webhook: WebHook): Observable<any> {
-    return this.http.get(AppSettings.API_ENDPOINT + 'webhook/' + webhook.id);
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'webhook/' + webhook.id);
   }
   deleteWebHook(webhook: WebHook) {
-    return this.http.delete(AppSettings.API_ENDPOINT + 'webhook/' + webhook.id);
+    return this.http.delete(this.AppSettings.API_ENDPOINT + 'webhook/' + webhook.id);
   }
   createWebHook(webhook: WebHook) {
-    return this.http.post(AppSettings.API_ENDPOINT + 'webhook', webhook, { responseType: 'json' });
+    return this.http.post(this.AppSettings.API_ENDPOINT + 'webhook', webhook, { responseType: 'json' });
   }
   getWebHookForNode(node: PipelineNode) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'webhook/node/' + node.id, { responseType: 'json' }).map(data => data as WebHook);
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'webhook/node/' + node.id, { responseType: 'json' }).map(data => data as WebHook);
   }
   updateWebHook(webhook: WebHook) {
-    return this.http.put(AppSettings.API_ENDPOINT + 'webhook/' + webhook.id, webhook, { responseType: 'json' });
+    return this.http.put(this.AppSettings.API_ENDPOINT + 'webhook/' + webhook.id, webhook, { responseType: 'json' });
   }
   subscribeToWebHooks(): Observable<boolean> {
     return this.pullerObserver;

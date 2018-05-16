@@ -14,8 +14,8 @@ import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.com
 import { MyProfileComponent} from './user-management/my-profile/my-profile.component';
 import { PipelineComponent} from './pipeline/pipeline.component';
 import { WebhookComponent} from './webhook/index'
-import { ContainerComponent } from './container/container.component';
-import { InfraestructureEditComponent } from './container/infraestructure-edit/infraestructure-edit.component';
+import { InfrastructureComponent } from './infrastructure/infrastructure.component';
+import { ArachniComponent } from './arachni/arachni.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -28,8 +28,9 @@ const routes: Routes = [
   { path: 'check', component: ScanCheckComponent, canActivate: [AuthGuard] },
   { path: 'check/:id', component: ScanCheckEditComponent, canActivate: [AuthAdmin] },
   { path: 'console', component: WebWardConsoleComponent, canActivate: [AuthAdmin] },
-  { path: 'containers', component: ContainerComponent, canActivate: [AuthAdmin] },
-  { path: 'infraestructure/:id', component: InfraestructureEditComponent, canActivate: [AuthAdmin] },
+  { path: 'infrastructure', component: InfrastructureComponent, canActivate: [AuthAdmin] },
+  { path: 'infrastructure/:id', component: InfrastructureComponent, canActivate: [AuthAdmin] },
+  { path: 'arachni', component: ArachniComponent, canActivate: [AuthAdmin] },
   { path: 'profile', component: MyProfileComponent, canActivate: [AuthGuard] },
   { path: 'pipeline', component: PipelineComponent, canActivate: [AuthGuard] },
   { path: 'webhook', component: WebhookComponent, canActivate: [AuthGuard] },

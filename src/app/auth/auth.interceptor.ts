@@ -11,14 +11,15 @@ import { AuthService } from './auth.service';
 import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
-import { AppSettings } from '../appSettings';
-const apiURL = new URL(AppSettings.API_ENDPOINT);
+import { AppSettingsService } from '../app-settings.service';
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-    constructor(public auth: AuthService, private alerts: AlertService) { }
+    constructor(public auth: AuthService, private alerts: AlertService, private AppSettings : AppSettingsService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const apiURL = new URL(this.AppSettings.API_ENDPOINT);
         let targetURL = new URL(request.url);
         if (apiURL.origin === targetURL.origin) {
             request = request.clone({

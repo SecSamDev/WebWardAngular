@@ -6,13 +6,13 @@ import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/interval';
-import { AppSettings } from '../appSettings';
 import { AlertService } from '../alert/alert.service';
 import { WebProjectService } from '../web-project/index';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 import { PipelineNode, PipelineNodeAtribute, pipelineNodeFromJSON } from './node';
 import { PIPE_TAGS } from './node';
 import { Pipeline } from './pipeline'
+import { AppSettingsService } from '../app-settings.service';
 
 
 @Injectable()
@@ -26,7 +26,9 @@ export class PipelineService {
   private pullerObserver: Observable<boolean>;
   private activeCache;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private AppSettings : AppSettingsService,
+    private http: HttpClient,
     private alertService: AlertService,
     private webProjServ: WebProjectService
   ) {
@@ -47,13 +49,13 @@ export class PipelineService {
     this.lastSearchNode -= 30000;
   }
   findPipeline(id: string) {
-    return this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + id).map(data => data as Pipeline);
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline/' + id).map(data => data as Pipeline);
   }
   findPipelines() {
     return new Observable<Pipeline[]>((observer) => {
       if ((!this.activeCache) || (Date.now() - this.lastSearchPipe) > 10000 ) {
         this.lastSearchPipe = Date.now();
-        this.http.get(AppSettings.API_ENDPOINT + 'pipeline?web_project=' + this.webProjServ.getActualProject().id).map(data => data as Pipeline[]).subscribe(data => {
+        this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline?web_project=' + this.webProjServ.getActualProject().id).map(data => data as Pipeline[]).subscribe(data => {
           this.pipelines = data;
           observer.next(data);
           observer.complete();
@@ -73,7 +75,7 @@ export class PipelineService {
     this.clearCache();
     pipeline.web_project = this.webProjServ.getActualProject().id;
     return new Observable<Pipeline>(observer => {
-      this.http.post(AppSettings.API_ENDPOINT + 'pipeline', pipeline, { responseType: 'json' }).map(data => data as Pipeline)
+      this.http.post(this.AppSettings.API_ENDPOINT + 'pipeline', pipeline, { responseType: 'json' }).map(data => data as Pipeline)
         .subscribe(data => {
           this.notify();
           observer.next(data);
@@ -86,7 +88,7 @@ export class PipelineService {
   updatePipeline(pipeline: Pipeline) {
     this.lastSearchPipe == this.lastSearchPipe - 20000;
     return new Observable(observer => {
-      this.http.put(AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id, pipeline, { responseType: 'json' })
+      this.http.put(this.AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id, pipeline, { responseType: 'json' })
         .subscribe(data => {
           this.notify();
           observer.next(data);
@@ -100,7 +102,7 @@ export class PipelineService {
     this.lastSearchPipe == this.lastSearchPipe - 20000;
     this.clearCache();
     return new Observable(observer => {
-      this.http.delete(AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id, { responseType: 'json' })
+      this.http.delete(this.AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id, { responseType: 'json' })
         .subscribe(data => {
           this.notify();
           observer.next(data);
@@ -124,7 +126,7 @@ export class PipelineService {
     })
   }
   getNode(node:PipelineNode){
-    return this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id);
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id);
   }
   getNodesForPipeline(pipeline: Pipeline): Observable<PipelineNode[]> {
     return new Observable<PipelineNode[]>((observer) => {
@@ -135,7 +137,7 @@ export class PipelineService {
         observer.complete();
       } else {
         this.lastSearchNode = Date.now();
-        this.http.get(AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id + '/node').map((data: any[]) => {
+        this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline/' + pipeline.id + '/node').map((data: any[]) => {
           let pipes: PipelineNode[] = [];
           let auxPipe: PipelineNode[] = data as PipelineNode[];
           for (let i = 0; i < auxPipe.length; i++) {
@@ -158,13 +160,13 @@ export class PipelineService {
     })
   }
   getAllNodesUser(): Observable<PipelineNode[]> {
-    return this.http.get(AppSettings.API_ENDPOINT + 'pipeline/nodes').map(data => data as PipelineNode[]);
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline/nodes').map(data => data as PipelineNode[]);
   }
   createNodeForPipeline(node: PipelineNode): Observable<any> {
     this.lastSearchNode == this.lastSearchNode - 20000;
     this.clearCache();
     return new Observable(observer => {
-      this.http.post(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node', node, { responseType: 'json' })
+      this.http.post(this.AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node', node, { responseType: 'json' })
         .subscribe(data => {
           let data2 = data as PipelineNode;
           Object.assign(node, data2);
@@ -182,7 +184,7 @@ export class PipelineService {
     this.lastSearchNode == this.lastSearchNode - 20000;
     this.clearCache();
     return new Observable(observer => {
-      this.http.delete(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id, { responseType: 'json' })
+      this.http.delete(this.AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id, { responseType: 'json' })
         .subscribe(data => {
           this.removeNodeInCache(node);
           this.notify();
@@ -202,7 +204,7 @@ export class PipelineService {
         observer.next({})
         observer.complete();
       } else {
-        this.http.put(AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id, dif, { responseType: 'json' })
+        this.http.put(this.AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id, dif, { responseType: 'json' })
           .subscribe(data => {
             console.log("Updated Node " + node.id)
             this.updateNodeInCache(node);
@@ -223,7 +225,7 @@ export class PipelineService {
     return this.pullerObserver;
   }
   getNodeTemplates() {
-    return this.http.get(AppSettings.API_ENDPOINT + 'node_templates').map((data: any[]) => {
+    return this.http.get(this.AppSettings.API_ENDPOINT + 'node_templates').map((data: any[]) => {
       let retData : PipelineNode[] = [];
       for (let i = 0; i < data.length; i++) {
         let auxNode = data[i];

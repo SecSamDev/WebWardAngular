@@ -1,11 +1,11 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { KubeContainer } from '../container';
 import { InfraestructureService } from '../infraestructure.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { AlertService } from '../../alert/alert.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
+import { WWInfraestructure } from '../infraestructure';
 
 @Component({
   selector: 'infraestructure-edit',
@@ -13,11 +13,10 @@ import { Location } from '@angular/common';
   styleUrls: ['./infraestructure-edit.component.css']
 })
 export class InfraestructureEditComponent implements OnInit {
-  private _infraestructure : KubeContainer;
+  private _infraestructure : WWInfraestructure;
   private _content : string = "";
-  @Input() set infraestructure(inf : KubeContainer){
+  @Input() set infraestructure(inf : WWInfraestructure){
     this._infraestructure = inf;
-    this._content = JSON.stringify(inf.content,null, "\t");
   } 
   get infraestructure(){
     return this._infraestructure;
@@ -37,7 +36,6 @@ export class InfraestructureEditComponent implements OnInit {
       .subscribe(infr => this.infraestructure = infr);
   }
   edit() {
-    this._infraestructure.content = JSON.parse(this._content)
     this.infrService.updateInfraestructure(this._infraestructure).subscribe(data => {
       this.alert.success("Updated")
     }, err => {

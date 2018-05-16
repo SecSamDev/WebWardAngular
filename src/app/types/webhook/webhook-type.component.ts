@@ -3,7 +3,6 @@ import { WebhookService, WebHook } from '../../webhook/index';
 import { PipelineNodeAtribute, PipelineNode,PipelineService } from '../../pipeline/index'
 import { TypeComponent } from '../type.component'
 import { AlertService } from '../../alert/alert.service'
-import {AppSettings} from '../../appSettings'
 
 @Component({
   selector: 'type-webhook',
