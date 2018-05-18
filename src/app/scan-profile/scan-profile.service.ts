@@ -15,9 +15,9 @@ export class ScanProfileService {
   private subscriber: Subscriber<boolean>;
   private pullerObserver: Observable<boolean>;
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private alertService: AlertService,
-    private AppSettings : AppSettingsService
+    private AppSettings: AppSettingsService
   ) {
     this.pullerObserver = new Observable(observer => {
       this.subscriber = observer;
@@ -26,6 +26,42 @@ export class ScanProfileService {
   }
   getProfileTemplates(): Observable<ScanProfile[]> {
     return this.http.get(this.AppSettings.API_ENDPOINT + 'scan_profile').map(data => data as ScanProfile[]);
+  }
+  updateProfileTemplate(scan: ScanProfile) {
+    return new Observable<void>((observer) => {
+      this.http.put(this.AppSettings.API_ENDPOINT + 'scan_profile/' + scan.id, scan).subscribe(data => {
+        this.notify()
+        observer.next();
+        observer.complete();
+      }, err => {
+        observer.error(err);
+        observer.complete();
+      })
+    })
+  }
+  createProfileTemplate(scan: ScanProfile) {
+    return new Observable<void>((observer) => {
+      this.http.post(this.AppSettings.API_ENDPOINT + 'scan_profile', scan).subscribe(data => {
+        this.notify()
+        observer.next();
+        observer.complete();
+      }, err => {
+        observer.error(err);
+        observer.complete();
+      })
+    })
+  }
+  deleteProfileTemplate(scan: ScanProfile) {
+    return new Observable<void>((observer) => {
+      this.http.delete(this.AppSettings.API_ENDPOINT + 'scan_profile/' + scan.id).subscribe(data => {
+        this.notify()
+        observer.next();
+        observer.complete();
+      }, err => {
+        observer.error(err);
+        observer.complete();
+      })
+    })
   }
   /**
    * Get notified when a object is deleted, update or created.

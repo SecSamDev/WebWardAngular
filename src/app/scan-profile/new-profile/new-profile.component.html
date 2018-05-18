@@ -1,0 +1,47 @@
+<div *ngIf="profile">
+  <form>
+    <div class="card">
+      <div class="card-header">
+        <!--HEADER -->
+
+        <div class="form-group">
+          <label for="checkName">Scan Profile Name</label>
+          <input type="text" class="form-control" name="name" id="profileName" placeholder="Profile Name" [(ngModel)]="profile.name">
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" name="description" id="description" placeholder="Description" [(ngModel)]="profile.description">
+        </div>
+        <div class="form-group">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">
+                  Scan Profile:
+                  <button type="submit" class="btn btn-primary float-right" (click)="addRow()" title="Adds a row to the array">+</button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elemento of array_elements; let i = index;trackBy:trackByFn">
+                <th scope="row">{{i}}</th>
+                <td>
+                  <input [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="array_elements[i]" />
+                  <button type="submit" class="btn btn-secondary float-right" (click)="removeRow(i)" title="Removes a row in the array">-</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+          <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

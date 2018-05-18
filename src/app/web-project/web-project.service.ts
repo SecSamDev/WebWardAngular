@@ -45,7 +45,7 @@ export class WebProjectService {
             })))
           .subscribe(data => {
             if (data.length > 0 && this.actualProject.id === '') {
-              this.actualProject = data[0];
+              this.setActualProject(data[0])
               this.notify();
             }
             observer.next(data);

@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Do you want to delet the security check labeled as "{{check.name}}"?
+        Do you want to delet the module"{{mod.name}}"?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="d('Close click')">Cancel</button>
@@ -17,25 +17,37 @@
     </div>
   </div>
 </ng-template>
-<div>
+<div *ngIf="mod">
   <form>
     <div class="card">
       <div class="card-header">
         <!--HEADER -->
 
         <div class="form-group">
-          <label for="checkName">Check Name</label>
-          <input type="text" class="form-control" name="name" id="checkName" placeholder="Check Name" [(ngModel)]="check.name">
+          <label for="checkName">Mod TAG</label>
+          <input type="text" class="form-control" name="name" id="modName" placeholder="Module Name" [(ngModel)]="mod.name">
         </div>
       </div>
       <div class="card-body">
         <div class="form-group">
-          <label for="pluginName">For plugin:</label>
-          <input type="text" class="form-control" name="plugin" id="pluginName" placeholder="Plugin Name" [(ngModel)]="check.plugin">
+          <label for="description">Origin</label>
+          <input type="text" class="form-control" name="origin" id="origin" placeholder="http://.../...mod.zip" [(ngModel)]="mod.origin">
         </div>
         <div class="form-group">
-          <label for="checkValue">Check value</label>
-          <input type="text" class="form-control" name="value" id="checkValue" placeholder="Check Value" [(ngModel)]="check.value">
+            <dl class="row" >
+                <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Lista de librerias que necesita este modulo">Libraries: </dt>
+                <dd *ngFor="let lib of mod.libraries" class="col-sm-7">
+                  <a>{{lib}}</a>
+                </dd>
+              </dl>
+        </div>
+        <div class="form-group">
+            <dl class="row" >
+                <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Lista de librerias NODEJS que necesita este modulo">Requires: </dt>
+                <dd *ngFor="let lib of mod.requires" class="col-sm-7">
+                  <a>{{lib}}</a>
+                </dd>
+              </dl>
         </div>
         <div class="btn-group">
           <button type="submit" class="btn btn-primary" (click)="edit()">Edit</button>
@@ -45,5 +57,4 @@
       </div>
     </div>
   </form>
-
 </div>

@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <!--HEADER -->
+    Arachni HTTP Authentication
+  </div>
+  <div class="card-body">
+    <div class="col-sm-12">
+      <div class="form-group row">
+        <select class="custom-select" name="platformList" id="selectedProp" [(ngModel)]="platformList" (ngModelChange)="addPlatform($event)">
+          <option *ngFor="let platf of platformList" [ngValue]="platf.name" [selected]="false">{{platf.name}} :  {{platf.description}}</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4" for="arachPassword">Password: </label>
+        <input type="text" class="form-control col-sm-8" name="password" id="arachPassword" placeholder="password" [(ngModel)]="password">
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4" for="arachPassword">Type: </label>
+        <input type="text" class="form-control col-sm-8" name="type" id="arachType" placeholder="type" [(ngModel)]="type">
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group row d-flex">
+      <button type="submit" class="btn btn-primary col-sm-6" (click)="save()" title="Update Auth">Save</button>
+      <button type="submit" class="btn btn-warning col-sm-6" (click)="delete()" title="Delete Auth">Delete</button>
+    </div>
+  </div>
+
+</div>

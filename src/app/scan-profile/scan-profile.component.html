@@ -1,3 +1,32 @@
-<p>
-  scan-profile works!
-</p>
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>List of Security Profiles</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <div>
+          <button type="button" class="btn btn-primary" (click)="cloneProfile()">Clone Profile</button>
+          <button type="button" class="btn btn-primary" (click)="newProfile()">Create new Security Profile</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="tempProfile" class="row">
+      <div class="col-sm-12 col-xl-12">
+        <new-scan-profile [profile]="tempProfile"></new-scan-profile>
+      </div>
+      
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="list-group">
+        <a *ngFor="let prof of profileList" [class.active]="prof === selectedProfile" (click)="onSelect(prof)" class="list-group-item">
+          <span>{{prof.name}}</span>
+        </a>
+      </div>
+      <hr/>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <edit-scan-profile [profile]="selectedProfile"></edit-scan-profile>
+    </div>
+  </div>
+</div>

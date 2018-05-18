@@ -51,7 +51,7 @@
                 </svg>
                 Pipelines
             </button>
-            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/check']">
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/scan_profile']">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
                     viewBox="0 0 416 416" style="enable-background:new 0 0 416 416;" xml:space="preserve" width="24" height="24">
                     <polygon points="72.103,175.999 72.103,207.999 243.816,207.999 264.103,187.714 264.103,175.999   " fill="#006DF0" />
@@ -62,7 +62,7 @@
                     <path d="M329.797,144.7c-57.43,57.431-74.356,74.298-145.694,145.638c0,27.687,0,21.687,0,45.662    c38.518-0.001,28.774,0.017,44.917-0.07c3.55-3.55,6.928-6.928,10.239-10.239l56.844-56.819V384h-256V96h32.002v32h191.998V96h32    v59.717l32-31.999V96c0-17.674-14.326-32-32-32h-44.424c-5.926-6.583-13.538-11.62-22.284-14.136    c-7.368-2.118-13.038-7.788-15.156-15.156C208.474,14.664,190.001,0,168.103,0c-21.898,0-40.37,14.664-46.136,34.707    c-2.121,7.376-7.805,13.039-15.181,15.164C98.048,52.389,90.444,57.421,84.524,64H40.103c-17.673,0-32,14.326-32,32v288    c0,17.673,14.327,32,32,32h256c17.674,0,32-14.327,32-32V236.885l46.95-46.93L329.797,144.7z M222.354,319.967    c-5.962,0.034-6.66,0.034-21.938,0.032L200.103,320v-8.958v-14.078l5.214-5.215l22.627,22.628L222.354,319.967z M168.308,31.999    c8.837,0,16,7.163,16,16c0,8.836-7.163,16-16,16s-16-7.164-16-16C152.308,39.162,159.472,31.999,168.308,31.999z"
                         fill="#006DF0" />
                 </svg>
-                Scan checks
+                Scan Profiles
             </button>
             <button class="dropdown-item" [routerLink]="['/webhook']">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
@@ -70,14 +70,14 @@
                 </svg>
                 WebHooks
             </button>
-            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/integrations']">
+            <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/ww-module']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
                     <polygon points="12 2 2 7 12 12 22 7 12 2" style="fill: none;stroke: rgb(70, 120, 255);"></polygon>
                     <polyline points="2 17 12 22 22 17" style="fill: none;stroke: rgb(70, 120, 255);"></polyline>
                     <polyline points="2 12 12 17 22 12" style="fill: none;stroke: rgb(70, 120, 255);"></polyline>
                 </svg>
-                Integrations
+                Web Ward Modules
             </button>
             <button *ngIf="!auth.isDev()" class="dropdown-item" [routerLink]="['/infrastructure']">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="24" height="24">

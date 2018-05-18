@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScanCheckNewComponent } from './scan-check-new.component';
+import { NewProfileComponent } from './new-profile.component';
 
-describe('ScanCheckNewComponent', () => {
-  let component: ScanCheckNewComponent;
-  let fixture: ComponentFixture<ScanCheckNewComponent>;
+describe('NewProfileComponent', () => {
+  let component: NewProfileComponent;
+  let fixture: ComponentFixture<NewProfileComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScanCheckNewComponent ]
+      declarations: [ NewProfileComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScanCheckNewComponent);
+    fixture = TestBed.createComponent(NewProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

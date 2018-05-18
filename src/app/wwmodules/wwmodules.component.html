@@ -1,3 +1,30 @@
-<p>
-  wwmodules works!
-</p>
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>List of Web Ward Modules</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <div>
+          <button type="button" class="btn btn-primary" (click)="newModule()">Import Module</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="tempModule" class="row">
+    <div class="col-sm-12 col-xl-12">
+      <new-module [mod]="tempModule"></new-module>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="list-group">
+        <a *ngFor="let mod of moduleList" [class.active]="mod === selectedMod" (click)="onSelect(prof)" class="list-group-item">
+          <span>{{mod.name}}</span>
+        </a>
+      </div>
+      <hr/>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <edit-module [mod]="selectedMod"></edit-module>
+    </div>
+  </div>
+</div>

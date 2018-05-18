@@ -9,13 +9,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { WebProjectEditComponent,WebProjectPageComponent } from './web-project/index';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UserEditComponent, UserManagementComponent, UserProfileComponent } from './user-management/index';
-import { ScanCheckComponent, ScanCheckEditComponent } from './scan-check/index';
+import {ScanProfileComponent} from './scan-profile/scan-profile.component'
 import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component'
 import { MyProfileComponent} from './user-management/my-profile/my-profile.component';
 import { PipelineComponent} from './pipeline/pipeline.component';
 import { WebhookComponent} from './webhook/index'
 import { InfrastructureComponent } from './infrastructure/infrastructure.component';
 import { ArachniComponent } from './arachni/arachni.component';
+import { WwmodulesComponent } from './wwmodules/wwmodules.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -25,9 +26,9 @@ const routes: Routes = [
   { path: 'projects/edit/:id', component: WebProjectEditComponent, canActivate: [AuthGuard] },
   { path: 'projects/:id', component: WebProjectPageComponent, canActivate: [AuthGuard] },
   { path: 'users/:id', component: UserProfileComponent, canActivate: [AuthGuard] },
-  { path: 'check', component: ScanCheckComponent, canActivate: [AuthGuard] },
-  { path: 'check/:id', component: ScanCheckEditComponent, canActivate: [AuthAdmin] },
+  { path: 'scan_profile', component: ScanProfileComponent, canActivate: [AuthGuard] },
   { path: 'console', component: WebWardConsoleComponent, canActivate: [AuthAdmin] },
+  { path: 'ww-module', component: WwmodulesComponent, canActivate: [AuthAdmin] },
   { path: 'infrastructure', component: InfrastructureComponent, canActivate: [AuthAdmin] },
   { path: 'infrastructure/:id', component: InfrastructureComponent, canActivate: [AuthAdmin] },
   { path: 'arachni', component: ArachniComponent, canActivate: [AuthAdmin] },

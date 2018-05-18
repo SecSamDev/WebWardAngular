@@ -1,20 +1,20 @@
-<div >
+<div>
   <form>
     <div class="card">
       <div class="card-header">
         <!--HEADER -->
         <dl class="row">
-            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the usder">Name:</dt>
-            <dd class="col-sm-7">{{user.name}}</dd>
-          </dl>
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the usder">Name:</dt>
+          <dd class="col-sm-7">{{user.name}}</dd>
+        </dl>
       </div>
       <div class="card-body">
-        <dl class="row" >
-            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Theemail of the user">Email: </dt>
-            <dd class="col-sm-7">
-              <a>{{user.email}}</a>
-            </dd>
-          </dl>
+        <dl class="row">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Theemail of the user">Email: </dt>
+          <dd class="col-sm-7">
+            <a>{{user.email}}</a>
+          </dd>
+        </dl>
         <dl class="row" *ngIf="user.manager_name !== ''">
           <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The Name of the manager of the user">Manager: </dt>
           <dd class="col-sm-7">

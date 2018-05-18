@@ -16,7 +16,6 @@ export class CheckTypeComponent implements OnInit, TypeComponent {
     constructor(private pipService: PipelineService, private alert: AlertService) { }
 
     ngOnInit() {
-        console.log(this.param.value)
         if (this.param.type === 'CHECK_SCAN')
             this.array_elements = parseArray(this.param.value)
         this.param.decoratorValue = this.array_elements.join(',')

@@ -2,12 +2,18 @@
   <div class="row justify-content-center">
     <div class="col-6">
       <form class="form-signin">
-        <img class="mb-4" src="Signin%20Template%20for%20Bootstrap_files/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <div class="col-sm-12 text-center">
+          <img class="img-responsive" src="/assets/WebWardLogo.svg" alt="" width="72" height="72">
+          <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        </div>
+
+        
         <label for="inputUsername" class="sr-only">User Name</label>
-        <input id="inputUsername" class="form-control" placeholder="User Name" required="" autofocus="" type="text" [(ngModel)]="username" name="username">
+        <input id="inputUsername" class="form-control" placeholder="User Name" required="" autofocus="" type="text" [(ngModel)]="username"
+          name="username">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password"  [(ngModel)]="password" name="password">
+        <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" [(ngModel)]="password"
+          name="password">
         <div class="checkbox mb-3">
           <label>
             <input name="rememberMe" value="remember-me" type="checkbox" [(ngModel)]="remember"> Remember me

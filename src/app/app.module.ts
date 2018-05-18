@@ -28,9 +28,8 @@ import {
 } from './web-project/index';
 //---------- User Management --------------
 import { UserService, UserManagementComponent, UserEditComponent, UserNewComponent, UserViewComponent } from './user-management/index';
-//----------- CHECKS --------------------
-import { ScanCheckComponent, ScanCheckEditComponent, ScanCheckNewComponent, ScanCheckService, ScanCheckViewComponent } from './scan-check/index';
 
+//----------- SCANS --------------------
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
 import { ScanProfileService } from './scan-profile/scan-profile.service';
 import { ScanReportComponent } from './scan-report/scan-report.component';
@@ -71,10 +70,16 @@ import { WebhookComponent, WebhookNewComponent, WebhookService } from './webhook
 //---------------NODE ATTRIBUYTE TYPES-------------------------
 import { TypesModule } from './types/types.module';
 import { WwmodulesComponent } from './wwmodules/wwmodules.component';
+import { WwmodulesService } from './wwmodules/wwmodules.service';
+
 
 import { AppSettingsService } from './app-settings.service';
 import { InfrastructureComponent } from './infrastructure/infrastructure.component';
-import { ArachniComponent } from './arachni/arachni.component'
+import { ArachniComponent } from './arachni/arachni.component';
+import { NewProfileComponent } from './scan-profile/new-profile/new-profile.component';
+import { EditProfileComponent } from './scan-profile/edit-profile/edit-profile.component';
+import { EditModuleComponent } from './wwmodules/edit-module/edit-module.component';
+import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
 
 @NgModule({
   declarations: [
@@ -92,11 +97,7 @@ import { ArachniComponent } from './arachni/arachni.component'
     UserManagementComponent,
     UserEditComponent,
     UserNewComponent,
-    ScanCheckComponent,
-    ScanCheckEditComponent,
-    ScanCheckNewComponent,
     UserViewComponent,
-    ScanCheckViewComponent,
     WebWardConsoleComponent,
     MyProfileComponent,
     UserProfileComponent,
@@ -119,7 +120,11 @@ import { ArachniComponent } from './arachni/arachni.component'
     WebhookNewComponent,
     WwmodulesComponent,
     InfrastructureComponent,
-    ArachniComponent
+    ArachniComponent,
+    NewProfileComponent,
+    EditProfileComponent,
+    EditModuleComponent,
+    NewModuleComponent
   ],
   imports: [
     BrowserModule,
@@ -140,13 +145,13 @@ import { ArachniComponent } from './arachni/arachni.component'
     NgbActiveModal,
     UserService,
     EnvironmentService,
-    ScanCheckService,
     HosePipeService,
     PipelineMouseService,
     PipelineService,
     WebhookService,
     ScanProfileService,
     AppSettingsService,
+    WwmodulesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

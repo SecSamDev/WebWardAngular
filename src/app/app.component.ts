@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
     this.auth.signOut();
   }
   ngOnInit() {
-    //TODO: Important detect API REST direction from navbar
     if(window.location.hostname !== 'localhost')
       this.appSettings.API_ENDPOINT = window.location.origin + '/api/';
     this.fetchWebProjects();

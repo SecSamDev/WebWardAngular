@@ -16,5 +16,5 @@ export class ScanProfile{
     /**
      * Array of vulenrabilities to check
      */
-    checks : string[];
+    checks : string[] = [];
 }
