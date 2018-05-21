@@ -11,7 +11,8 @@ import {
   TimeTypeComponent,
   ObjectTypeComponent,
   CheckTypeComponent,
-  ScanProfileTypeComponent
+  ScanProfileTypeComponent,
+  HashObjectTypeComponent
 } from './index'
 
 @NgModule({
@@ -29,7 +30,8 @@ import {
     TimeTypeComponent,
     ObjectTypeComponent,
     CheckTypeComponent,
-    ScanProfileTypeComponent
+    ScanProfileTypeComponent,
+    HashObjectTypeComponent
   ],
   bootstrap: [
     DaysTypeComponent,
@@ -39,7 +41,8 @@ import {
     TimeTypeComponent,
     ObjectTypeComponent,
     CheckTypeComponent,
-    ScanProfileTypeComponent
+    ScanProfileTypeComponent,
+    HashObjectTypeComponent
   ],
   exports: [
     DaysTypeComponent,
@@ -51,7 +54,8 @@ import {
     TimeTypeComponent,
     ObjectTypeComponent,
     CheckTypeComponent,
-    ScanProfileTypeComponent
+    ScanProfileTypeComponent,
+    HashObjectTypeComponent
   ]
 })
 export class TypesModule { }

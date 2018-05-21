@@ -29,7 +29,7 @@ export class PipelineNode {
      * Name of the node, like a nickname
      */
     name: string;
-    /**
+    /** 
      * Tag for this node, private name for the system. Must be unique
      */
     tag: string;

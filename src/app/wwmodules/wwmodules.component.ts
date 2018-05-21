@@ -20,12 +20,16 @@ export class WwmodulesComponent implements OnInit {
       this.fetchData();
     },err=>{})
   }
+  onSelect(mod: WebWardModule){
+    this.selectedMod = mod;
+  }
   newModule(){
     this.tempModule = new WebWardModule();
   }
   fetchData(){
     this.wwmodService.getWWModules().subscribe((mods)=>{
       this.moduleList = mods;
+      console.log(mods)
     },err=>{
 
     })

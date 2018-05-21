@@ -17,7 +17,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-6">
       <div class="list-group">
-        <a *ngFor="let mod of moduleList" [class.active]="mod === selectedMod" (click)="onSelect(prof)" class="list-group-item">
+        <a *ngFor="let mod of moduleList" [class.active]="mod === selectedMod" (click)="onSelect(mod)" class="list-group-item">
           <span>{{mod.name}}</span>
         </a>
       </div>

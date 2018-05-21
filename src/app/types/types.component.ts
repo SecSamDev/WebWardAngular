@@ -3,6 +3,7 @@ import { PipelineNodeAtribute, PipelineNode } from '../pipeline/node';
 import { TypesDirective } from './types.directive';
 import { WebhookTypeComponent } from './webhook/webhook-type.component';
 import { ObjectTypeComponent } from './object/object-type.component';
+import { HashObjectTypeComponent } from './hash-object/hash-object-type.component';
 import { DefaultTypeComponent } from './default/default-type.component';
 import { ArrayTypeComponent } from './array/array-type.component';
 import { DaysTypeComponent } from './days/days-type.component';
@@ -84,7 +85,13 @@ export class TypesComponent implements OnInit {
       case 'OBJECT':
         comp = ObjectTypeComponent;
         break;
+      case 'HASH_OBJECT':
+        comp = HashObjectTypeComponent;
+        break;
       case 'JSON_OBJECT':
+        comp = ObjectTypeComponent;
+        break;
+      case 'JSON':
         comp = ObjectTypeComponent;
         break;
       case 'DAYS_PICKER':
