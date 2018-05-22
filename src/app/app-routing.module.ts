@@ -15,6 +15,7 @@ import { MyProfileComponent} from './user-management/my-profile/my-profile.compo
 import { PipelineComponent} from './pipeline/pipeline.component';
 import { WebhookComponent} from './webhook/index'
 import { InfrastructureComponent } from './infrastructure/infrastructure.component';
+import { InfrastructureEditComponent } from './infrastructure/infrastructure-edit/infrastructure-edit.component';
 import { ArachniComponent } from './arachni/arachni.component';
 import { WwmodulesComponent } from './wwmodules/wwmodules.component';
 
@@ -30,7 +31,7 @@ const routes: Routes = [
   { path: 'console', component: WebWardConsoleComponent, canActivate: [AuthAdmin] },
   { path: 'ww-module', component: WwmodulesComponent, canActivate: [AuthAdmin] },
   { path: 'infrastructure', component: InfrastructureComponent, canActivate: [AuthAdmin] },
-  { path: 'infrastructure/:id', component: InfrastructureComponent, canActivate: [AuthAdmin] },
+  { path: 'infrastructure/:id', component: InfrastructureEditComponent, canActivate: [AuthAdmin] },
   { path: 'arachni', component: ArachniComponent, canActivate: [AuthAdmin] },
   { path: 'profile', component: MyProfileComponent, canActivate: [AuthGuard] },
   { path: 'pipeline', component: PipelineComponent, canActivate: [AuthGuard] },

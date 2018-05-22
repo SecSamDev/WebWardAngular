@@ -1,12 +1,12 @@
-<div *ngIf="_infraestructure">
+<div *ngIf="_infrastructure">
   <form>
     <div class="card">
       <div class="card-header">
         <!--HEADER -->
         <div class="form-group row">
           <label class="col-sm-4" for="pipeName">Infraestructure Name</label>
-          <input type="text" class="form-control col-sm-8" name="name" id="infraestructureName" placeholder="Infraestructure Name"
-            [(ngModel)]="_infraestructure.name">
+          <input type="text" class="form-control col-sm-8" name="name" id="infrastructureName" placeholder="Infraestructure Name"
+            [(ngModel)]="_infrastructure.name">
         </div>
       </div>
       <div class="card-body">
@@ -15,15 +15,15 @@
         </div>
         <dl class="row">
           <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The last time the was connected">Last Connection</dt>
-          <dd class="col-sm-7">{{_infraestructure.last_update}}</dd>
+          <dd class="col-sm-7">{{_infrastructure.last_update}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this _infraestructure">Creation Date</dt>
-          <dd class="col-sm-7">{{_infraestructure.create_date}}</dd>
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this _infrastructure">Creation Date</dt>
+          <dd class="col-sm-7">{{_infrastructure.create_date}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the _infraestructure">ID</dt>
-          <dd class="col-sm-9">{{_infraestructure.id}}</dd>
+          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the _infrastructure">ID</dt>
+          <dd class="col-sm-9">{{_infrastructure.id}}</dd>
         </dl>
         <div class="btn-group">
           <button type="submit" class="btn btn-primary" (click)="create()">Create</button>

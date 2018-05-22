@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Do you want to delet the infraestructure labeled as "{{_infraestructure.name}}"?
+        Do you want to delet the infrastructure labeled as "{{_infrastructure.name}}"?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="d('Close click')">Cancel</button>
@@ -17,7 +17,7 @@
     </div>
   </div>
 </ng-template>
-<div *ngIf="_infraestructure">
+<div *ngIf="_infrastructure">
   <form>
     <div class="card">
       <div class="card-header">
@@ -26,7 +26,7 @@
         <dl class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
           <div class="ml-2">
             <dt class="" data-toggle="tooltip" data-placement="top" title="Name of the usder">Name:</dt>
-            <dd class="">{{_infraestructure.name}}</dd>
+            <dd class="">{{_infrastructure.name}}</dd>
           </div>
           <div class="btn-group mr-2">
             <button type="submit" class="btn btn-primary" (click)="edit()">Edit</button>
@@ -41,15 +41,15 @@
         </div>
         <dl class="row">
           <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The last time the was connected">Last Connection</dt>
-          <dd class="col-sm-7">{{_infraestructure.last_update}}</dd>
+          <dd class="col-sm-7">{{_infrastructure.last_update}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this infraestructure">Creation Date</dt>
-          <dd class="col-sm-7">{{_infraestructure.create_date}}</dd>
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this infrastructure">Creation Date</dt>
+          <dd class="col-sm-7">{{_infrastructure.create_date}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the infraestructure">ID</dt>
-          <dd class="col-sm-9">{{_infraestructure.id}}</dd>
+          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the infrastructure">ID</dt>
+          <dd class="col-sm-9">{{_infrastructure.id}}</dd>
         </dl>
       </div>
     </div>

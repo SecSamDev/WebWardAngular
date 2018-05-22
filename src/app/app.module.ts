@@ -74,7 +74,15 @@ import { WwmodulesService } from './wwmodules/wwmodules.service';
 
 
 import { AppSettingsService } from './app-settings.service';
+//Infrastructure
 import { InfrastructureComponent } from './infrastructure/infrastructure.component';
+import { InfrastructureEditComponent } from './infrastructure/infrastructure-edit/infrastructure-edit.component';
+import { InfrastructureNewComponent } from './infrastructure/infrastructure-new/infrastructure-new.component';
+import { InfrastructureService } from './infrastructure/infrastructure.service';
+import { InfrastructureObjectComponent } from './infrastructure/infrastructure/infrastructure.component';
+
+
+
 import { ArachniComponent } from './arachni/arachni.component';
 import { NewProfileComponent } from './scan-profile/new-profile/new-profile.component';
 import { EditProfileComponent } from './scan-profile/edit-profile/edit-profile.component';
@@ -119,12 +127,15 @@ import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
     WebhookComponent,
     WebhookNewComponent,
     WwmodulesComponent,
-    InfrastructureComponent,
     ArachniComponent,
     NewProfileComponent,
     EditProfileComponent,
     EditModuleComponent,
-    NewModuleComponent
+    NewModuleComponent,
+    InfrastructureComponent,
+    InfrastructureEditComponent,
+    InfrastructureNewComponent,
+    InfrastructureObjectComponent
   ],
   imports: [
     BrowserModule,
@@ -152,6 +163,7 @@ import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
     ScanProfileService,
     AppSettingsService,
     WwmodulesService,
+    InfrastructureService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

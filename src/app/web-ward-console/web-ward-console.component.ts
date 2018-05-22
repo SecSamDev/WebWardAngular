@@ -10,6 +10,7 @@ import { AlertService } from '../alert/alert.service';
 })
 export class WebWardConsoleComponent implements OnInit {
   actualCommand: string = "";
+  lastCommands: string[] = [];
   commandHistory: string = "";
   constructor(
     private AppSettings : AppSettingsService,
@@ -21,6 +22,7 @@ export class WebWardConsoleComponent implements OnInit {
   }
   send() {
     if (this.actualCommand !== "") {
+      this.lastCommands.push(this.actualCommand);
       this.http.post(this.AppSettings.API_ENDPOINT + 'console', { 'command': this.actualCommand }, { responseType: 'text' }).pipe().subscribe(data => {
         console.log(data)
         this.commandHistory =this.commandHistory+ data + "\n";
