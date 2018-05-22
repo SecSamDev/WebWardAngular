@@ -16,7 +16,7 @@ import { AppSettingsService } from '../app-settings.service';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-    constructor(public auth: AuthService, private alerts: AlertService, private AppSettings : AppSettingsService) { }
+    constructor(public auth: AuthService, private alerts: AlertService, private AppSettings: AppSettingsService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const apiURL = new URL(this.AppSettings.API_ENDPOINT);
@@ -36,12 +36,14 @@ export class TokenInterceptor implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
                 switch (err.status) {
                     case 0:
+                        this.alerts.clear()
                         this.alerts.error("Server not responding", false);
                         break;
                     case 404:
                         this.alerts.error("Not Found", false);
                         break;
                     case 401:
+                        this.alerts.clear()
                         this.alerts.error("Unauthorized", false);
                         this.auth.signOut();
                         break;

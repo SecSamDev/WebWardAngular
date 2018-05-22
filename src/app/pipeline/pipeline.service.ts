@@ -6,7 +6,6 @@ import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/add/observable/of";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/interval';
-import { AlertService } from '../alert/alert.service';
 import { WebProjectService } from '../web-project/index';
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 import { PipelineNode, PipelineNodeAtribute, pipelineNodeFromJSON } from './node';
@@ -29,7 +28,6 @@ export class PipelineService {
   constructor(
     private AppSettings : AppSettingsService,
     private http: HttpClient,
-    private alertService: AlertService,
     private webProjServ: WebProjectService
   ) {
     this.activeCache = false;

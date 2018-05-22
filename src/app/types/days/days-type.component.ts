@@ -22,6 +22,7 @@ export class DaysTypeComponent implements OnInit, TypeComponent {
         }
     }
     save() {
+        this.param.decoratorValue = decoratorValue(this.week_days);
         this.param.value = this.week_days.join(',');
         this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
             this.alert.success("Propertie: " + this.param.name + " saved")
@@ -30,7 +31,12 @@ export class DaysTypeComponent implements OnInit, TypeComponent {
         })
     }
     delete() {
-
+        this.node.removeParam(this.param)
+        this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
+            this.alert.success("Propertie removed")
+        }, err => {
+            this.alert.error("Cannot remove propertie")
+        })
     }
 
 }

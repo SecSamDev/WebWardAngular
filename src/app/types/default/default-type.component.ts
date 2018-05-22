@@ -26,7 +26,12 @@ export class DefaultTypeComponent implements OnInit, TypeComponent {
     })
   }
   delete() {
-    
-  }
+    this.node.removeParam(this.param)
+    this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
+        this.alert.success("Propertie removed")
+    }, err => {
+        this.alert.error("Cannot remove propertie")
+    })
+}
 
 }

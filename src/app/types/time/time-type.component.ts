@@ -30,7 +30,7 @@ export class TimeTypeComponent implements OnInit, TypeComponent {
         }
     }
     save() {
-        this.param.value = this.hour + ":"+this.minute;
+        this.param.value = parseHour(this.hour) + ":" + parseMinute(this.minute);
         this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
             this.alert.success("Propertie: " + this.param.name + " saved")
         }, err => {
@@ -38,7 +38,12 @@ export class TimeTypeComponent implements OnInit, TypeComponent {
         })
     }
     delete() {
-
+        this.node.removeParam(this.param)
+        this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
+            this.alert.success("Propertie removed")
+        }, err => {
+            this.alert.error("Cannot remove propertie")
+        })
     }
 
 }

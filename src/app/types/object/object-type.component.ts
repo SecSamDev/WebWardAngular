@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { WebhookService, WebHook } from '../../webhook/index';
-import { PipelineNodeAtribute, PipelineNode,PipelineService } from '../../pipeline/index'
+import { PipelineNodeAtribute, PipelineNode, PipelineService } from '../../pipeline/index'
 import { AlertService } from '../../alert/alert.service'
 import { TypeComponent } from '../type.component'
 
@@ -10,32 +10,37 @@ import { TypeComponent } from '../type.component'
   styleUrls: ['./object-type.component.css']
 })
 export class ObjectTypeComponent implements OnInit, TypeComponent {
-  private _param : PipelineNodeAtribute = new PipelineNodeAtribute();
+  private _param: PipelineNodeAtribute = new PipelineNodeAtribute();
   @Input() node: PipelineNode;
 
-  @Input() set param(prm){
-    Object.assign(this._param,prm);
-    this._param.value = JSON.stringify(prm.value,null, "\t");
-    this._param.decoratorValue = this._param.value; 
+  @Input() set param(prm) {
+    Object.assign(this._param, prm);
+    this._param.value = JSON.stringify(prm.value, null, "\t");
+    this._param.decoratorValue = this._param.value;
   };
-  get param(){
+  get param() {
     return this._param;
   }
 
-  constructor(private pipService : PipelineService,private alert : AlertService) { }
+  constructor(private pipService: PipelineService, private alert: AlertService) { }
 
   ngOnInit() {
-   
+
   }
   save() {
-    this.pipService.updateNodeForPipeline(this.node).subscribe((data)=>{
+    this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
       this.alert.success("Propertie: " + this.param.name + " saved")
-    },err=>{
-      this.alert.error("Cannot save propertie: " +this.param.name)
+    }, err => {
+      this.alert.error("Cannot save propertie: " + this.param.name)
     })
   }
   delete() {
-    
+    this.node.removeParam(this.param)
+    this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
+      this.alert.success("Propertie removed")
+    }, err => {
+      this.alert.error("Cannot remove propertie")
+    })
   }
 
 }

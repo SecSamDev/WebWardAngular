@@ -55,7 +55,12 @@ export class HashObjectTypeComponent implements OnInit, TypeComponent {
     })
   }
   delete() {
-
+    this.node.removeParam(this.param)
+    this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
+      this.alert.success("Propertie removed")
+    }, err => {
+      this.alert.error("Cannot remove propertie")
+    })
   }
   addRow(name = `_${this.array_names.length}`, val = `_${this.array_values.length}`) {
     this.array_names.push(name)

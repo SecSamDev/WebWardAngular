@@ -90,6 +90,26 @@ export class PipelineNode {
         this.status = status; 
         this.subscriptor.emit(true);
     }
+    removeParam(param : PipelineNodeAtribute){
+        for(let i = 0; i < this.properties.length ; i++){
+            if(this.properties[i] === param){
+                this.properties.splice(i,1);
+                return;
+            }
+        }
+        for(let i = 0; i < this.inputParams.length ; i++){
+            if(this.inputParams[i] === param){
+                this.properties.splice(i,1);
+                return;
+            }
+        }
+        for(let i = 0; i < this.outputParams.length ; i++){
+            if(this.outputParams[i] === param){
+                this.properties.splice(i,1);
+                return;
+            }
+        }
+    }
     removeMe() {
         for (let i = 0; i < this.inputConnectors.length; i++) {
             this.deleteInput();
