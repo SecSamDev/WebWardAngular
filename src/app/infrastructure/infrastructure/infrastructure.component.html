@@ -9,23 +9,31 @@
         </dl>
       </div>
       <div class="card-body">
+          <dl class="row">
+              <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The description of the infrastructure">Description</dt>
+              <dd class="col-sm-9">{{_infrastructure.description}}</dd>
+            </dl>
         <div class="row">
-          <textarea class="form-control" rows="20" name="infrFile" [(ngModel)]="_content"></textarea>
+          <textarea *ngIf="!_infrastructure.active" class="form-control" rows="20" name="infrFile" [(ngModel)]="_content" readonly></textarea>
+          <textarea *ngIf="_infrastructure.active" class="form-control" rows="20" name="infrFile" [(ngModel)]="_content"></textarea>
         </div>
         <dl class="row">
           <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The last time the was connected">Last Connection</dt>
           <dd class="col-sm-7">{{_infrastructure.last_update}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this _infrastructure">Creation Date</dt>
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this infrastructure">Creation Date</dt>
           <dd class="col-sm-7">{{_infrastructure.create_date}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the _infrastructure">ID</dt>
+          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the infrastructure">ID</dt>
           <dd class="col-sm-9">{{_infrastructure.id}}</dd>
         </dl>
         <div  class="btn-group">
-          <button type="submit" class="btn btn-primary" routerLink="/infrastructure/{{_infrastructure.id}}">Edit</button>
+          <button *ngIf="!_infrastructure.active" type="submit" class="btn btn-primary" routerLink="/infrastructure/{{_infrastructure.id}}">Edit</button>
+          <button *ngIf="_infrastructure.active" type="submit" class="btn btn-primary" (click)="editActive()">Edit</button>
+          <button *ngIf="!_infrastructure.active" type="submit" class="btn btn-warning" (click)="activateInfr()">Activate</button>
+          <button *ngIf="_infrastructure.active" type="submit" class="btn btn-danger" (click)="deleteInfr()">Delete</button>
         </div>
       </div>
     </div>

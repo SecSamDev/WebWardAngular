@@ -14,9 +14,10 @@ import { WWInfrastructure } from '../infrastructure';
 })
 export class InfrastructureEditComponent implements OnInit {
   private _infrastructure : WWInfrastructure;
-  private _content : string = "";
+  private _content : string ="{}";
   @Input() set infrastructure(inf : WWInfrastructure){
     this._infrastructure = inf;
+    this._content = JSON.stringify(this._infrastructure.content,null,"\t")
   } 
   get infrastructure(){
     return this._infrastructure;
@@ -36,6 +37,9 @@ export class InfrastructureEditComponent implements OnInit {
       .subscribe(infr => this.infrastructure = infr);
   }
   edit() {
+    try{
+      this._infrastructure.content = JSON.parse(this._content);
+    }catch(err){}
     this.infrService.updateInfrastructure(this._infrastructure).subscribe(data => {
       this.alert.success("Updated")
     }, err => {

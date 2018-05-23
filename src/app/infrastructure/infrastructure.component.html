@@ -4,6 +4,7 @@
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
           <div>
+              <button type="button" class="btn btn-primary" (click)="fetchAll()">Refresh</button>
             <button type="button" class="btn btn-primary" (click)="newInfrastructure()">Create new Infrastructure</button>
           </div>
         </div>
@@ -13,12 +14,21 @@
         <div class="col-sm-12 col-xl-12">
           <infrastructure-new [infrastructure]="tempInfrastructure">></infrastructure-new>
         </div>
-        
     </div>
     <div class="row">
-      <div class="col-sm-12 col-md-6">
+      <div class="col-sm-12 col-md-3">
         <div class="list-group">
+            <h5>Stored Infrastructures</h5>
             <a *ngFor="let infr of infrastructures" [class.active]="infr === selectedInfrastructure" (click)="onSelect(infr)" class="list-group-item">
+                <span>{{infr.name}} </span>
+            </a>
+        </div>
+        <hr/>
+      </div>
+      <div class="col-sm-12 col-md-3">
+        <div class="list-group">
+            <h5>Active Infrastructures</h5>
+            <a *ngFor="let infr of activeInfrastructures" [class.active]="infr === selectedInfrastructure" (click)="onSelect(infr)" class="list-group-item">
                 <span>{{infr.name}} </span>
             </a>
         </div>

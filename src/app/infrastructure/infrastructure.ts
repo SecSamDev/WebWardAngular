@@ -12,4 +12,8 @@ export class WWInfrastructure{
      */
     description : string;
     content : any = {};
+    /**
+     * This infrastructure is active in the server?
+     */
+    active : boolean = false;
 }
