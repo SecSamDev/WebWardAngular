@@ -1,3 +1,27 @@
-<p>
-  arachni works!
-</p>
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>List of Infrastructures</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <div>
+            <button type="button" class="btn btn-primary" (click)="fetchAll()">Refresh</button>
+          <button type="button" class="btn btn-primary" (click)="newInfrastructure()">Create new Infrastructure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="list-group">
+          <h5>Reports</h5>
+          <a *ngFor="let report of reports" [class.active]="report === selectedReport" (click)="onSelect(report)" class="list-group-item">
+              <span>{{report.id}} </span>
+          </a>
+      </div>
+      <hr/>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <arachni-view [report]="selectedReport"></arachni-view>
+    </div>
+  </div>
+</div>

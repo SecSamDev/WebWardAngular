@@ -87,7 +87,9 @@ import { ArachniComponent } from './arachni/arachni.component';
 import { NewProfileComponent } from './scan-profile/new-profile/new-profile.component';
 import { EditProfileComponent } from './scan-profile/edit-profile/edit-profile.component';
 import { EditModuleComponent } from './wwmodules/edit-module/edit-module.component';
-import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
+import { NewModuleComponent } from './wwmodules/new-module/new-module.component';
+import { ArachniViewComponent } from './arachni/view/view.component'
+import { ArachniService } from './arachni/arachni.service';
 
 @NgModule({
   declarations: [
@@ -127,7 +129,6 @@ import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
     WebhookComponent,
     WebhookNewComponent,
     WwmodulesComponent,
-    ArachniComponent,
     NewProfileComponent,
     EditProfileComponent,
     EditModuleComponent,
@@ -135,7 +136,9 @@ import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
     InfrastructureComponent,
     InfrastructureEditComponent,
     InfrastructureNewComponent,
-    InfrastructureObjectComponent
+    InfrastructureObjectComponent,
+    ArachniComponent,
+    ArachniViewComponent
   ],
   imports: [
     BrowserModule,
@@ -164,6 +167,7 @@ import { NewModuleComponent } from './wwmodules/new-module/new-module.component'
     AppSettingsService,
     WwmodulesService,
     InfrastructureService,
+    ArachniService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
