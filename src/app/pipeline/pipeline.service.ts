@@ -12,7 +12,7 @@ import { PipelineNode, PipelineNodeAtribute, pipelineNodeFromJSON } from './node
 import { PIPE_TAGS } from './node';
 import { Pipeline } from './pipeline'
 import { AppSettingsService } from '../app-settings.service';
-
+import { getStoredNodes, removeStoredNode, updateStoredNode, createStoredNode } from './stored-nodes'
 
 @Injectable()
 export class PipelineService {
@@ -26,7 +26,7 @@ export class PipelineService {
   private activeCache;
 
   constructor(
-    private AppSettings : AppSettingsService,
+    private AppSettings: AppSettingsService,
     private http: HttpClient,
     private webProjServ: WebProjectService
   ) {
@@ -51,7 +51,7 @@ export class PipelineService {
   }
   findPipelines() {
     return new Observable<Pipeline[]>((observer) => {
-      if ((!this.activeCache) || (Date.now() - this.lastSearchPipe) > 10000 ) {
+      if ((!this.activeCache) || (Date.now() - this.lastSearchPipe) > 10000) {
         this.lastSearchPipe = Date.now();
         this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline?web_project=' + this.webProjServ.getActualProject().id).map(data => data as Pipeline[]).subscribe(data => {
           this.pipelines = data;
@@ -68,6 +68,30 @@ export class PipelineService {
       }
     })
   }
+  getStoredNodes() {
+    return new Observable<PipelineNode[]>((observer) => {
+      getStoredNodes(this.http, this.AppSettings).subscribe(data => {
+        let pipes: PipelineNode[] = [];
+        let auxPipe: PipelineNode[] = data as PipelineNode[];
+        for (let i = 0; i < auxPipe.length; i++) {
+          let aux = pipelineNodeFromJSON(auxPipe[i]);
+          pipes.push(aux)
+        }
+        observer.next(pipes)
+        observer.complete();
+      }, err => {
+        observer.error()
+        observer.complete();
+      })
+    });
+  }
+  removeStoredNode(node: PipelineNode) {
+    return removeStoredNode(this.http, this.AppSettings, node);
+  }
+  newStoredNode(node: PipelineNode) {
+    return createStoredNode(this.http, this.AppSettings, node);
+  }
+
   createPipeline(pipeline: Pipeline) {
     this.lastSearchPipe == this.lastSearchPipe - 20000;
     this.clearCache();
@@ -110,20 +134,20 @@ export class PipelineService {
         });
     });
   }
-  checkPipelineStatus(pipeline : Pipeline): Observable<Pipeline>{
+  checkPipelineStatus(pipeline: Pipeline): Observable<Pipeline> {
     this.activeCache = false;
-    return Observable.interval(1000).flatMap(i=>{
-      return new Observable(observer =>{
-        this.findPipeline(pipeline.id).subscribe((data)=>{
-          if(data.last_update !== pipeline.last_update){
+    return Observable.interval(1000).flatMap(i => {
+      return new Observable(observer => {
+        this.findPipeline(pipeline.id).subscribe((data) => {
+          if (data.last_update !== pipeline.last_update) {
             observer.next(data);
             observer.complete();
           }
-        },err=>{})
+        }, err => { })
       })
     })
   }
-  getNode(node:PipelineNode){
+  getNode(node: PipelineNode) {
     return this.http.get(this.AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node/' + node.id);
   }
   getNodesForPipeline(pipeline: Pipeline): Observable<PipelineNode[]> {
@@ -167,6 +191,7 @@ export class PipelineService {
       this.http.post(this.AppSettings.API_ENDPOINT + 'pipeline/' + node.pipe + '/node', node, { responseType: 'json' })
         .subscribe(data => {
           let data2 = data as PipelineNode;
+          console.log(data2)
           Object.assign(node, data2);
           this.addNodeToCache(node);
           this.notify();
@@ -224,7 +249,7 @@ export class PipelineService {
   }
   getNodeTemplates() {
     return this.http.get(this.AppSettings.API_ENDPOINT + 'node_templates').map((data: any[]) => {
-      let retData : PipelineNode[] = [];
+      let retData: PipelineNode[] = [];
       for (let i = 0; i < data.length; i++) {
         let auxNode = data[i];
         let newNode = pipelineNodeFromJSON(auxNode)

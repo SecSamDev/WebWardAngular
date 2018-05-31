@@ -1,0 +1,18 @@
+<div id="context-menu" style="position : fixed " [style.left.px]="posX" [style.top.px]="posY">
+  <div class="dropdown-menu" style="visibility: visible; display: block" aria-labelledby="dropdownMenuButton">
+    <a *ngIf="node" class="dropdown-item" (click)="copyNode()">Copy Node</a>
+    <a *ngIf="node" class="dropdown-item" (click)="cloneNode()">Clone Node</a>
+    <a *ngIf="node" class="dropdown-item" (click)="deleteNode()"> Remove Node</a>
+    <a *ngIf="node" class="dropdown-item" (click)="storeNode()"> Store Node</a>
+    <a *ngIf="!node" class="dropdown-item" (click)="pasteNode()">Paste Node</a>
+    <div *ngIf="!node" ngbDropdown class="dropdown-submenu  dropright">
+      <a ngbDropdownToggle class="dropdown-item dropdown-toggle" type="button" id="dropdownStoredNode" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false" title="Centers a node in the middle of the PipelineCanvas" (click)="getStoredNodes()">
+        Add stored Node
+      </a>
+      <div ngbDropdownMenu class="dropdown-submenu dropright" aria-labelledby="dropdownStoredNode">
+        <a *ngFor="let stor of storedNodes" class="dropdown-item" (click)="newNodeFromTemplate(stor)">{{stor.name}}</a>
+      </div>
+    </div>
+  </div>
+</div>

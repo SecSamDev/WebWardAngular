@@ -22,8 +22,8 @@
           viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="561"
             height="561" viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
-            <animateTransform *ngIf="periodicStatus" attributeType="xml" attributeName="transform" type="rotate" from="360 280 280 " to="0 280 280" dur="4s"
-              repeatCount="indefinite" />
+            <animateTransform *ngIf="periodicStatus" attributeType="xml" attributeName="transform" type="rotate" from="360 280 280 "
+              to="0 280 280" dur="4s" repeatCount="indefinite" />
             <g>
               <path d="M280.5,76.5V0l-102,102l102,102v-76.5c84.15,0,153,68.85,153,153c0,25.5-7.65,51-17.85,71.4l38.25,38.25
             C471.75,357,484.5,321.3,484.5,280.5C484.5,168.3,392.7,76.5,280.5,76.5z M280.5,433.5c-84.15,0-153-68.85-153-153
@@ -66,8 +66,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12" (window:resize)="onResize($event)">
+      <ng-template contextalizable></ng-template>
       <svg #pipeCanvas version="1.1" [attr.viewBox]="'0 0 '+ width +' ' + height" width="100%" height="100%" (mousedown)="onMouseDown($event)"
-        (mouseleave)="onMouseLeave($event)" (mouseup)="onMouseUp($event)" (mousemove)="onMouseMove($event)">
+        (mouseleave)="onMouseLeave($event)" (mouseup)="onMouseUp($event)" (contextmenu)=handleContextMenu($event) (mousemove)="onMouseMove($event)">
         <defs>
           <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" />
@@ -116,8 +117,8 @@
         <svg:rect width="100%" height="100%" fill="url(#grid)" pipeline-directive (movEmit)="handleMove($event)" (zoom)="handleZoom($event)"
         />
         <!-- SVG is not HTML is XML so use attribute instead of element [attr.height]="height" [attr.width]="width"-->
-        <svg:svg pipeline-node *ngFor="let node of _nodes" [node]="node" (nodeClicked)="handleNodeClick($event)" [attr.x]="node.x + dx"
-          [attr.y]="node.y + dy" [attr.height]="node.height" [attr.width]="node.width"></svg:svg>
+        <svg:svg pipeline-node *ngFor="let node of _nodes" [node]="node" (nodeClicked)="handleNodeClick($event)" (contextmenu)=handleContextMenu($event,node) 
+          [attr.x]="node.x + dx" [attr.y]="node.y + dy" [attr.height]="node.height" [attr.width]="node.width"></svg:svg>
       </svg>
     </div>
   </div>

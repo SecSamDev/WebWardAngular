@@ -4,11 +4,19 @@ export class ScanReport{
      */
     id : string;
     /**
+     * Name of the report
+     */
+    name : string;
+    /**
+     * Report data
+     */
+    data : any ={};
+    /**
+     * Project ID of the report
+     */
+    project : string;
+    /**
      * Date of start
      */
-    startDate : Date;
-    /**
-     * Date of finalization
-     */
-    endDate : Date;
+    create_date : Date;
 }

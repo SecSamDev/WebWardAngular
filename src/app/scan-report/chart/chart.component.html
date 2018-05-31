@@ -1,0 +1,29 @@
+<ngx-charts-pie-chart *ngIf="report"
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="single"
+  [legend]="showLegend"
+  [explodeSlices]="explodeSlices"
+  [labels]="showLabels"
+  [doughnut]="doughnut"
+  [gradient]="gradient"
+  (select)="onSelect($event)">
+</ngx-charts-pie-chart>
+
+<!--
+<ngx-charts-bar-vertical *ngIf="report"
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="single"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  (select)="onSelect($event)">
+</ngx-charts-bar-vertical>
+
+-->

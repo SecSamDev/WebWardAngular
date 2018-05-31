@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, HostListener, ComponentFactoryResolver } from '@angular/core';
 import { PipelineNode, NodeConnector, IO_TYPES, PIPE_TAGS } from './node';
 import { HosePipe, HosePipeService } from './hose-pipe.service';
 import { share } from 'rxjs/operators';
@@ -11,7 +11,9 @@ import { Pipeline } from './pipeline';
 import { AlertService } from '../alert/alert.service'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { ContextualMenuComponent } from './contextual-menu/contextual-menu.component';
+import { ContextualDirective } from './contextual.directive';
 
 
 @Component({
@@ -27,7 +29,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   private newPipe: Pipeline = null;
   private letItBe: boolean = true;
   private hosePipe: HosePipe;
-
   /**
    * Allow to poll periodically the status of the nodes
    * @type boolean
@@ -47,6 +48,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   dy = 0;
   lastX: number = 0;
   lastY: number = 0;
+  @ViewChild(ContextualDirective) contextualElement: ContextualDirective;
   @ViewChild('pipeCanvas') public pipeCanvas: ElementRef;
 
   constructor(
@@ -56,7 +58,8 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     private pipService: PipelineService,
     private modalService: NgbModal,
     public activeModal: NgbActiveModal,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private componentFactoryResolver: ComponentFactoryResolver) {
     this.hosePipe = this.hosePipeService.getHosePipe();
   }
   ngAfterViewInit() {
@@ -136,7 +139,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.actual_pipe = pipe;
     this.pipService.getNodesForPipeline(this.actual_pipe).subscribe((nodes) => {
       this._nodes = nodes;
-      if(this.periodicStatus){
+      if (this.periodicStatus) {
         this.doPeriodicStatusUpdate();
       }
     }, err => {
@@ -163,8 +166,8 @@ export class PipelineComponent implements OnInit, AfterViewInit {
                 myNodo.setStatus(nod.status);
               }
             }
-          }, err => {})
-        }else{
+          }, err => { })
+        } else {
           subs.unsubscribe();
         }
       }, err => {
@@ -179,6 +182,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
 
   }
   handleNodeClick(event: PipelineNode) {
+    this.removeContextMenu()
     //If double click in less than 1 sec then set as active node
     setTimeout(() => {
       this.letItBe = false;
@@ -191,6 +195,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       this.letItBe = true;
       this.activeNode = event;
     }
+
 
   }
   /**
@@ -244,6 +249,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.lastY = y;
   }
   onMouseDown(event) {
+    this.removeContextMenu()
     this.pipMouseService.sendMouseEvent({
       'name': 'mousedown',
       'x': event.clientX * this.propX,
@@ -286,15 +292,19 @@ export class PipelineComponent implements OnInit, AfterViewInit {
       node.errorConnectors = temp.errorConnectors;
       node.errorParams = temp.errorParams;
       node.properties = temp.properties;
+      node.x = temp.x ? temp.x : 10;
+      node.y = temp.y ? temp.y : 10;
     } else {
       node = new PipelineNode("New Node", Math.random().toString(), "ANY");
+      node.x = 10;
+      node.y = 10;
     }
     node.pipe = this.actual_pipe.id;
     const rect = this.pipeCanvas.nativeElement.getBoundingClientRect();
-    node.x = 10
-    node.y = 10
-    if(this._nodes.length > 0)
+
+    if (this._nodes.length > 0)
       this.savePipelineNodes();
+    console.log(node)
     this.pipService.createNodeForPipeline(node).subscribe((data) => {
     }, err => {
       this.alertService.error(err.error.message)
@@ -312,7 +322,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   savePipelineNodes() {
     //this.pipService.
     let i = 0;
-    this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { 
+    this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => {
       //First try with one node. If error then abort updates
       for (i = 1; i < this._nodes.length; i++) {
         this.pipService.updateNodeForPipeline(this._nodes[i]).subscribe((data) => { }, (err) => {
@@ -333,5 +343,53 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.reCalculate();
+  }
+  handleContextMenu(event, node: PipelineNode) {
+    let comp = ContextualMenuComponent;
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(comp);
+
+    let viewContainerRef = this.contextualElement.viewContainerRef;
+    viewContainerRef.clear();
+    let componentRef = viewContainerRef.createComponent(componentFactory);
+    (<ContextualMenuComponent>(componentRef.instance)).node = node;
+
+    (<ContextualMenuComponent>(componentRef.instance)).posX = event.clientX;
+    (<ContextualMenuComponent>(componentRef.instance)).posY = event.clientY;
+    (<ContextualMenuComponent>(componentRef.instance)).completed.subscribe((nodeEvent) => {
+      this.onContextAction(nodeEvent)
+    })
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  removeContextMenu() {
+    let viewContainerRef = this.contextualElement.viewContainerRef;
+    viewContainerRef.clear();
+  }
+  onContextAction(event) {
+    if (event && event.event) {
+      switch (event.event) {
+        case "paste":
+          this.newNode(event.node);
+          break;
+        case "template":
+          this.newNode(event.node);
+          break;
+        case "clone":
+          try {
+            this.newNode(event.node);
+          } catch (err) { }
+
+          break;
+        case "delete":
+          try {
+            this.pipService.removeNodeForPipeline(event.node).subscribe((data) => { }, err => { });
+          } catch (err) { }
+
+          break;
+      }
+      //Is PipelineNode
+
+    }
+    this.removeContextMenu()
   }
 }

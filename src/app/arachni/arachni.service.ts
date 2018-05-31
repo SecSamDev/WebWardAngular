@@ -16,7 +16,7 @@ export class ArachniService {
       this.subscriber = observer;
     });
   }
-  getAllReports(): Observable<any[]> {
+  getAllReportsREST(): Observable<any[]> {
     return new Observable(observer => {
       this.http.get(this.AppSettings.API_ENDPOINT + 'arachni/rest', { responseType: 'json' })
         .subscribe(data => {
@@ -32,9 +32,19 @@ export class ArachniService {
         });
     });
   }
-  getReport(id): Observable<any> {
+  getReportREST(id): Observable<any> {
     return new Observable(observer => {
       this.http.get(this.AppSettings.API_ENDPOINT + 'arachni/rest/' + id, { responseType: 'json' })
+        .subscribe(data => {
+          observer.next({ id: id, content: data });
+        }, err => {
+          observer.error(err);
+        });
+    });
+  }
+  deleteReportREST(id): Observable<any> {
+    return new Observable(observer => {
+      this.http.delete(this.AppSettings.API_ENDPOINT + 'arachni/rest/' + id, { responseType: 'json' })
         .subscribe(data => {
           observer.next({ id: id, content: data });
         }, err => {

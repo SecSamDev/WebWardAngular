@@ -15,7 +15,7 @@ export class ArachniComponent implements OnInit {
     this.fetchReports()
   }
   fetchReports(){
-    this.arachService.getAllReports().subscribe(data=>{
+    this.arachService.getAllReportsREST().subscribe(data=>{
       this.reports = data;
     },err=>{})
   }

@@ -1,0 +1,56 @@
+<div *ngIf="report" class="row">
+  <div class="col-md-6">
+    <form>
+      <div class="card">
+        <div class="card-header">
+          <!--HEADER -->
+          <dl class="row">
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the Report">Report:</dt>
+            <dd class="col-sm-7">{{report.name}}</dd>
+          </dl>
+        </div>
+        <div class="card-body">
+          <dl *ngIf="report.data.url" class="row">
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
+            <dd class="col-sm-7">
+              <a>{{report.data.url}}</a>
+            </dd>
+
+          </dl>
+          <hr />
+          <dl *ngFor="let issue of report.data.issues" class="row">
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue Name">Issue: </dt>
+            <dd class="col-sm-7">
+              <a>{{issue.name}}</a>
+            </dd>
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue Severity">Severity: </dt>
+            <dd class="col-sm-7">
+              <a>{{issue.severity}}</a>
+            </dd>
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue Vector">Vector: </dt>
+            <dd class="col-sm-7">
+              <a>{{issue.vector}}</a>
+            </dd>
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue found in URL">Found in: </dt>
+            <dd class="col-sm-7">
+              <a>{{issue.url}}</a>
+            </dd>
+            <hr />
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this report">Creation Date</dt>
+            <dd class="col-sm-7">{{report.create_date}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the report">ID</dt>
+            <dd class="col-sm-9">{{report.id}}</dd>
+          </dl>
+          <hr />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6">
+      <scan-report-chart [report]="report"></scan-report-chart>
+  </div>
+</div>

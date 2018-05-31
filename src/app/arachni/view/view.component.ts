@@ -11,7 +11,7 @@ export class ArachniViewComponent implements OnInit {
   private _content : string = "";
   @Input() set report(rep){
     this._report = rep;
-    this.arachService.getReport(rep.id).subscribe((dat)=>{
+    this.arachService.getReportREST(rep.id).subscribe((dat)=>{
       Object.assign(this._report,dat)
       this._content = JSON.stringify(this._report.content, null, '\t')
     },err=>{
@@ -24,6 +24,11 @@ export class ArachniViewComponent implements OnInit {
   constructor(private arachService : ArachniService) { }
 
   ngOnInit() {
+  }
+  deleteReport(){
+    this.arachService.deleteReportREST(this._report.id).subscribe(()=>{
+
+    },err=>{})
   }
 
 }

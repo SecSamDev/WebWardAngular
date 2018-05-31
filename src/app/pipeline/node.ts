@@ -233,35 +233,40 @@ export class PipelineNode {
                 //El conector unido al nuestro
                 let his_connector_toUs = connecteds[i_c];
                 //Obtenemos referencia real al nodo
-                let pipNode = findNodeInArray(array, his_connector_toUs.originNode ? his_connector_toUs.originNode.id : "");//Nodo conectado
-                if (pipNode) {
-                    //conRef = OutputConnectors or ErrorConnectors
-                    let connectorsOfConectedToUs = his_connector_toUs.type === 1 ?
-                        pipNode.outputConnectors : his_connector_toUs.type === 2 ?
-                            pipNode.errorConnectors : [];
-                    let findConector = false;
-                    for (let i_pnc = 0; i_pnc < connectorsOfConectedToUs.length; i_pnc++) {
-                        //Buscar conector del nodo conectado
-                        let outOrErr = connectorsOfConectedToUs[i_pnc];
-                        if (outOrErr.id === his_connector_toUs.id) {
-                            //We exists in the other node
-                            findConector = true;
-                            us_in_connector.addConnector(outOrErr)
-                            outOrErr.addConnector(us_in_connector)
-                            break;
+                if(his_connector_toUs.originNode && his_connector_toUs.originNode){
+                    let pipNode = findNodeInArray(array,  his_connector_toUs.originNode.id);//Nodo conectado
+                    if (pipNode) {
+                        //conRef = OutputConnectors or ErrorConnectors
+                        let connectorsOfConectedToUs = his_connector_toUs.type === 1 ?
+                            pipNode.outputConnectors : his_connector_toUs.type === 2 ?
+                                pipNode.errorConnectors : [];
+                        let findConector = false;
+                        for (let i_pnc = 0; i_pnc < connectorsOfConectedToUs.length; i_pnc++) {
+                            //Buscar conector del nodo conectado
+                            let outOrErr = connectorsOfConectedToUs[i_pnc];
+                            if (outOrErr.id === his_connector_toUs.id) {
+                                //We exists in the other node
+                                findConector = true;
+                                us_in_connector.addConnector(outOrErr)
+                                outOrErr.addConnector(us_in_connector)
+                                break;
+                            }
                         }
-                    }
-                    if (!findConector) {//We cant find the connector
-                        console.log(`Not connected to us: ${his_connector_toUs}`)
+                        if (!findConector) {//We cant find the connector
+                            console.log(`Not connected to us: ${his_connector_toUs}`)
+                            connecteds.splice(i_c, 1);
+                            i_c--;
+                        }
+                    } else {
+                        //Nodo no encontrado
+                        console.log("Nodo no encontrado")
                         connecteds.splice(i_c, 1);
                         i_c--;
                     }
-                } else {
-                    //Nodo no encontrado
-                    console.log("Nodo no encontrado")
-                    connecteds.splice(i_c, 1);
-                    i_c--;
+                }else{
+                    connecteds.splice(i_c,1)
                 }
+                
             }
         }
         this.clean(array);
@@ -277,6 +282,7 @@ export class PipelineNode {
                 for (let j = 0; j < conecteds.length; j++) {
                     let node = findNodeInArray(array, conecteds[j].originNode.id);
                     if (!node) {
+                        console.log("Node not found")
                         this.inputConnectors[i].removeThisConnector(conecteds[j])
                         j--;
                     }
@@ -292,6 +298,16 @@ export class PipelineNode {
                     if (!node) {
                         this.outputConnectors[i].removeThisConnector(conecteds[j])
                         j--;
+                    }else{
+                        //Exists buy maybe it hasnt us
+                        for(let i_n_c = 0; i_n_c < node.inputConnectors.length; i_n_c++){
+                            let posCon = node.inputConnectors[i_n_c].findConnector(this.outputConnectors[i]);
+                            //Problem here if used !posCon because if posCon=0 => true and we want posCon=== null
+                            if(posCon === null || posCon < 0){
+                                this.outputConnectors[i].removeThisConnector(node.inputConnectors[i_n_c])
+                                node.inputConnectors[i_n_c].removeThisConnector(this.outputConnectors[i])
+                            }
+                        }
                     }
                 }
 
@@ -305,6 +321,16 @@ export class PipelineNode {
                     if (!node) {
                         this.errorConnectors[i].removeThisConnector(conecteds[j])
                         j--;
+                    }else{
+                        //Exists buy maybe it hasnt us
+                        for(let i_n_c = 0; i_n_c < node.inputConnectors.length; i_n_c++){
+                            let posCon = node.inputConnectors[i_n_c].findConnector(this.errorConnectors[i]);
+                            //Problem here if used !posCon because if posCon=0 => true and we want posCon=== null
+                            if(posCon === null || posCon < 0){
+                                this.errorConnectors[i].removeThisConnector(node.inputConnectors[i_n_c])
+                                node.inputConnectors[i_n_c].removeThisConnector(this.errorConnectors[i])
+                            }
+                        }
                     }
                 }
 
@@ -452,6 +478,14 @@ export class NodeConnector {
                 break;
             }
         }
+    }
+    public findConnector(con: NodeConnector){
+        for (let i = 0; i < this.conectedNodes.length; i++) {//Para cada conector
+            if (this.conectedNodes[i] === con || this.conectedNodes[i].id === con.id) {//encontramos al conector
+                return i;
+            }
+        }
+        return null;
     }
     /**
      * Une dos conectores

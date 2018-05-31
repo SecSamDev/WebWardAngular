@@ -3,6 +3,7 @@ import { WebProject } from './web-project';
 import { WebProjectService } from './web-project.service';
 import { AlertService } from '../alert/alert.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../auth/auth.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class WebProjectComponent implements OnInit {
   projects: WebProject[];
   selectedProject: WebProject;
-  constructor(private projService: WebProjectService, private alert: AlertService) { }
+  constructor(private projService: WebProjectService, private alert: AlertService,public auth : AuthService) { }
   ngOnInit() {
     this.fetchData();
     this.projService.subscribeToWebProjects().subscribe((data) => {

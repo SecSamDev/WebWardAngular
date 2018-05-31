@@ -10,6 +10,7 @@ import { DaysTypeComponent } from './days/days-type.component';
 import { TimeTypeComponent } from './time/time-type.component';
 import { CheckTypeComponent } from './check/check-type.component';
 import { ScanProfileTypeComponent } from './scan-profile/scan-profile-type.component';
+import { TextTypeComponent } from './text/text-type.component';
 import { TypeComponent } from './type.component';
 
 @Component({
@@ -112,6 +113,9 @@ export class TypesComponent implements OnInit {
       case 'TIME':
         comp = TimeTypeComponent;
         break;
+      case 'TEXT':
+        comp = TextTypeComponent;
+        break
       default:
         comp = DefaultTypeComponent;
         break;

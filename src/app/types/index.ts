@@ -7,6 +7,7 @@ import {ArrayTypeComponent} from './array/array-type.component';
 import {TimeTypeComponent} from './time/time-type.component';
 import {CheckTypeComponent} from './check/check-type.component';
 import {ScanProfileTypeComponent} from './scan-profile/scan-profile-type.component';
+import {TextTypeComponent} from './text/text-type.component';
 
 
 import {TypesDirective} from './types.directive'
@@ -22,5 +23,6 @@ export {
     ObjectTypeComponent,
     CheckTypeComponent,
     ScanProfileTypeComponent,
-    HashObjectTypeComponent
+    HashObjectTypeComponent,
+    TextTypeComponent
 }

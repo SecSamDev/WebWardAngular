@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-4">
+      <div class="list-group">
+        <h4>Last scan reports</h4>
+          <div *ngFor="let report of reports" (click)="onSelect(report)">
+            <a [class.active]="report === selectedReport" class="list-group-item">
+              {{report.name}}
+            </a>
+          </div>
+  
+        </div>
+  </div>
+  <div class="col-md-8">
+      <scan-report-chart *ngIf="selectedReport" [report]="selectedReport"></scan-report-chart>
+      <report-chart-temporal *ngIf="reports" [reports]="reports"></report-chart-temporal>
+  </div>
+</div>

@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Provider } from '@angular/core';
 import { NgbModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
+import {NgxChartsModule} from '@swimlane/ngx-charts'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -32,7 +33,7 @@ import { UserService, UserManagementComponent, UserEditComponent, UserNewCompone
 //----------- SCANS --------------------
 import { ScanProfileComponent } from './scan-profile/scan-profile.component';
 import { ScanProfileService } from './scan-profile/scan-profile.service';
-import { ScanReportComponent } from './scan-report/scan-report.component';
+
 
 //-----------AUTH---------------
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
@@ -60,7 +61,6 @@ import {
   NodeConnectorComponent
 } from './pipeline/index'
 
-import { DashboardWebProjectComponent } from './dashboard/dashboard-web-project/dashboard-web-project.component';
 import { WebWardConsoleComponent } from './web-ward-console/web-ward-console.component';
 import { MyProfileComponent } from './user-management/my-profile/my-profile.component';
 import { UserProfileComponent } from './user-management/user-profile/user-profile.component';
@@ -81,6 +81,13 @@ import { InfrastructureNewComponent } from './infrastructure/infrastructure-new/
 import { InfrastructureService } from './infrastructure/infrastructure.service';
 import { InfrastructureObjectComponent } from './infrastructure/infrastructure/infrastructure.component';
 
+//REPORTS
+import { ReportsComponent } from './dashboard/reports/reports.component';
+import { ScanReportComponent } from './scan-report/scan-report.component';
+import { ReportsService } from './scan-report/reports.service';
+import { ViewReportComponent } from './scan-report/view/view.component';
+import {ScanReportChartComponent  } from './scan-report/chart/chart.component';
+import { FullReportViewComponent } from './scan-report/full-view/full-view.component';
 
 
 import { ArachniComponent } from './arachni/arachni.component';
@@ -90,6 +97,13 @@ import { EditModuleComponent } from './wwmodules/edit-module/edit-module.compone
 import { NewModuleComponent } from './wwmodules/new-module/new-module.component';
 import { ArachniViewComponent } from './arachni/view/view.component'
 import { ArachniService } from './arachni/arachni.service';
+import { ContextualMenuComponent } from './pipeline/contextual-menu/contextual-menu.component';
+import { ContextualDirective } from './pipeline/contextual.directive';
+import { ThreatModelComponent } from './threat-model/threat-model.component';
+
+import { VulnerabilitiesComponent } from './dashboard/vulnerabilities/vulnerabilities.component';
+import { ReportChartTemporalComponent } from './scan-report/chart-temporal/chart-temporal.component';
+
 
 @NgModule({
   declarations: [
@@ -103,7 +117,6 @@ import { ArachniService } from './arachni/arachni.service';
     WebProjectNewComponent,
     ScanProfileComponent,
     ScanReportComponent,
-    DashboardWebProjectComponent,
     UserManagementComponent,
     UserEditComponent,
     UserNewComponent,
@@ -138,15 +151,26 @@ import { ArachniService } from './arachni/arachni.service';
     InfrastructureNewComponent,
     InfrastructureObjectComponent,
     ArachniComponent,
-    ArachniViewComponent
+    ArachniViewComponent,
+    ContextualMenuComponent,
+    ContextualDirective,
+    ThreatModelComponent,
+    ReportsComponent,
+    VulnerabilitiesComponent,
+    ViewReportComponent,
+    ScanReportChartComponent,
+    FullReportViewComponent,
+    ReportChartTemporalComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     NgbModule.forRoot(),
     AppRoutingModule,
-    TypesModule
+    TypesModule,
+    NgxChartsModule
   ],
   providers: [
     WebProjectService,
@@ -168,6 +192,7 @@ import { ArachniService } from './arachni/arachni.service';
     WwmodulesService,
     InfrastructureService,
     ArachniService,
+    ReportsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
@@ -175,7 +200,7 @@ import { ArachniService } from './arachni/arachni.service';
     }
 
   ],
-  bootstrap: [AppComponent, PipelineEditComponent, PipelineNodeEditComponent]
+  bootstrap: [AppComponent, PipelineEditComponent, PipelineNodeEditComponent, ContextualMenuComponent,ScanReportChartComponent,ReportChartTemporalComponent]
 })
 
 export class AppModule { }

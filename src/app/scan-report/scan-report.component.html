@@ -1,3 +1,21 @@
-<p>
-  scan-report works!
-</p>
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>List of Reports for this Web Project</h4>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="list-group">
+        <div *ngFor="let report of reportList" (click)="onSelect(report)">
+          <a [class.active]="report === selectedReport" class="list-group-item">
+            {{report.name}}
+          </a>
+        </div>
+
+      </div>
+      <hr/>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <view-report [report]="selectedReport" ></view-report>
+    </div>
+  </div>
+</div>
