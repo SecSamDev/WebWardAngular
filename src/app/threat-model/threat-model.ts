@@ -1,18 +1,74 @@
 export class ThreatModel{
+    /**
+     * Id in DB
+     */
     id : string
+    /**
+     * ProjectID of this report
+     */
+    project : string;
+    /**
+     * Name of the project
+     */
+    projectName : string;
+    /**
+     * Name of the threat model
+     */
     name : string;
+    /**
+     * General description of the aplication
+     */
     description : string;
-    aplicationType = "Web";
+    /**
+     * Aplication type: WebPage, WebService, WebApp, eCommerce
+     */
+    applicationType = "WebPage";
+    /**
+     * Owner of the Threat Model
+     */
     owners = [];
+    /**
+     * Authors
+     */
     authors = [];
+    /**
+     * Involved people
+     */
     stakeholders = [];
+    /**
+     * URL of the WebAPP
+     */
     url : string;
-    version : number = 0;
+    /**
+     * Document version
+     */
+    version : number = 1;
+    /**
+     * Revision of the version
+     */
+    review : number = 1;
+    /**
+     * System dependencies
+     */
     system = [];
-}
-
-export class ThreatAttack{
-    active : boolean;
-    scope : string;
-
+    /**
+     * Libraries
+     */
+    platform = [];
+    /**
+     * File for the Threat Model
+     */
+    threatModelFile : string;
+    /**
+     * File for the report
+     */
+    threatModelReport : string;
+    /**
+     * Creation Date
+     */
+    create_date : Date;
+    /**
+     * Last Update
+     */
+    last_update : Date;
 }

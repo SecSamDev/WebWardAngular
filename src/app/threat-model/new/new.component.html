@@ -1,0 +1,29 @@
+<div *ngIf="model">
+  <form>
+    <div class="card">
+      <div class="card-header">
+        <!--HEADER -->
+
+        <div class="form-group">
+          <label for="checkName">Threat Model Name</label>
+          <input type="text" class="form-control" name="name" id="modelName" placeholder="Threat Model Name" [(ngModel)]="model.name">
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" name="description" id="description" placeholder="Threat Model Description" [(ngModel)]="model.description">
+        </div>
+        <div class="form-group">
+            <label for="checkName">WebApp URL</label>
+            <input type="text" class="form-control" name="name" id="modelURL" placeholder="Threat Model URL" [(ngModel)]="model.url">
+          </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+          <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

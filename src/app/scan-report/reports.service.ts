@@ -26,7 +26,10 @@ export class ReportsService {
     let webProj = this.webProjService.getActualProject();
     if (webProj && webProj.id) {
       return this.http.get(this.AppSettings.API_ENDPOINT + 'report/' + webProj.id).map(data => {
-        return data as ScanReport[];
+        return (data as ScanReport[]).map((val,i,arr)=>{
+          val.daysAgo = millisecsToDays(Math.abs(Date.now() - (new Date(val.create_date)).valueOf()))
+          return val;
+        })
       });
     }
 
@@ -35,7 +38,9 @@ export class ReportsService {
     let webProj = this.webProjService.getActualProject();
     if (webProj && webProj.id) {
       return this.http.get(this.AppSettings.API_ENDPOINT + 'report/' + webProj.id + "/" + id).map(data => {
-        return data as ScanReport;
+        var data2 = data as ScanReport;
+        data2.daysAgo = millisecsToDays(Math.abs(Date.now() - (new Date(data2.create_date)).valueOf()))
+        return data2;
       });
     }
 
@@ -75,4 +80,8 @@ export class ReportsService {
 
   }
 
+}
+
+function millisecsToDays(mills : number){
+  return Math.round(mills/(1000 * 60 * 60 * 24));
 }

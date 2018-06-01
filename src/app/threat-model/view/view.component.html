@@ -1,0 +1,49 @@
+<div *ngIf="model">
+  <form>
+    <div class="card">
+      <div class="card-header">
+        <!--HEADER -->
+        <dl class="row">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the Threat Model">Threat Model Name:</dt>
+          <dd class="col-sm-7">{{model.name}}</dd>
+        </dl>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Threat Model description">Description: </dt>
+          <dd class="col-sm-8">
+            <span>{{model.description}}</span>
+          </dd>
+        </dl>
+        <hr />
+        <dl class="row">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
+          <dd class="col-sm-7">
+            <a>{{model.url}}</a>
+          </dd>
+        </dl>
+        <hr/>
+        <dl class="row">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">Version: </dt>
+          <dd class="col-sm-7">
+            <a> v{{model.version}} rev{{model.review}}</a>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this model">Creation Date</dt>
+          <dd class="col-sm-7">{{model.create_date}}</dd>
+        </dl>
+        <dl class="row">
+          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the model">ID</dt>
+          <dd class="col-sm-9">{{model.id}}</dd>
+        </dl>
+        <hr />
+
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" routerLink="/threat-models/{{model.id}}">Edit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

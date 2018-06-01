@@ -101,8 +101,13 @@ import { ContextualMenuComponent } from './pipeline/contextual-menu/contextual-m
 import { ContextualDirective } from './pipeline/contextual.directive';
 import { ThreatModelComponent } from './threat-model/threat-model.component';
 
-import { VulnerabilitiesComponent } from './dashboard/vulnerabilities/vulnerabilities.component';
+
 import { ReportChartTemporalComponent } from './scan-report/chart-temporal/chart-temporal.component';
+import { ThreatModelReportComponent } from './threat-model/report/report.component';
+import { ThreatModelViewComponent } from './threat-model/view/view.component';
+import { ThreatModelEditComponent } from './threat-model/edit/edit.component';
+import { ThreatModelService } from './threat-model/threat-model.service';
+import { ThreatModelNewComponent } from './threat-model/new/new.component';
 
 
 @NgModule({
@@ -113,54 +118,69 @@ import { ReportChartTemporalComponent } from './scan-report/chart-temporal/chart
     PageNotFoundComponent,
     AlertComponent,
     EnvironmentComponent,
+    //--------------------------WEB PROJECT
     WebProjectComponent,
     WebProjectNewComponent,
-    ScanProfileComponent,
-    ScanReportComponent,
-    UserManagementComponent,
-    UserEditComponent,
-    UserNewComponent,
-    UserViewComponent,
-    WebWardConsoleComponent,
-    MyProfileComponent,
-    UserProfileComponent,
     WebProjectUserComponent,
     WebProjectViewComponent,
     WebProjectEditComponent,
     WebProjectPageComponent,
+    //-------------------------SCAN PROFILE
+    ScanProfileComponent,
+    NewProfileComponent,
+    EditProfileComponent,
+    
+    //------------------------ USERS
+    UserManagementComponent,
+    UserEditComponent,
+    UserNewComponent,
+    UserViewComponent,
+    UserProfileComponent,
+    MyProfileComponent,
+    //-------------------------- CONSOLE
+    WebWardConsoleComponent,
+    //----------------------- PIPELINE
     PipelineComponent,
     PipelineNodeComponent,
     PipelineNodeEditComponent,
     PipelineNodeNewComponent,
     PipelineDirective,
+    PipelineEditComponent,
+    PipelineNewComponent,
     NodeMoveDirective,
     NodeResizeDirective,
     NodePipeMeDirective,
-    PipelineEditComponent,
-    PipelineNewComponent,
     NodeConnectorComponent,
+    ContextualMenuComponent,
+    ContextualDirective,
+    //---------------------- WEB HOOK
     WebhookComponent,
     WebhookNewComponent,
+    //--------------------- WW Modules
     WwmodulesComponent,
-    NewProfileComponent,
-    EditProfileComponent,
     EditModuleComponent,
     NewModuleComponent,
+    //--------------------- INFRASTRUCTURE
     InfrastructureComponent,
     InfrastructureEditComponent,
     InfrastructureNewComponent,
     InfrastructureObjectComponent,
+    //----------------------- ARACHNI
     ArachniComponent,
     ArachniViewComponent,
-    ContextualMenuComponent,
-    ContextualDirective,
-    ThreatModelComponent,
+    //----------------------- SCAN REPORT
+    ScanReportComponent,
     ReportsComponent,
-    VulnerabilitiesComponent,
     ViewReportComponent,
     ScanReportChartComponent,
     FullReportViewComponent,
-    ReportChartTemporalComponent
+    ReportChartTemporalComponent,
+    //-------------------------------THREAT MODEL
+    ThreatModelComponent,
+    ThreatModelReportComponent,
+    ThreatModelViewComponent,
+    ThreatModelEditComponent,
+    ThreatModelNewComponent
   ],
   imports: [
     BrowserModule,
@@ -193,6 +213,7 @@ import { ReportChartTemporalComponent } from './scan-report/chart-temporal/chart
     InfrastructureService,
     ArachniService,
     ReportsService,
+    ThreatModelService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

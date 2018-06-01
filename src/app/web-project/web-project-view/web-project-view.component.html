@@ -6,7 +6,7 @@
 
         <dl class="row">
           <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Project Name">Project Name: </dt>
-          <dd class="col-sm-7">
+          <dd class="col-sm-7 text-left">
             {{project.name}}
           </dd>
         </dl>
@@ -19,9 +19,15 @@
           </dd>
         </dl>
         <dl class="row" *ngIf="project.project_manager_name !== ''">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The Name of the manager of the Project">Manager: </dt>
+            <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The Name of the manager of the Project">Manager: </dt>
+            <dd class="col-sm-7">
+              <a routerLink="/user/{{project.project_manager}}">{{project.project_manager_name}}</a>
+            </dd>
+          </dl>
+        <dl class="row" *ngIf="project.system && project.system.length > 0">
+          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="List of  Systems">System: </dt>
           <dd class="col-sm-7">
-            <a routerLink="/user/{{project.project_manager}}">{{project.project_manager_name}}</a>
+            <span *ngFor="let sysm of project.system" class="text-left">{{sysm}}</span>
           </dd>
         </dl>
         <div  class="btn-group">

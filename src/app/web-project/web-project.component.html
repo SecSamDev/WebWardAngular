@@ -8,8 +8,16 @@
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="list-group">
-                <a *ngFor="let project of projects" [class.active]="project === selectedProject" (click)="onSelect(project)" class="list-group-item">
-                    <span>{{project.name}} </span>
+                <a *ngFor="let project of projects" [class.active]="project === selectedProject" (click)="onSelect(project)" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{project.name}}</h5>
+                        <small *ngIf="project.status === 0">Inactive</small>
+                        <small *ngIf="project.status != 0">Active</small>
+                    </div>
+                    <p class="mb-1">
+                        {{project.description}}
+                    </p>
+                    <small *ngIf="project.project_manager_name">Manager: {{project.project_manager_name}}</small>
                 </a>
             </div>
             <hr/>

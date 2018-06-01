@@ -1,3 +1,39 @@
-<p>
-  threat-model works!
-</p>
+<div class='container'>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h4>List of Threat Models</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <div>
+          <button type="button" class="btn btn-primary" (click)="reviewThreatModel()">Review Threat Model</button>
+          <button type="button" class="btn btn-primary" (click)="newThreatModel()">Create new Threat Model</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="tempModel" class="row">
+    <div class="col-sm-12 col-xl-12">
+      <threat-model-new [model]="tempModel"></threat-model-new>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="list-group">
+        <div *ngFor="let mod of models" (click)="onSelect(mod)">
+          <a [class.active]="mod === selectedModel" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{mod.name}}</h5>
+              <small>{{mod.applicationType}}</small>
+            </div>
+            <p class="mb-1">
+              {{mod.description}}
+            </p>
+            <small *ngIf="mod.authors"> Authors: {{mod.authors.join(',')}}</small>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <threat-model-view [model]="selectedModel"></threat-model-view>
+    </div>
+  </div>
+</div>

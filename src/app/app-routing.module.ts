@@ -20,6 +20,8 @@ import { ArachniComponent } from './arachni/arachni.component';
 import { WwmodulesComponent } from './wwmodules/wwmodules.component';
 import { ScanReportComponent } from './scan-report/scan-report.component';
 import { FullReportViewComponent } from './scan-report/full-view/full-view.component';
+import { ThreatModelComponent } from './threat-model/threat-model.component';
+import { ThreatModelEditComponent } from './threat-model/edit/edit.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -31,6 +33,8 @@ const routes: Routes = [
   { path: 'projects', component: WebProjectComponent, canActivate: [AuthGuard] },
   { path: 'projects/edit/:id', component: WebProjectEditComponent, canActivate: [AuthGuard] },
   { path: 'projects/:id', component: WebProjectPageComponent, canActivate: [AuthGuard] },
+  { path: 'threat-models', component: ThreatModelComponent, canActivate: [AuthGuard] },
+  { path: 'threat-models/:id', component: ThreatModelEditComponent, canActivate: [AuthGuard] },
   { path: 'users/:id', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'scan_profile', component: ScanProfileComponent, canActivate: [AuthGuard] },
   { path: 'console', component: WebWardConsoleComponent, canActivate: [AuthAdmin] },

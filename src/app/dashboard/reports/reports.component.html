@@ -1,17 +1,36 @@
 <div class="row">
   <div class="col-md-4">
-      <div class="list-group">
-        <h4>Last scan reports</h4>
-          <div *ngFor="let report of reports" (click)="onSelect(report)">
-            <a [class.active]="report === selectedReport" class="list-group-item">
-              {{report.name}}
-            </a>
+    <div class="list-group">
+      <h4>Last scan reports</h4>
+      <div *ngFor="let report of reports" (click)="onSelect(report)">
+        <a [class.active]="report === selectedReport" class="list-group-item list-group-item-action flex-column align-items-start">
+
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{report.name}}</h5>
+            <small *ngIf="report.daysAgo === 0">Today</small>
+            <small *ngIf="report.daysAgo != 0">{{report.daysAgo}} days ago</small>
           </div>
-  
-        </div>
+          <p class="mb-1">
+            For URL: {{report.data.url}} Total issues: {{report.data.issues.length}}
+          </p>
+          <small>Project: {{report.project}}</small>
+        </a>
+      </div>
+    </div>
   </div>
   <div class="col-md-8">
-      <scan-report-chart *ngIf="selectedReport" [report]="selectedReport"></scan-report-chart>
-      <report-chart-temporal *ngIf="reports" [reports]="reports"></report-chart-temporal>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="text-center">% Vulnerabilities found</h4>
+        <scan-report-chart *ngIf="reports && selectedReport" [report]="selectedReport"></scan-report-chart>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="text-center">Vulnerabilities Evolution</h4>
+        <report-chart-temporal *ngIf="reports" [reports]="reports"></report-chart-temporal>
+      </div>
+    </div>
   </div>
 </div>

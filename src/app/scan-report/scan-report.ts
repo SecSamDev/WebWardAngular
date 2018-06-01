@@ -19,4 +19,8 @@ export class ScanReport{
      * Date of start
      */
     create_date : Date;
+    /**
+     * today-create_date
+     */
+    daysAgo : number;
 }

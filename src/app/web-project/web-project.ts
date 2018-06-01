@@ -29,4 +29,12 @@ export class WebProject {
      * Name of the project_manager, obtained from a DB JOIN
      */
     project_manager_name : string = "";
+    /**
+     * List of system dependencies
+     */
+    system = [];
+    /**
+     * List of platform, libraries, programming lenguages...
+     */
+    platform = [];
   }

@@ -1,0 +1,64 @@
+<div *ngIf="model" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Threat Model: {{model.name}}</h3>
+    </div>
+    <div class="col-md-6">
+      <form>
+        <div class="card">
+          <div class="card-header">
+            <!--HEADER -->
+            <div class="form-group">
+              <label for="checkName">Threat Model Name</label>
+              <input type="text" class="form-control" name="name" id="modelName" placeholder="Threat Model Name" [(ngModel)]="model.name">
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="description" id="description" placeholder="Threat Model Description" [(ngModel)]="model.description">
+            </div>
+            <div class="form-group">
+              <label for="checkName">WebApp URL</label>
+              <input type="text" class="form-control" name="name" id="modelURL" placeholder="Threat Model URL" [(ngModel)]="model.url">
+            </div>
+
+            <dl class="row">
+              <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">Version: </dt>
+              <dd class="col-sm-7">
+                <a> v{{model.version}} rev{{model.review}}</a>
+              </dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this model">Creation Date</dt>
+              <dd class="col-sm-7">{{model.create_date}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the model">ID</dt>
+              <dd class="col-sm-9">{{model.id}}</dd>
+            </dl>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+              <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form class="row">
+        <div class="form-group">
+          <input type="file" name="fileReport" (change)="fileChangeReport($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.htm,.html">
+        </div>
+        <div class="form-group">
+          <input type="file" name="fileModel" (change)="fileChangeModel($event)" placeholder="Upload file" accept=".doc,.docx,.tb7">
+        </div>
+      </form>
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary" (click)="saveFiles()">Save Files</button>
+      </div>
+      <threat-model-report [model]="model"></threat-model-report>
+    </div>
+  </div>
+</div>
