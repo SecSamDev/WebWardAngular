@@ -22,7 +22,7 @@ export class ThreatModel{
     /**
      * Aplication type: WebPage, WebService, WebApp, eCommerce
      */
-    applicationType = "WebPage";
+    applicationtype = "WebPage";
     /**
      * Owner of the Threat Model
      */
@@ -58,11 +58,11 @@ export class ThreatModel{
     /**
      * File for the Threat Model
      */
-    threatModelFile : string;
+    threatmodelfile : string;
     /**
      * File for the report
      */
-    threatModelReport : string;
+    threatmodelreport : string;
     /**
      * Creation Date
      */

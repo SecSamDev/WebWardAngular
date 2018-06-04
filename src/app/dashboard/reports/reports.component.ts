@@ -15,7 +15,12 @@ export class ReportsComponent implements OnInit {
   }
   fetchData() {
     this.reportService.getReports().subscribe((data) => {
-      this.reports = data;
+      this.reports = data.filter((val,i,arr)=>{
+        if(val.reporter.toLowerCase() === 'webward'){
+          return true;
+        }
+        return false;
+      });
       if (data.length > 0)
         this.selectReport(data[0]);
     }, err => {

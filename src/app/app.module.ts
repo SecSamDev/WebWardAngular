@@ -108,6 +108,10 @@ import { ThreatModelViewComponent } from './threat-model/view/view.component';
 import { ThreatModelEditComponent } from './threat-model/edit/edit.component';
 import { ThreatModelService } from './threat-model/threat-model.service';
 import { ThreatModelNewComponent } from './threat-model/new/new.component';
+import { FullViewWappalyzerComponent } from './scan-report/full-view-wappalyzer/full-view-wappalyzer.component';
+import { FullViewArachniComponent } from './scan-report/full-view-arachni/full-view-arachni.component';
+import { WappaCatPipe } from './scan-report/wappa-cat.pipe';
+import { SafeDomPipe } from './safe-dom.pipe';
 
 
 @NgModule({
@@ -180,7 +184,11 @@ import { ThreatModelNewComponent } from './threat-model/new/new.component';
     ThreatModelReportComponent,
     ThreatModelViewComponent,
     ThreatModelEditComponent,
-    ThreatModelNewComponent
+    ThreatModelNewComponent,
+    FullViewWappalyzerComponent,
+    FullViewArachniComponent,
+    WappaCatPipe,
+    SafeDomPipe
   ],
   imports: [
     BrowserModule,

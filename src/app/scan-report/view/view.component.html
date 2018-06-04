@@ -8,7 +8,7 @@
           <dd class="col-sm-7">{{report.name}}</dd>
         </dl>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'webward'">
         <dl *ngIf="report.data.url" class="row">
           <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
           <dd class="col-sm-7">
@@ -52,9 +52,19 @@
           </dd>
         </dl>
         <div class="btn-group">
-            <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
-          </div>
+          <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
+        </div>
       </div>
+      <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'wappalyzer'">
+        <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="reporter">Reported By: </dt>
+        <dd class="col-sm-7">
+          <a>Wappalyzer Scanner</a>
+        </dd>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
+        </div>
+      </div>
+
     </div>
   </form>
 

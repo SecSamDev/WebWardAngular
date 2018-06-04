@@ -23,4 +23,13 @@ export class ScanReport{
      * today-create_date
      */
     daysAgo : number;
+    /**
+     *  Reporter of the scan
+     */
+    reporter : string;
 }
+/**
+ * WAPPALYZER Categories:
+ * 
+ * 
+ */

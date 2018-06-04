@@ -6,6 +6,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -17,13 +18,16 @@ export class WebProjectPageComponent implements OnInit {
 
   private project: WebProject = new WebProject();
 
+  private projectBackup: WebProject;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private webProjServ: WebProjectService,
     private alert: AlertService,
     private modalService: NgbModal,
-    public activeModal: NgbActiveModal) { }
+    public activeModal: NgbActiveModal,
+    private auth: AuthService) { }
 
   ngOnInit() {
     this.route.params
@@ -31,5 +35,9 @@ export class WebProjectPageComponent implements OnInit {
       .subscribe(proj => {
         this.project = proj;
       });
+  }
+  cancel() {
+    this.project = null;
+    this.location.back();
   }
 }

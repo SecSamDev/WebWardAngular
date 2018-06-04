@@ -63,5 +63,8 @@ export class ThreatModelEditComponent implements OnInit {
       this.fileReport = fileList[0];
     }
   }
+  cancel(){
+    this.location.back();
+  }
 }
 
