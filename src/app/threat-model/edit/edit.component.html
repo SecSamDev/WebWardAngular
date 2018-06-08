@@ -46,14 +46,18 @@
             <div class="form-group">
               <dl class="row">
                 <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Report Model">Actual Report:</dt>
-                <dd class="col-sm-9">{{model.threatmodelreport}}</dd>
+                <dd class="col-sm-9 text-truncate">
+                  <a class="text-left text-truncate" target="_blank" (click)="downloadFile(model.threatmodelreport)">{{model.threatmodelreport}}</a>
+                </dd>
               </dl>
               <input type="file" name="fileReport" (change)="fileChangeReport($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.htm,.html">
             </div>
             <div class="form-group">
               <dl class="row">
                 <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Report Model">Actual Model:</dt>
-                <dd class="col-sm-9">{{model.threatmodelfile}}</dd>
+                <dd class="col-sm-9 text-truncate">
+                  <a class="text-left text-truncate" target="_blank" (click)="downloadFile(model.threatmodelfile)">{{model.threatmodelfile}}</a>
+                </dd>
               </dl>
               <input type="file" name="fileModel" (change)="fileChangeModel($event)" placeholder="Upload file" accept=".doc,.docx,.tb7">
             </div>
@@ -64,7 +68,7 @@
           </div>
         </div>
       </form>
-
+      <a #autoDownloadContentReport id="autoDownloadContentReport" style="display: none;"></a>
     </div>
     <div class="col-md-7">
       <threat-model-report [model]="model"></threat-model-report>

@@ -1,8 +1,4 @@
 <div class="" style="height:100%;width:100%">
-  <h4>
-    <a target="_blank" [href]="fileURL">Report: {{model.threatmodelreport}}</a>
-  </h4>
-  <a target="_blank" [href]="fileURL">Threat Model File: {{model.threatmodelfile}}</a>
-  <iframe *ngIf="fileURL" [src]="fileURL | safeDom" class="" style="height:100%;width:100%">
+  <iframe *ngIf="reportBlobURL" [src]="htmlFrame()" class="" style="height:100%;width:100%">
   </iframe>
 </div>

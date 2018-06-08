@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AlertService } from '../../alert/alert.service';
 import { ThreatModelService } from '../threat-model.service';
 import { ThreatModel } from '../threat-model';
@@ -16,6 +16,9 @@ export class ThreatModelEditComponent implements OnInit {
   fileModel: File;
   fileReport: File;
   model: ThreatModel;
+
+  @ViewChild('autoDownloadContentReport') autoDownload: ElementRef;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -65,6 +68,22 @@ export class ThreatModelEditComponent implements OnInit {
   }
   cancel(){
     this.location.back();
+  }
+  downloadFile(name : string){
+    this.thModService.downloadFile(name).subscribe((data)=>{
+      try{
+        var url= window.URL.createObjectURL(data);
+        var anchor = this.autoDownload.nativeElement;
+        anchor.download =  this.model.name + "_v" + this.model.version + "r" + this.model.review +"."+ name.split('.').pop();
+        anchor.href = url;
+        anchor.click();
+        //window.open(url, '_blank');
+      }catch(error){
+      }
+      
+    },err=>{
+      console.log(err)
+    })
   }
 }
 

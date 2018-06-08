@@ -3,7 +3,7 @@
     <div class="list-group">
       <h4>Last scan reports</h4>
       <div *ngFor="let report of reports" (click)="onSelect(report)">
-        <a [class.active]="report === selectedReport" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a routerLink="/reports/{{report.id}}" [class.active]="report === selectedReport" class="list-group-item list-group-item-action flex-column align-items-start">
 
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{report.name}}</h5>

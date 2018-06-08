@@ -4,50 +4,50 @@
       <div class="card-header">
         <!--HEADER -->
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the Report">Report:</dt>
-          <dd class="col-sm-7">{{report.name}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Name of the Report">Report:</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{report.name}}</dd>
         </dl>
       </div>
       <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'webward'">
         <dl *ngIf="report.data.url" class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{report.data.url}}</a>
           </dd>
 
         </dl>
         <hr />
         <dl *ngFor="let issue of report.data.issues" class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue Name">Issue: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Issue Name">Issue: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{issue.name}}</a>
           </dd>
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue Severity">Severity: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Issue Severity">Severity: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{issue.severity}}</a>
           </dd>
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue Vector">Vector: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Issue Vector">Vector: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{issue.vector}}</a>
           </dd>
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Issue found in URL">Found in: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Issue found in URL">Found in: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{issue.url}}</a>
           </dd>
           <hr />
         </dl>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this report">Creation Date</dt>
-          <dd class="col-sm-7">{{report.create_date}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The creation date for this report">Creation Date</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{report.create_date}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the report">ID</dt>
-          <dd class="col-sm-9">{{report.id}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The ID of the report">ID</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{report.id}}</dd>
         </dl>
         <hr />
         <dl *ngIf="report.data.url" class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{report.data.url}}</a>
           </dd>
         </dl>
@@ -56,10 +56,8 @@
         </div>
       </div>
       <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'wappalyzer'">
-        <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="reporter">Reported By: </dt>
-        <dd class="col-sm-7">
-          <a>Wappalyzer Scanner</a>
-        </dd>
+        <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="reporter">Reported By: </dt>
+        <dd class="col-sm-8 text-left text-truncate">Wappalyzer Scanner</dd>
         <div class="btn-group">
           <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
         </div>

@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscriber } from 'rxjs/Subscriber';
@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import { AppSettingsService } from '../app-settings.service';
 import { WebProjectService } from '../web-project/web-project.service';
 import { ThreatModel } from './threat-model';
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Injectable()
 export class ThreatModelService {
@@ -92,6 +93,18 @@ export class ThreatModelService {
     return this.http.put(this.AppSettings.API_ENDPOINT + "threat-model/" + thMod.project + "/" + thMod.id,
       formData);
   }
+  downloadFile(id: string): Observable<Blob> {
+    return this.http.get(this.AppSettings.API_FILES + id, { headers: { 'Accept': '*/*'},responseType : 'blob' })
+      .map(res => {
+        try{
+          var myBlob = new Blob([res],{type : extractContentType(id.split('.').pop())});
+          return myBlob;
+        }catch(err){
+          throw err;
+        }
+        
+      });
+  }
   /**
    * Get notified when a object is deleted, update or created.
    * Dont use it in @Input Components
@@ -110,4 +123,18 @@ export class ThreatModelService {
 
   }
 
+}
+function extractContentType(fileExt) {
+  switch (fileExt) {
+    case 'htm': 
+      return 'text/html';
+    case 'html': 
+      return 'text/html';
+    case 'doc': 
+      return 'application/msword';
+    case 'pdf': 
+      return 'application/pdf';
+    default: 
+      return 'application/octet-stream';
+  }
 }

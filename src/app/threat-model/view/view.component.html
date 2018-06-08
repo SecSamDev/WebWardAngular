@@ -1,46 +1,60 @@
-<div *ngIf="model">
+<div *ngIf="_model">
   <form>
     <div class="card">
       <div class="card-header">
         <!--HEADER -->
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the Threat Model">Threat Model Name:</dt>
-          <dd class="col-sm-7">{{model.name}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Name of the Threat Model">Threat Model Name:</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{_model.name}}</dd>
         </dl>
       </div>
       <div class="card-body">
         <dl class="row">
-          <dt class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Threat Model description">Description: </dt>
-          <dd class="col-sm-8">
-            <span>{{model.description}}</span>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Threat Model description">Description: </dt>
+          <dd class="col-sm-8 text-left">
+            <span>{{_model.description}}</span>
           </dd>
         </dl>
         <hr />
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
-          <dd class="col-sm-7">
-            <a>{{model.url}}</a>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
+            <a>{{_model.url}}</a>
           </dd>
         </dl>
         <hr/>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Scan for URL">Version: </dt>
-          <dd class="col-sm-7">
-            <a> v{{model.version}} rev{{model.review}}</a>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Scan for URL">Version: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
+            <a> v{{_model.version}} rev{{_model.review}}</a>
           </dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this model">Creation Date</dt>
-          <dd class="col-sm-7">{{model.create_date}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The creation date for this model">Creation Date</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{_model.create_date}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the model">ID</dt>
-          <dd class="col-sm-9">{{model.id}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The ID of the model">ID</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{_model.id}}</dd>
         </dl>
         <hr />
+        <dl class="row">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Threat Model File">Threat Model File:</dt>
+          <dd>
+            <a class="col-sm-8 text-left text-truncate" target="_blank"  (click)="downloadFile(_model.threatmodelfile)"> {{_model.threatmodelfile}}</a>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Threat Model Report">Threat Model Report:</dt>
+          <dd>
+            <a class="col-sm-8 text-left text-truncate" target="_blank" (click)="downloadFile(_model.threatmodelreport)">{{_model.threatmodelreport}}</a>
 
+          </dd>
+        </dl>
+        <a #autoDownloadContentReport id="autoDownloadContentReport" style="display: none;"></a>
+        <hr/>
         <div class="btn-group">
-          <button type="submit" class="btn btn-primary" routerLink="/threat-models/{{model.id}}">Edit</button>
+          <button type="submit" class="btn btn-primary" routerLink="/threat-models/{{_model.id}}">Edit</button>
         </div>
       </div>
     </div>

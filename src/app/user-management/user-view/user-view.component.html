@@ -4,20 +4,20 @@
       <div class="card-header">
         <!--HEADER -->
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Name of the usder">Name:</dt>
-          <dd class="col-sm-7">{{user.name}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Name of the usder">Name:</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{user.name}}</dd>
         </dl>
       </div>
       <div class="card-body">
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="Theemail of the user">Email: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Theemail of the user">Email: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a>{{user.email}}</a>
           </dd>
         </dl>
         <dl class="row" *ngIf="user.manager_name !== ''">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The Name of the manager of the user">Manager: </dt>
-          <dd class="col-sm-7">
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The Name of the manager of the user">Manager: </dt>
+          <dd class="col-sm-8 text-left text-truncate">
             <a routerLink="/users/{{user.manager}}">{{user.manager_name}}</a>
           </dd>
         </dl>
@@ -33,16 +33,16 @@
           </select>
         </div>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The last time the was connected">Last Connection</dt>
-          <dd class="col-sm-7">{{user.last_update}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The last time the was connected">Last Connection</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{user.last_update}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-5" data-toggle="tooltip" data-placement="top" title="The creation date for this user">Creation Date</dt>
-          <dd class="col-sm-7">{{user.create_date}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The creation date for this user">Creation Date</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{user.create_date}}</dd>
         </dl>
         <dl class="row">
-          <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the user">ID</dt>
-          <dd class="col-sm-9">{{user.id}}</dd>
+          <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="The ID of the user">ID</dt>
+          <dd class="col-sm-8 text-left text-truncate">{{user.id}}</dd>
         </dl>
         <div *ngIf="!auth.isDev()" class="btn-group">
           <button type="submit" class="btn btn-primary" routerLink="/users/edit/{{user.id}}">Edit</button>
