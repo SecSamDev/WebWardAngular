@@ -1,4 +1,4 @@
 <div *ngIf="report">
-  <full-view-arachni [report]="report" *ngIf="report.reporter.toLowerCase() ==='webward'"></full-view-arachni>
+  <full-view-arachni [report]="report" *ngIf="report.reporter.toLowerCase() ==='webward' || report.reporter.toLowerCase() ==='arachni'"></full-view-arachni>
   <full-view-wappalyzer [report]="report" *ngIf="report.reporter.toLowerCase() ==='wappalyzer'"></full-view-wappalyzer>
 </div>
