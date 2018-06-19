@@ -9,25 +9,28 @@ import { ScanProfile } from '../../scan-profile/scan-profile';
   selector: 'type-scan-profile',
   templateUrl: './scan-profile-type.component.html',
   styleUrls: ['./scan-profile-type.component.css']
-}) 
+})
 export class ScanProfileTypeComponent implements OnInit, TypeComponent {
   private templates: ScanProfile[] = [];
   @Input() node: PipelineNode;
   @Input() param: PipelineNodeAtribute;
   private array_elements: string[] = [];
 
-  constructor(private pipService: PipelineService, private alert: AlertService, private profileService : ScanProfileService) { }
+  constructor(private pipService: PipelineService, private alert: AlertService, private profileService: ScanProfileService) { }
 
   ngOnInit() {
-    this.profileService.getProfileTemplates().subscribe((data)=>{
-      if(data.length > 0){
+    this.profileService.getProfileTemplates().subscribe((data) => {
+      if (data.length > 0) {
         this.templates = data;
       }
-    },err=>{
+    }, err => {
 
     });
-    if (this.param.type === 'SCAN_PROFILE')
+    if (this.param.type === 'SCAN_PROFILE') {
       this.array_elements = parseJSONArray(this.param.value)
+      console.log(this.array_elements)
+    }
+
   }
   save() {
     this.param.value = this.array_elements.join(',');
@@ -76,7 +79,7 @@ export class ScanProfileTypeComponent implements OnInit, TypeComponent {
   }
   selectTemplate(i: number) {
     console.log("SELECT: " + i)
-    this.array_elements = this.templates[i].checks;
+    this.array_elements = parseJSONArray(this.templates[i].checks);
   }
   trackByFn(index: any, item: any) {
     return index;
@@ -85,9 +88,11 @@ export class ScanProfileTypeComponent implements OnInit, TypeComponent {
 }
 function parseJSONArray(val) {
   console.log(val)
-  if (val.length > 0) {
-    return val;
-  } else if (typeof val === 'string') {
+  if (typeof val === 'string') {
     return val.split(',');
+  } else if (val.length > 0) {
+    return val;
+  } else {
+    return ""
   }
 }
