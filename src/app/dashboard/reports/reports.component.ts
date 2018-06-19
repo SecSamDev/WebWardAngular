@@ -16,7 +16,7 @@ export class ReportsComponent implements OnInit {
   fetchData() {
     this.reportService.getReports().subscribe((data) => {
       this.reports = data.filter((val,i,arr)=>{
-        if(val.reporter.toLowerCase() === 'webward'){
+        if(val.reporter.toLowerCase() === 'arachni'){
           return true;
         }
         return false;
