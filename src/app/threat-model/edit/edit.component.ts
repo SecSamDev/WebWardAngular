@@ -38,11 +38,7 @@ export class ThreatModelEditComponent implements OnInit {
     },err=>{});
   }
   save() {
-    this.thModService.updateThreatModel(this.model).subscribe((data) => {
-      this.alert.success("Threat Model saved")
-    }, err => {
-      this.alert.success("Can´t save Threat Model")
-    })
+    this.saveFiles();
   }
   saveFiles() {
     if (this.fileModel || this.fileReport || this.fileTemplate) {
