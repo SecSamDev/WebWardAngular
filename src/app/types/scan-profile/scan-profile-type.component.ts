@@ -21,7 +21,6 @@ export class ScanProfileTypeComponent implements OnInit, TypeComponent {
   ngOnInit() {
     this.profileService.getProfileTemplates().subscribe((data)=>{
       if(data.length > 0){
-        console.log(data)
         this.templates = data;
       }
     },err=>{
@@ -85,6 +84,7 @@ export class ScanProfileTypeComponent implements OnInit, TypeComponent {
 
 }
 function parseJSONArray(val) {
+  console.log(val)
   if (val.length > 0) {
     return val;
   } else if (typeof val === 'string') {

@@ -8,7 +8,7 @@
           <dd class="col-sm-8 text-left text-truncate">{{report.name}}</dd>
         </dl>
       </div>
-      <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'webward'">
+      <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'webward' || report.reporter.toLowerCase() === 'arachni'">
         <dl *ngIf="report.data.url" class="row">
           <dt class="col-sm-4 text-right" data-toggle="tooltip" data-placement="top" title="Scan for URL">URL: </dt>
           <dd class="col-sm-8 text-left text-truncate">
@@ -62,7 +62,9 @@
           <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
         </div>
       </div>
-
+      <div *ngIf="!auth.isDev()" class="btn-group">
+        <button type="submit" class="btn btn-danger" (click)="deleteReport()">Remove</button>
+      </div>
     </div>
   </form>
 
