@@ -64,6 +64,10 @@ export class ThreatModel{
      */
     threatmodelreport : string;
     /**
+     * File for the template
+     */
+    threatmodeltemplate : string;
+    /**
      * Creation Date
      */
     create_date : Date;

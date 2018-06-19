@@ -112,6 +112,7 @@ import { FullViewWappalyzerComponent } from './scan-report/full-view-wappalyzer/
 import { FullViewArachniComponent } from './scan-report/full-view-arachni/full-view-arachni.component';
 import { WappaCatPipe } from './scan-report/wappa-cat.pipe';
 import { SafeDomPipe } from './safe-dom.pipe';
+import { DatabaseComponent } from './database/database.component';
 
 
 @NgModule({
@@ -188,7 +189,8 @@ import { SafeDomPipe } from './safe-dom.pipe';
     FullViewWappalyzerComponent,
     FullViewArachniComponent,
     WappaCatPipe,
-    SafeDomPipe
+    SafeDomPipe,
+    DatabaseComponent
   ],
   imports: [
     BrowserModule,

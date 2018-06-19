@@ -22,6 +22,7 @@ import { ScanReportComponent } from './scan-report/scan-report.component';
 import { FullReportViewComponent } from './scan-report/full-view/full-view.component';
 import { ThreatModelComponent } from './threat-model/threat-model.component';
 import { ThreatModelEditComponent } from './threat-model/edit/edit.component';
+import { DatabaseComponent } from './database/database.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'users/:id', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'scan_profile', component: ScanProfileComponent, canActivate: [AuthGuard] },
   { path: 'console', component: WebWardConsoleComponent, canActivate: [AuthAdmin] },
+  { path: 'database', component: DatabaseComponent, canActivate: [AuthAdmin] },
   { path: 'ww-module', component: WwmodulesComponent, canActivate: [AuthAdmin] },
   { path: 'infrastructure', component: InfrastructureComponent, canActivate: [AuthAdmin] },
   { path: 'infrastructure/:id', component: InfrastructureEditComponent, canActivate: [AuthAdmin] },

@@ -15,6 +15,7 @@ import 'rxjs/add/operator/switchMap';
 export class ThreatModelEditComponent implements OnInit {
   fileModel: File;
   fileReport: File;
+  fileTemplate: File;
   model: ThreatModel;
 
   @ViewChild('autoDownloadContentReport') autoDownload: ElementRef;
@@ -44,8 +45,8 @@ export class ThreatModelEditComponent implements OnInit {
     })
   }
   saveFiles() {
-    if (this.fileModel || this.fileReport) {
-      this.thModService.updateThreatModelWithFiles(this.model, this.fileModel, this.fileReport).subscribe((data) => {
+    if (this.fileModel || this.fileReport || this.fileTemplate) {
+      this.thModService.updateThreatModelWithFiles(this.model, this.fileModel, this.fileReport,this.fileTemplate).subscribe((data) => {
         this.alert.success("Threat Model saved")
       }, err => {
         console.log(err)
@@ -64,6 +65,12 @@ export class ThreatModelEditComponent implements OnInit {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       this.fileReport = fileList[0];
+    }
+  }
+  fileChangeTemplate(event) {
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      this.fileTemplate = fileList[0];
     }
   }
   cancel(){

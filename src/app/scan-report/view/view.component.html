@@ -53,6 +53,9 @@
         </dl>
         <div class="btn-group">
           <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
+          <div *ngIf="!auth.isDev()" class="btn-group">
+            <button type="submit" class="btn btn-danger" (click)="deleteReport()">Remove</button>
+          </div>
         </div>
       </div>
       <div class="card-body" *ngIf="report.reporter.toLowerCase() === 'wappalyzer'">
@@ -60,11 +63,12 @@
         <dd class="col-sm-8 text-left text-truncate">Wappalyzer Scanner</dd>
         <div class="btn-group">
           <button type="submit" class="btn btn-primary" routerLink="/reports/{{report.id}}">Full View</button>
+          <div *ngIf="!auth.isDev()" class="btn-group">
+            <button type="submit" class="btn btn-danger" (click)="deleteReport()">Remove</button>
+          </div>
         </div>
       </div>
-      <div *ngIf="!auth.isDev()" class="btn-group">
-        <button type="submit" class="btn btn-danger" (click)="deleteReport()">Remove</button>
-      </div>
+
     </div>
   </form>
 

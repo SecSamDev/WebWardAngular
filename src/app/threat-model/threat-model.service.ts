@@ -82,12 +82,14 @@ export class ThreatModelService {
         });
     });
   }
-  updateThreatModelWithFiles(thMod: ThreatModel, fileMod: File, fileRep: File) {
+  updateThreatModelWithFiles(thMod: ThreatModel, fileMod: File, fileRep: File,fileTemp : File) {
     let formData: FormData = new FormData();
     if (fileMod)
       formData.append('threatModelFile', fileMod, fileMod.name);
     if (fileRep)
       formData.append('threatModelReport', fileRep, fileRep.name);
+    if(fileTemp)
+    formData.append('threatModelTemplate', fileTemp, fileTemp.name);
     formData.append('project', thMod.project);
     formData.append('id', thMod.id);
     return this.http.put(this.AppSettings.API_ENDPOINT + "threat-model/" + thMod.project + "/" + thMod.id,

@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
               <label for="checkName">WebApp URL</label>
-              <input type="text" class="form-control" name="name" id="modelURL" placeholder="Threat Model URL" [(ngModel)]="model.url">
+              <input type="text" class="form-control" name="modelURL" id="modelURL" placeholder="Threat Model URL" [(ngModel)]="model.url">
             </div>
 
             <dl class="row">
@@ -37,12 +37,6 @@
               <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="The ID of the model">ID</dt>
               <dd class="col-sm-9">{{model.id}}</dd>
             </dl>
-
-            <div class="btn-group">
-              <button type="submit" class="btn btn-primary" (click)="save()">Review</button>
-              <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-            </div>
-            <hr/>
             <div class="form-group">
               <dl class="row">
                 <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Report Model">Actual Report:</dt>
@@ -59,7 +53,21 @@
                   <a class="text-left text-truncate" target="_blank" (click)="downloadFile(model.threatmodelfile)">{{model.threatmodelfile}}</a>
                 </dd>
               </dl>
-              <input type="file" name="fileModel" (change)="fileChangeModel($event)" placeholder="Upload file" accept=".doc,.docx,.tb7">
+              <input type="file" name="fileModel" (change)="fileChangeModel($event)" placeholder="Upload file" accept=".doc,.docx,.tm7">
+            </div>
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary" (click)="save()">Review</button>
+              <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+            </div>
+            <hr/>
+            <div class="form-group">
+              <dl class="row">
+                <dt class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Report Model">Actual Tempalte:</dt>
+                <dd class="col-sm-9 text-truncate">
+                  <a class="text-left text-truncate" target="_blank" (click)="downloadFile(model.threatmodeltemplate)">{{model.threatmodeltemplate}}</a>
+                </dd>
+              </dl>
+              <input type="file" name="fileTemplate" (change)="fileChangeTemplate($event)" placeholder="Upload file" accept=".doc,.docx,.tb7">
             </div>
             <div class="btn-group">
               <button type="submit" class="btn btn-primary" (click)="saveFiles()">Make new Version</button>
