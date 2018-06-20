@@ -89,7 +89,7 @@ export class ThreatModelService {
     if (fileRep)
       formData.append('threatModelReport', fileRep, fileRep.name);
     if(fileTemp)
-    formData.append('threatModelTemplate', fileTemp, fileTemp.name);
+      formData.append('threatModelTemplate', fileTemp, fileTemp.name);
     formData.append('project', thMod.project);
     formData.append('id', thMod.id);
     return this.http.put(this.AppSettings.API_ENDPOINT + "threat-model/" + thMod.project + "/" + thMod.id,

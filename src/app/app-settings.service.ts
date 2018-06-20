@@ -17,7 +17,7 @@ export class AppSettingsService {
     this._API_ENDPOINT = api;
     try{
       var urlAux = new URL(api);
-      this._API_FILES = urlAux.origin;
+      this._API_FILES = urlAux.origin + "/files/";
     }catch(err){}
     console.log("Api Endpoint: " + this._API_ENDPOINT)
   }

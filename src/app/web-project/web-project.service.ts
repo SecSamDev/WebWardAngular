@@ -25,7 +25,6 @@ export class WebProjectService {
     this.pullerObserver = new Observable(observer => {
       this.subscriber = observer;
     });
-
   }
   getWebProjects(fill: boolean = false): Observable<WebProject[]> {
     return new Observable(observer => {
@@ -45,7 +44,18 @@ export class WebProjectService {
             })))
           .subscribe(data => {
             if (data.length > 0 && this.actualProject.id === '') {
-              this.setActualProject(data[0])
+              let actual = localStorage.getItem('actual_project')
+              if(actual){
+                this.setActualProject(data.find((val,i,arr)=>{
+                  if(val.name === actual)
+                    return true;
+                  else
+                    return false;
+                }))
+              }else{
+                this.setActualProject(data[0])
+              }
+              
               this.notify();
             }
             observer.next(data);
@@ -133,6 +143,7 @@ export class WebProjectService {
   setActualProject(proj : WebProject){
     if(this.actualProject.id !== proj.id){
       this.actualProject = proj;
+      localStorage.setItem('actual_project',proj.name)
       this.notify();
     }
   }
