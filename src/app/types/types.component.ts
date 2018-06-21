@@ -59,6 +59,7 @@ export class TypesComponent implements OnInit {
     let propertie = new PipelineNodeAtribute();
     propertie.name = "Propertie n" + this.properties.length;
     propertie.value = "";
+    propertie.type = 'STRING';
     let pos = this.properties.push(propertie)
     this.selectedParam = this.properties[pos - 1]
   }
@@ -79,6 +80,8 @@ export class TypesComponent implements OnInit {
 
   loadComponent() {
     let comp;
+    if(!this.selectedParam.type)
+      this.selectedParam.type = 'STRING';
     switch ((this.selectedParam.type).toUpperCase()) {
       case 'WEBHOOK':
         comp = WebhookTypeComponent;

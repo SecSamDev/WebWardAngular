@@ -11,9 +11,11 @@ import { TypeComponent } from '../type.component'
 })
 export class ObjectTypeComponent implements OnInit, TypeComponent {
   private _param: PipelineNodeAtribute = new PipelineNodeAtribute();
+  private refParam : PipelineNodeAtribute;
   @Input() node: PipelineNode;
 
   @Input() set param(prm) {
+    this.refParam = prm;
     Object.assign(this._param, prm);
     this._param.value = JSON.stringify(prm.value, null, "\t");
     this._param.decoratorValue = this._param.value;
@@ -28,14 +30,19 @@ export class ObjectTypeComponent implements OnInit, TypeComponent {
 
   }
   save() {
-    this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
-      this.alert.success("Propertie: " + this.param.name + " saved")
-    }, err => {
-      this.alert.error("Cannot save propertie: " + this.param.name)
-    })
+    try{
+      this.refParam.value = JSON.parse(this._param.value)
+      this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
+        this.alert.success("Propertie: " + this._param.name + " saved")
+      }, err => {
+        this.alert.error("Cannot save propertie: " + this._param.name)
+      })
+    }catch(err){
+      this.alert.error("Cannot save propertie: " + this._param.name)
+    }
   }
   delete() {
-    this.node.removeParam(this.param)
+    this.node.removeParam(this.refParam)
     this.pipService.updateNodeForPipeline(this.node).subscribe((data) => {
       this.alert.success("Propertie removed")
     }, err => {
