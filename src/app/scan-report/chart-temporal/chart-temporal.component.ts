@@ -68,7 +68,7 @@ export class ReportChartTemporalComponent implements OnInit {
       let day = new Date(val.create_date)
       return {
         "name": day.getUTCDate() + "/" + (day.getMonth() + 1),
-        "series": val.data.issues.reduce((total, isu, j, arr2) => {
+        "series": this.reReduce(val.data.issues.reduce((total, isu, j, arr2) => {
           this.addColorForSeverity(isu.severity)
           let vulner = total.filter(redVal => redVal.name === isu.severity);
           if (vulner === null || vulner.length === 0) {
@@ -80,7 +80,7 @@ export class ReportChartTemporalComponent implements OnInit {
             vulner[0].value++;
           }
           return total;
-        }, [])
+        }, []))
       }
     })
   }
