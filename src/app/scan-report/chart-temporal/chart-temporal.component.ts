@@ -30,25 +30,8 @@ export class ReportChartTemporalComponent implements OnInit {
   @Input() set reports(reps: ScanReport[]) {
     this._reports = reps;
     if (reps[0] && reps[0].data && reps[0].data.issues) {
-      this.multi = reps.map((val, i, arr) => {
-        let day = new Date(val.create_date)
-        return {
-          "name": day.getUTCDate() + "/" + (day.getMonth() + 1),
-          "series": val.data.issues.reduce((total, isu, j, arr2) => {
-            this.addColorForSeverity(isu.severity)
-            let vulner = total.filter(redVal => redVal.name === isu.severity);
-            if (!vulner || vulner.length === 0) {
-              total.push({
-                "name": isu.severity,
-                "value": 1
-              })
-            } else {
-              vulner[0].value++;
-            }
-            return total;
-          }, [])
-        }
-      })
+      this.multi = this.reduceAndMap(reps);
+      console.log(this.multi)
     }
     
   }
@@ -78,6 +61,41 @@ export class ReportChartTemporalComponent implements OnInit {
       }
     }
 
+  }
+  reduceAndMap(reps){
+    return this.reReduce(reps.map((val, i, arr) => {
+      let day = new Date(val.create_date)
+      return {
+        "name": day.getUTCDate() + "/" + (day.getMonth() + 1),
+        "series": val.data.issues.reduce((total, isu, j, arr2) => {
+          this.addColorForSeverity(isu.severity)
+          let vulner = total.filter(redVal => redVal.name === isu.severity);
+          if (vulner === null || vulner.length === 0) {
+            total.push({
+              "name": isu.severity,
+              "value": 1
+            })
+          } else {
+            vulner[0].value++;
+          }
+          return total;
+        }, [])
+      }
+    }))
+  }
+  reReduce(data){
+    return data.reduce((total, isu, j, arr2) => {
+      let vulner = total.filter(redVal => redVal.name === isu.severity);
+      if (vulner === null || vulner.length === 0) {
+        total.push({
+          "name": isu.severity,
+          "value": 1
+        })
+      } else {
+        vulner[0].value++;
+      }
+      return total;
+    }, [])
   }
 
 }
