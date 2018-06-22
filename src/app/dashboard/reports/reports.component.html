@@ -10,7 +10,7 @@
             <small *ngIf="report.daysAgo === 0">Today</small>
             <small *ngIf="report.daysAgo != 0">{{report.daysAgo}} days ago</small>
           </div>
-          <p class="mb-1">
+          <p class="mb-1" *ngIf="report.data && report.data.issues">
             For URL: {{report.data.url}} Total issues: {{report.data.issues.length}}
           </p>
           <small>Project: {{report.project}}</small>
