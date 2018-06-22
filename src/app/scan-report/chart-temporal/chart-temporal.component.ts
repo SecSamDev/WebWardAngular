@@ -85,10 +85,10 @@ export class ReportChartTemporalComponent implements OnInit {
   }
   reReduce(data){
     return data.reduce((total, isu, j, arr2) => {
-      let vulner = total.filter(redVal => redVal.name === isu.severity);
+      let vulner = total.filter(redVal => redVal.name === isu.name);
       if (vulner === null || vulner.length === 0) {
         total.push({
-          "name": isu.severity,
+          "name": isu.name,
           "value": 1
         })
       } else {
